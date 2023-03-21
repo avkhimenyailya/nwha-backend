@@ -1,0 +1,277 @@
+tasks:
+  - ordinal-number: 0
+    description-english: 'Welcome to nothingtowritehomeabout! (*ﾉωﾉ) Before you start exploring your everyday reality, answer a few questions. This will help us understand you better. You can see the results of the test immediately on your page'
+    description-russian: ''
+    questions:
+      - ordinal-number: 1
+        options:
+          - description-english: 'I am good at controlling my emotions'
+            description-russian: 'Я хорошо контролирую эмоции'
+          - description-english: 'I don''t control my emotions well'
+            description-russian: 'Я плохо контролирую эмоции'
+      - ordinal-number: 2
+        options:
+          - description-english: 'Angular'
+            description-russian: 'Угловатое'
+          - description-english: 'Rounded'
+            description-russian: 'Округлое'
+      - ordinal-number: 3
+        options:
+          - description-english: 'Functionality'
+            description-russian: 'Функциональность'
+          - description-english: 'Beauty'
+            description-russian: 'Красота'
+      - ordinal-number: 4
+        options:
+          - description-english: 'I''m always trying to bring things to the ideal, I won''t stop until I''m 100% satisfied with the result'
+            description-russian: 'Я всегда пытаюсь довести дела до идеала, не успокоюсь, пока результат не будет удовлетворять меня на 100%'
+          - description-english: 'I can leave a job at a satisfactory level if I know that the result corresponds to the goal. I accept the non-ideality of myself and things'
+            description-russian: 'Я могу оставить дело в удовлетворительном состоянии, если знаю, что результат соответствует цели, я принимаю неидеальность свою и вещей'
+      - ordinal-number: 5
+        options:
+          - description-english: 'I usually give a symbolic meaning to things, each thing means something to me'
+            description-russian: 'Обычно я наделяю вещи символическим смыслом, каждая вещь для меня что-то значит'
+          - description-english: 'Things are just things, no additional load'
+            description-russian: 'Вещи это просто вещи, без дополнительной нагрузки'
+      - ordinal-number: 6
+        options:
+          - description-english: 'The presence of rules in my life is better than no rules at all'
+            description-russian: 'В моей жизни наличие правил лучше, чем их отсутствие'
+          - description-english: 'The absence of rules in my life is better than their presence'
+            description-russian: 'В моей жизни отсутствие правил лучше, чем их наличие'
+      - ordinal-number: 7
+        options:
+          - description-english: 'Home is a house is a fortress, a personal space'
+            description-russian: 'Дом-крепость, личное пространство'
+          - description-english: 'I like to welcome guests, when the house is alive and full of people'
+            description-russian: 'Люблю принимать гостей, когда дом живет и наполнен людьми'
+  - ordinal-number: 1
+    description-english: 'A thing or a few things I carry in my bag every day'
+    description-russian: 'Вещь или несколько вещей, которые я каждый день ношу в сумке'
+    questions:
+      - ordinal-number: 8
+        options:
+          - description-english: 'I have many interests and related attributes from different areas'
+            description-russian: 'У меня много интересов и связанных с ними атрибутов из разных сфер'
+          - description-english: 'I prefer to be dedicated to one activity, for which I need a minimum of things'
+            description-russian: 'Я предпочитаю быть преданным одному делу, для этого мне необходим минимум вещей'
+  - ordinal-number: 2
+    description-english: 'The thing I spend the most time with every day (Important note: Dig a little deeper into your personality and exclude the things that every modern person has, like a phone or a laptop)'
+    description-russian: 'Вещь, с которой я провожу больше всего времени каждый день (Важное замечание: копни чуть глубже в свою индивидуальность и исключи из этого списка вещи, которые есть у каждого современного человека, например, телефон или ноутбук)'
+    questions:
+      - ordinal-number: 9
+        options:
+          - description-english: 'Sustainability of habits'
+            description-russian: 'Устойчивость привычек'
+          - description-english: 'Change in habits, a constant search'
+            description-russian: 'Смена привычек, поиск'
+  - ordinal-number: 3
+    description-english: 'The thing that my favorite weekend ritual is connected with'
+    description-russian: 'Вещь, с которой связан мой любимый ритуал выходного дня'
+    questions:
+      - ordinal-number: 10
+        options:
+          - description-english: 'I feel comfortable when I''m in an orderly environment'
+            description-russian: 'Я чувствую себя комфортно, когда вокруг порядок'
+          - description-english: 'I feel comfortable with the mess around me'
+            description-russian: 'Я чувствую себя комфортно, когда вокруг беспорядок'
+  - ordinal-number: 4
+    description-english: 'The thing that is always on my work table (Important note: dig a little deeper into your personality and exclude the things that every modern person has, like a phone or a laptop)'
+    description-russian: 'Вещь, которая всегда лежит на моем рабочем столе (Важное замечание: копни чуть глубже в свою индивидуальность и исключи из этого списка вещи, которые есть у каждого современного человека, например, телефон или ноутбук)'
+    questions:
+      - ordinal-number: 11
+        options:
+          - description-english: 'I''m a meticulous person, I can concentrate on one thing for a long time'
+            description-russian: 'Я кропотливый человек, могу долго сосредотачиваться на одном деле'
+          - description-english: 'I can''t focus on one thing for a long time, I need to change activities often'
+            description-russian: 'Я не могу долго сосредотачиваться на одном деле, мне нужно часто менять деятельность'
+  - ordinal-number: 5
+    description-english: 'Favorite corner of the house'
+    description-russian: 'Любимый уголок дома'
+    questions:
+      - ordinal-number: 12
+        options:
+          - description-english: 'Everything in close contact, intimate setting, muted light, warmth'
+            description-russian: 'Все в тесном контакте, интимная обстановка, приглушенный свет, тепло'
+          - description-english: 'A lot of space, air, distance, light'
+            description-russian: 'Много пространства, воздух, дистанция, свет'
+  - ordinal-number: 6
+    description-english: 'My favorite everyday outfit (Explain why these particular things are chosen in the description)'
+    description-russian: 'Мой любимый повседневный наряд (В описании объясни, почему именно эти вещи подобраны в твоем наряде)'
+    questions:
+      - ordinal-number: 13
+        options:
+          - description-english: 'General plan'
+            description-russian: 'Общий план'
+          - description-english: 'Details'
+            description-russian: 'Детали'
+  - ordinal-number: 7
+    description-english: 'The most chaotic place in my house'
+    description-russian: 'Самое беспорядочное место в моем доме'
+    questions:
+      - ordinal-number: 14
+        options:
+          - description-english: 'My space is enclosed, every thing has its own place'
+            description-russian: 'Мое пространство замкнуто, у каждой вещи свое место'
+          - description-english: 'My space is free, there are no places assigned to things'
+            description-russian: 'Мой пространство свободно, за вещами не закреплены места'
+  - ordinal-number: 8
+    description-english: 'The most structured place in my house'
+    description-russian: 'Самое упорядоченное место в моем доме'
+    questions:
+      - ordinal-number: 15
+        options:
+          - description-english: 'Things in my house match, relations are created between them'
+            description-russian: 'Вещи в моем доме сочетаются, между ними создаются отношения'
+          - description-english: 'Every thing in my house is valuable in its own way, being separate from the other ones'
+            description-russian: 'Каждая вещь в моем доме самоценна, существует отдельно от других'
+  - ordinal-number: 9
+    description-english: 'The thing I don''t go out without, visible to everyone'
+    description-russian: 'Вещь, без которой я не выхожу на улицу и она видна всем'
+    questions:
+      - ordinal-number: 16
+        options:
+          - description-english: 'Convenience and comfort are above all'
+            description-russian: 'Удобство и комфорт превыше всего'
+          - description-english: 'Comfort is not so important to me, I am ready to overcome difficulties for certain goals'
+            description-russian: 'Комфорт не так важен для меня, я готов преодолевать трудности ради определенных целей'
+  - ordinal-number: 10
+    description-english: 'My window view'
+    description-russian: 'Вид из моего окна'
+    questions:
+      - ordinal-number: 17
+        options:
+          - description-english: 'Closeness to nature'
+            description-russian: 'Близость к природе'
+          - description-english: 'Closeness to technology'
+            description-russian: 'Близость к технологиям'
+  - ordinal-number: 11
+    description-english: 'The thing that makes me feel like home'
+    description-russian: 'Вещь, которая создает ощущение дома'
+    questions:
+      - ordinal-number: 18
+        options:
+          - description-english: 'My routine is modest, I am comfortable when I am surrounded by the essential minimum of things'
+            description-russian: 'Мой быт скромен, мне комфортно, когда меня окружает необходимый минимум вещей'
+          - description-english: 'My home is an overabundance of different things, I feel comfortable being surrounded by lots of things'
+            description-russian: 'Мой дом — это изобилие различных вещей, мне комфортно, когда меня окружает много вещей'
+  - ordinal-number: 12
+    description-english: 'A thing that describes me as a person (You can tell how this particular thing characterizes you in the description)'
+    description-russian: 'Вещь, описывающая меня как человека (В описании ты можешь рассказать, как именно эта вещь характеризует тебя)'
+    questions:
+      - ordinal-number: 19
+        options:
+          - description-english: 'I try on different personalities, I am in constant search of myself, my things make me up in pieces'
+            description-russian: 'Примеряю на себя разные образы, нахожусь в постоянном поиске себя, мои вещи по крупицам составляют меня'
+          - description-english: 'My personality is clear and stable. All the things in my house are subordinated to a certain logic, a certain style'
+            description-russian: 'Мой образ понятен и устойчив. Все вещи в моем доме подчинены единой логике, единому стилю'
+  - ordinal-number: 13
+    description-english: 'My personal collection'
+    description-russian: 'Моя личная коллекция'
+    questions:
+      - ordinal-number: 20
+        options:
+          - description-english: 'I''m a frugal person'
+            description-russian: 'Я бережливый человек'
+          - description-english: 'I''m a wasteful person'
+            description-russian: 'Я расточительный человек'
+  - ordinal-number: 14
+    description-english: 'What my house smells like (Take a picture of something that gives your house a special smell)'
+    description-russian: 'Как пахнет мой дом (Сфотографируй вещь, которая наделяет твой дом особым запахом)'
+    questions:
+      - ordinal-number: 21
+        options:
+          - description-english: 'Home is a part of me, an embodiment of me'
+            description-russian: 'Дом — часть меня, воплощение меня'
+          - description-english: 'Home is a neutral space that allows me to be functional'
+            description-russian: 'Дом — нейтральное пространство, которое позволяет мне функционировать'
+  - ordinal-number: 15
+    description-english: 'The thing I''ve been keeping with me for longer than anything else'
+    description-russian: 'Вещь, которая со мной дольше остальных'
+    questions:
+      - ordinal-number: 22
+        options:
+          - description-english: 'Familiar things'
+            description-russian: 'Привычные вещи'
+          - description-english: 'New things'
+            description-russian: 'Новые вещи'
+  - ordinal-number: 16
+    description-english: 'A device that makes my life better (Technology is an integral part of our everyday life. Take a picture of a device without which you wouldn''t be as comfortable and familiar)'
+    description-russian: 'Прибор, который делает мою жизнь лучше (Техника — неотъемлемая часть нашего быта. Сфотографируй прибор, без которого тебе было бы не так привычно и комфортно)'
+    questions:
+      - ordinal-number: 23
+        options:
+          - description-english: 'Shopping for the soul'
+            description-russian: 'Покупки для души'
+          - description-english: 'Shopping for the aim'
+            description-russian: 'Покупки по делу'
+  - ordinal-number: 17
+    description-english: 'A thing I would gift to a close friend'
+    description-russian: 'Вещь, которую я бы подарил близкому другу'
+    questions:
+      - ordinal-number: 24
+        options:
+          - description-english: 'Standard but predictability'
+            description-russian: 'Стандарт, но предсказуемость'
+          - description-english: 'Originality, but unpredictability'
+            description-russian: 'Оригинальность, но непредсказуемость'
+  - ordinal-number: 18
+    description-english: 'The thing I don''t show to people I''m not close with but is very important to me'
+    description-russian: 'Вещь, которую я не показываю неблизким людям, но она очень важна для меня'
+    questions:
+      - ordinal-number: 25
+        options:
+          - description-english: 'Before guests arrive, even if they are close friends, I make sure my house looks perfect'
+            description-russian: 'Перед приходом гостей, даже если это близкие друзья, я привожу свой дом в идеальный вид'
+          - description-english: 'I don''t avoid mess to any degree, I let guests into my world, which may not be perfect'
+            description-russian: 'Я не стесняюсь беспорядка в любой его степени, я впускаю гостей в свой мир, который может быть неидеальным'
+  - ordinal-number: 19
+    description-english: 'Things of the color that dominates my house (Count how many things of different colors you see around you: on tables, bookshelves, windowsills, floor etc. Find the color that dominates. Put a few things of that color next to each other and take a picture. You don''t have to choose one color: you can select a group by brightness or color saturation)'
+    description-russian: 'Вещи цвета, которого больше всего в моем доме (Посчитай, сколько вещей разных цветов ты видишь вокруг себя: на столах, тумбочках, подоконниках, полу. Найди цвет, который преобладает. Сложи рядом несколько вещей этого цвета и сфотографируй. Не обязательно выбирать один цвет: можно выделить группу по яркости или насыщенности цвета)'
+    questions:
+      - ordinal-number: 26
+        options:
+          - description-english: 'Movement in a single vector'
+            description-russian: 'Движение в одном векторе'
+          - description-english: 'Combination of opposites'
+            description-russian: 'Сочетание противоположностей'
+  - ordinal-number: 20
+    description-english: 'My talisman (For example, a thing that lifts your mood or a not very functional thing you carry with you)'
+    description-russian: 'Мой талисман (Например, вещь, поднимающая настроение или не особо функциональная вещь, которую ты носишь с собой)'
+    questions:
+      - ordinal-number: 27
+        options:
+          - description-english: 'Every thing in the house has a single sacred function'
+            description-russian: 'У каждой вещи в доме — единственная сакральная функция'
+          - description-english: 'I strive for multifunctionality and reducing the number of things in my life'
+            description-russian: 'Я стремлюсь к многофункциональности и сокращению количества вещей в жизни'
+  - ordinal-number: 21
+    description-english: 'A broken or damaged thing that I can''t part with (For any reason: the thing is very valuable to you/ you found another use for it/ you just can''t find time to throw it away)'
+    description-russian: 'Сломанная или испорченная вещь, с которой я не могу расстаться (Причина может быть любой: вещь может быть очень дорога тебе, ты нашел ей другое применение или же просто не находишь времени выбросить)'
+    questions:
+      - ordinal-number: 28
+        options:
+          - description-english: 'I part with things easily'
+            description-russian: 'Легко расстаюсь с вещами'
+          - description-english: 'I get emotionally attached to things, it''s hard to part with them'
+            description-russian: 'Эмоционально привязываюсь к вещам, тяжело с ними расставаться'
+  - ordinal-number: 22
+    description-english: 'The thing I don''t like but can''t get rid of'
+    description-russian: 'Вещь, которая мне не нравится, но от которой нельзя избавиться'
+    questions:
+      - ordinal-number: 29
+        options:
+          - description-english: 'When I live with someone, my life quickly synchronizes and merges with the life of the other person, I can adapt easily'
+            description-russian: 'Когда я живу с кем-то вместе, мой быт быстро синхронизируется и сливается с бытом другого человека, я легко подстраиваюсь'
+          - description-english: 'It is difficult for me to arrange a common household, I prefer to live alone, just to stay within the boundaries of the way of life I am used to'
+            description-russian: 'Мне трудно налаживать совместный быт, я предпочитаю жить один, лишь бы не выходить за рамки привычного мне образа жизни'
+  - ordinal-number: 23
+    description-english: 'The thing that reminds me of something very satisfying when I look at it'
+    description-russian: 'Вещь, глядя на которую я вспоминаю что-то очень приятное'
+    questions:
+      - ordinal-number: 30
+        options:
+          - description-english: 'I love my everyday life, doing routine things calms me down'
+            description-russian: 'Я люблю свой быт, выполнение рутинных действий успокаивает меня'
+          - description-english: 'Routine life scares me, I''m afraid of getting swamped in it'
+            description-russian: 'Меня пугает рутинная жизнь, боюсь в ней погрязнуть'

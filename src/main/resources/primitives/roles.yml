@@ -1,0 +1,5 @@
+roles:
+  - 'USER'
+  - 'MODERATOR'
+  - 'ADMIN'
+  - 'UNWANTED'

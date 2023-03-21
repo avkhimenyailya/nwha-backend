@@ -1,0 +1,14 @@
+spring:
+
+  jpa:
+    database: postgresql
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: validate
+
+  datasource:
+    url: ${NWHA_DB_URL}
+    username: ${NWHA_DB_USERNAME}
+    password: ${NWHA_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver

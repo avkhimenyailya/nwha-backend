@@ -63,11 +63,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthResponse signIn(LoginRequest loginRequest) {
         log.info("Attempt to authenticate for {}", loginRequest.username());
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password());
 
         Authentication authentication = authenticationManager
                 .authenticate(authenticationToken);
+
         SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
 
@@ -78,6 +80,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Transactional
     public AuthResponse refreshAccessToken(RefreshTokenRequest refreshTokenRequest) {
         log.info("Attempt to refresh access token {}", refreshTokenRequest.refreshToken());
+
         RefreshToken refreshToken = refreshTokenRepository
                 .findByToken(refreshTokenRequest.refreshToken())
                 .orElseThrow(BadRefreshTokenException::new);
@@ -93,15 +96,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     public AuthResponse buildAuthResponse(UserDetails userDetails) {
+        log.info("Authentication successful, generating tokens...");
         Profile profile = profileRepository
                 .findProfileByUserUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Fatal error!"));
-
 
         log.info("Authentication successful, generating tokens...");
         String accessTokenString = JwtTokenUtils.generateAccessToken(userDetails.getUsername());
         String refreshTokenString = JwtTokenUtils.generateRefreshToken(userDetails.getUsername());
 
+        refreshTokenRepository
+                .findRefreshTokenByUser(profile.getUser())
+                .ifPresent(refreshToken -> refreshTokenRepository.deleteById(refreshToken.getId()));
 
         RefreshToken refreshToken = RefreshToken
                 .builder()
@@ -115,6 +121,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
+
         Long profileId = profileRepository
                 .findProfileByUserUsername(userDetails.getUsername())
                 .map(Profile::getId)

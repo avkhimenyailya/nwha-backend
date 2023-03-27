@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 
 /**
  * @author Ilya Avkhimenya
@@ -30,6 +31,9 @@ public class ProfileTask {
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile profile;
+
+    @OneToMany(mappedBy = "profileTask")
+    private Set<Answer> answers;
 
     @Column
     private Boolean removed;

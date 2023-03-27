@@ -3,9 +3,9 @@ package io.grayproject.nwha.api.exception;
 /**
  * @author Ilya Avkhimenya
  */
-public class BadInvitationCodeException extends Exception {
+public class BadInvitationCodeException extends RuntimeException {
 
-    public BadInvitationCodeException() {
-        super("The invitation code does not exist");
+    public BadInvitationCodeException(String invCode) {
+        super(String.format("The invitation code [%s] does not exist", invCode));
     }
 }

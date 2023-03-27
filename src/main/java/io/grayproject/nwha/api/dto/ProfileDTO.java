@@ -2,11 +2,15 @@ package io.grayproject.nwha.api.dto;
 
 import lombok.Builder;
 
-import java.util.List;
+import java.util.Set;
 
+/**
+ * @author Ilya Avkhimenya
+ */
 @Builder
 public record ProfileDTO(Long id,
+                         String username,
                          String description,
-                         List<ProfileTaskDTO> profileTasks,
-                         List<ProfileTraitDTO> profileTraits) {
+                         Set<ProfileTaskDTO> profileTasks,
+                         Set<ProfilePairTraitsDTO> profilePairsTraits) {
 }

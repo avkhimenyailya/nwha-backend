@@ -3,6 +3,8 @@ package io.grayproject.nwha.api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 /**
  * @author Ilya Avkhimenya
  */
@@ -19,6 +21,12 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 32)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(unique = true)
+    private ERole name;
+
+    @ManyToMany(
+            mappedBy = "roles",
+            fetch = FetchType.LAZY)
+    private Set<User> users;
 }

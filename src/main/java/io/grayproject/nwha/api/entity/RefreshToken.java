@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.Set;
 
 /**
  * @author Ilya Avkhimenya
@@ -17,28 +16,19 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "profiles")
-public class Profile {
+@Table(name = "refresh_tokens")
+public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column
-    private String description;
-
-    @OneToMany(mappedBy = "profile")
-    private Set<ProfileTask> profileTasks;
-
-    @OneToMany(mappedBy = "profile")
-    private Set<ProfileTrait> profileTraits;
-
-    @Column
-    private Boolean removed;
+    @Column(nullable = false)
+    private String token;
 
     @CreationTimestamp
     @Column(nullable = false)

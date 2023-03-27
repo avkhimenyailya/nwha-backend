@@ -1,5 +1,5 @@
 roles:
-  - 'USER'
-  - 'MODERATOR'
-  - 'ADMIN'
-  - 'UNWANTED'
+  - 'ROLE_USER'
+  - 'ROLE_MODERATOR'
+  - 'ROLE_ADMIN'
+  - 'ROLE_UNWANTED'

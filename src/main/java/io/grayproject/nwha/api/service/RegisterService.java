@@ -1,13 +1,12 @@
 package io.grayproject.nwha.api.service;
 
-import io.grayproject.nwha.api.dto.register.RegisterRequestDTO;
-import io.grayproject.nwha.api.exception.BadInvitationCodeException;
+import io.grayproject.nwha.api.dto.authentication.LoginRequest;
+import io.grayproject.nwha.api.dto.authentication.RegisterRequest;
 
 /**
  * @author Ilya Avkhimenya
  */
 public interface RegisterService {
 
-    String register(RegisterRequestDTO registerRequestDTO)
-            throws BadInvitationCodeException;
+    LoginRequest register(RegisterRequest registerRequest);
 }

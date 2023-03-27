@@ -1,5 +1,6 @@
 package io.grayproject.nwha.api.util;
 
+import io.grayproject.nwha.api.entity.ERole;
 import io.grayproject.nwha.api.entity.Role;
 import io.grayproject.nwha.api.entity.User;
 import io.grayproject.nwha.api.repository.RoleRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -21,8 +23,8 @@ public class InitAdmin {
     private final UserRepository userRepository;
 
     public void init() {
-        Role roleUser = roleRepository.getRoleById(1L);
-        Role roleAdmin = roleRepository.getRoleById(3L);
+        Optional<Role> roleUser = roleRepository.findRoleByName(ERole.ROLE_USER);
+        Optional<Role> roleAdmin = roleRepository.findRoleByName(ERole.ROLE_ADMIN);
 
         String random = RandomStringUtils.random(32, true, false);
         log.warn("Be sure to keep the original code {}", random);
@@ -31,7 +33,7 @@ public class InitAdmin {
                 .username("admin")
                 .password(new BCryptPasswordEncoder(12).encode("000000"))
                 .invitationCode(Base64.getEncoder().encodeToString(random.getBytes()))
-                .roles(Set.of(roleUser, roleAdmin))
+                .roles(Set.of(roleUser.get(), roleAdmin.get()))
                 .build();
 
         userRepository.save(user);

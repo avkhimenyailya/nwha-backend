@@ -1,20 +1,23 @@
 package io.grayproject.nwha.api.service.impl;
 
-import io.grayproject.nwha.api.dto.register.RegisterRequestDTO;
-import io.grayproject.nwha.api.exception.BadInvitationCodeException;
-import io.grayproject.nwha.api.service.RegisterService;
+import io.grayproject.nwha.api.dto.authentication.LoginRequest;
+import io.grayproject.nwha.api.dto.authentication.RegisterRequest;
 import io.grayproject.nwha.api.entity.*;
+import io.grayproject.nwha.api.exception.BadInvitationCodeException;
 import io.grayproject.nwha.api.repository.*;
+import io.grayproject.nwha.api.service.RegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Ilya Avkhimenya
@@ -23,6 +26,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RegisterServiceImpl implements RegisterService {
+    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final TaskRepository taskRepository;
     private final TraitRepository traitRepository;
@@ -34,21 +38,23 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
-    public String register(RegisterRequestDTO registerRequestDTO) throws BadInvitationCodeException {
+    public LoginRequest register(RegisterRequest registerRequest) {
         // Invitation code check
-          String encodeReceivedInvitingCode = encodeBase64(registerRequestDTO.invitationCode());
+        String encodeReceivedInvitingCode = encodeBase64(registerRequest.invitationCode());
         User inviterUser = userRepository.getUserByInvitationCode(encodeReceivedInvitingCode)
-                .orElseThrow(BadInvitationCodeException::new);
+                .orElseThrow(() -> new BadInvitationCodeException(registerRequest.invitationCode()));
 
-        // Create new user with encrypted password (bcrypt)
-        String strongPassword = new BCryptPasswordEncoder(12).encode(registerRequestDTO.rawPassword());
+        // Create new user with encrypted password
+        String strongPassword = passwordEncoder.encode(registerRequest.password());
         String encodeNewInvitingCode = encodeBase64(RandomStringUtils.random(32, true, false));
-        Role role = roleRepository.getRoleByName("USER");
+
+
+        Optional<Role> roleByName = roleRepository.findRoleByName(ERole.ROLE_USER);
         User newUser = User.builder()
-                .username(registerRequestDTO.username())
+                .username(registerRequest.username())
                 .password(strongPassword)
                 .invitationCode(encodeNewInvitingCode)
-                .roles(Set.of(role))
+                .roles(Set.of(roleByName.get()))
                 .build();
         userRepository.save(newUser);
 
@@ -86,7 +92,13 @@ public class RegisterServiceImpl implements RegisterService {
                 .build();
         userInvitationRepository.save(newUserInvitation);
 
-        return "Registration was successful";
+        // передаем результат регистрации в логин-сервис,
+        // чтобы сразу получить токены для авторизации
+        return LoginRequest
+                .builder()
+                .username(registerRequest.username())
+                .password(registerRequest.password())
+                .build();
     }
 
     private String encodeBase64(String string) {

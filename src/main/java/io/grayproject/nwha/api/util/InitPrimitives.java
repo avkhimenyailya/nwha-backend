@@ -131,17 +131,27 @@ public class InitPrimitives {
 
     @Transactional
     public void initRoles() {
-        // Get YAML file from resources.primitives.tasks.yml
+        // Get YAML file from resources.primitives.roles.yml
         Map<String, Object> yaml = getYaml(ROLES_YAML);
 
         // Get roles array from yaml
         @SuppressWarnings("unchecked")
-        List<Object> roles = (List<Object>) yaml.get("roles");
-        List<Role> rolesEntities = roles
+        List<String> rolesStrings = (List<String>) yaml.get("roles");
+        List<Role> rolesEntities = rolesStrings
                 .stream()
-                .map(roleObj ->
-                        Role.builder().name((String) roleObj).build()
-                )
+                .map(rolesString -> {
+                    ERole eRole = null;
+                    for (ERole roleName : ERole.values()) {
+                        if (roleName.name().equals(rolesString)) {
+                            eRole = roleName;
+                            break;
+                        }
+                    }
+                    return Role
+                            .builder()
+                            .name(eRole)
+                            .build();
+                })
                 .toList();
         log.info("Roles successfully generated, total entities: {}", rolesEntities.size());
 
@@ -150,7 +160,7 @@ public class InitPrimitives {
 
     public Map<String, Object> getYaml(Resource resource) {
         try {
-            return  new Yaml().load(resource.getInputStream());
+            return new Yaml().load(resource.getInputStream());
         } catch (IOException e) {
             log.error("Failed to retrieve file from resources");
             throw new RuntimeException(e);

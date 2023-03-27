@@ -2,7 +2,7 @@ spring:
 
   jpa:
     database: postgresql
-    show-sql: true
+    show-sql: false
     open-in-view: true
     hibernate:
       ddl-auto: validate
@@ -12,3 +12,6 @@ spring:
     username: ${NWHA_DB_USERNAME}
     password: ${NWHA_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+
+security:
+  jwtSecret: ${NWHA_JWT_SECRET}

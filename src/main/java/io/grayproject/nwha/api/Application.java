@@ -24,7 +24,7 @@ public class Application {
     @Bean
     public CommandLineRunner runner() {
         return (args) -> {
-            if(INIT_PRIMITIVES) {
+            if (INIT_PRIMITIVES) {
                 initPrimitives.initRoles();
                 initPrimitives.initTraits();
                 initPrimitives.initTasks();

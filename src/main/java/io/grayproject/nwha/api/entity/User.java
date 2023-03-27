@@ -34,7 +34,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String invitationCode;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_to_roles",
             joinColumns = @JoinColumn(name = "user_id"),

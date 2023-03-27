@@ -11,4 +11,6 @@ public class ExceptionHandlerAdvice {
     public ResponseEntity<String> handleConflict(Exception exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
+
+
 }

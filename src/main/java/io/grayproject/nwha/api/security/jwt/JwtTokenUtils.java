@@ -15,12 +15,12 @@ import java.util.Date;
 public class JwtTokenUtils {
 
     public static String generateAccessToken(String username) {
-        long jwtTokenExpirationMs = 300000L * 3; // 15 minutes (todo in inv)
+        long jwtTokenExpirationMs = 300000L * 3; // 15 minutes
         return generateJwtTokenByUsername(username, jwtTokenExpirationMs);
     }
 
     public static String generateRefreshToken(String username) {
-        long jwtTokenExpirationMs = 1209600000L; // 2 week (todo in inv)
+        long jwtTokenExpirationMs = 1209600000L; // 2 week
         return generateJwtTokenByUsername(username, jwtTokenExpirationMs);
     }
 
@@ -35,16 +35,15 @@ public class JwtTokenUtils {
     }
 
     private static JwtParser getJwtParser() throws JwtException {
-        return Jwts.parser().setSigningKey("test-secret-key"); // (todo in inv)
+        return Jwts.parser().setSigningKey(System.getenv("NWHA_JWT_SECRET"));
     }
-
 
     private static String generateJwtTokenByUsername(String username, Long duration) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + duration))
-                .signWith(SignatureAlgorithm.HS256, "test-secret-key") // (todo in inv)
+                .signWith(SignatureAlgorithm.HS256, System.getenv("NWHA_JWT_SECRET"))
                 .compact();
     }
 

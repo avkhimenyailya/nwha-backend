@@ -1,9 +1,9 @@
 package io.grayproject.nwha.api.util;
 
+import io.grayproject.nwha.api.entity.*;
 import io.grayproject.nwha.api.repository.RoleRepository;
 import io.grayproject.nwha.api.repository.TaskRepository;
 import io.grayproject.nwha.api.repository.TraitRepository;
-import io.grayproject.nwha.api.entity.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class InitPrimitives {
         // Get tasks array from yaml
         @SuppressWarnings("unchecked")
         List<Object> tasks = (List<Object>) yaml.get("tasks");
-        LinkedHashSet<Task> taskEntities = tasks
+        List<Task> taskEntities = tasks
                 .stream()
                 .map(taskObj -> {
                     // Create new task entity
@@ -61,7 +61,7 @@ public class InitPrimitives {
                     // Get questions array from yaml.tasks
                     @SuppressWarnings("unchecked")
                     List<Object> questions = (List<Object>) taskMap.get("questions");
-                    Set<Question> questionEntities = questions
+                    List<Question> questionEntities = questions
                             .stream()
                             .map(questionObj -> {
                                 // Create new question entity
@@ -75,7 +75,7 @@ public class InitPrimitives {
                                 // Get option array from yaml.tasks.questions
                                 @SuppressWarnings("unchecked")
                                 List<Object> options = (List<Object>) questionMap.get("options");
-                                Set<Option> optionEntities = options
+                                List<Option> optionEntities = options
                                         .stream()
                                         .map(optionObj -> {
                                             // Create new option entity
@@ -86,7 +86,7 @@ public class InitPrimitives {
                                                     .description((String) optionMap.get(keyForDescription))
                                                     .build();
                                         })
-                                        .collect(Collectors.toCollection(LinkedHashSet::new));
+                                        .toList();
                                 log.info("Options successfully generated, total entities: {}", optionEntities.size());
 
                                 // Set options to question
@@ -94,7 +94,7 @@ public class InitPrimitives {
                                 return newQuestion;
                             })
                             .sorted(Comparator.comparing(Question::getOrdinalNumber))
-                            .collect(Collectors.toCollection(LinkedHashSet::new));
+                            .toList();
                     log.info("Questions successfully generated, total entities: {}", questionEntities.size());
 
                     // Set questions to task
@@ -102,7 +102,7 @@ public class InitPrimitives {
                     return newTask;
                 })
                 .sorted(Comparator.comparing(Task::getOrdinalNumber))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+                .toList();
         log.info("Tasks successfully generated, total entities: {}", taskEntities.size());
 
         // save db

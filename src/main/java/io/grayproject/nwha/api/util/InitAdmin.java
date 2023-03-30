@@ -12,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @Component
@@ -33,7 +33,7 @@ public class InitAdmin {
                 .username("admin")
                 .password(new BCryptPasswordEncoder(12).encode("000000"))
                 .invitationCode(Base64.getEncoder().encodeToString(random.getBytes()))
-                .roles(Set.of(roleUser.get(), roleAdmin.get()))
+                .roles(List.of(roleUser.get(), roleAdmin.get()))
                 .build();
 
         userRepository.save(user);

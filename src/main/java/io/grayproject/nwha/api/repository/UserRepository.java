@@ -1,7 +1,6 @@
 package io.grayproject.nwha.api.repository;
 
 import io.grayproject.nwha.api.entity.User;
-import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

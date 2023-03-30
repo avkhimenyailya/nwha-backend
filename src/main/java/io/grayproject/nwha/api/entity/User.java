@@ -1,13 +1,12 @@
 package io.grayproject.nwha.api.entity;
 
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Ilya Avkhimenya
@@ -40,7 +39,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private List<Role> roles;
 
     @CreationTimestamp
     @Column(nullable = false)

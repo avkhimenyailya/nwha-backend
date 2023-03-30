@@ -101,7 +101,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .findProfileByUserUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Fatal error!"));
 
-        log.info("Authentication successful, generating tokens...");
         String accessTokenString = JwtTokenUtils.generateAccessToken(userDetails.getUsername());
         String refreshTokenString = JwtTokenUtils.generateRefreshToken(userDetails.getUsername());
 

@@ -3,7 +3,6 @@ package io.grayproject.nwha.api.service;
 import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.dto.ProfileDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
-import io.grayproject.nwha.api.exception.ProfileNotFoundException;
 
 import java.security.Principal;
 import java.util.List;
@@ -12,17 +11,15 @@ public interface ProfileService {
 
     ProfileDTO getProfile(Principal principal);
 
-    ProfileDTO getProfileById(Long profileId) throws ProfileNotFoundException;
+    ProfileDTO getProfileById(Long id);
 
-    List<ThingDTO> getProfileThings(Principal principal);
-
-    List<ThingDTO> getProfileArchivedThings(Principal principal, boolean archive);
-
-    List<ThingDTO> getProfileThingsByProfileId(Long profileId);
+    List<ThingDTO> getProfileThings(Principal principal, Boolean archive);
 
     List<CollectionThingsDTO> getProfileCollectionsThings(Principal principal);
 
-    List<CollectionThingsDTO> getProfileCollectionsThingsByProfileId(Long profileId);
+    List<ThingDTO> getProfileThingsByProfileId(Long id);
+
+    List<CollectionThingsDTO> getProfileCollectionsThingsByProfileId(Long id);
 
     ProfileDTO updateProfile(ProfileDTO profileDTO);
 }

@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Set;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -33,14 +33,15 @@ public class ProfileMapper implements Function<Profile, ProfileDTO> {
                 .build();
     }
 
-    private Set<ProfileTaskDTO> getProfileTasks(Set<ProfileTask> profileTasks) {
+    private List<ProfileTaskDTO> getProfileTasks(List<ProfileTask> profileTasks) {
         return profileTasks
                 .stream()
                 .map(profileTaskMapper)
-                .collect(Collectors.toSet());
+                .sorted(Comparator.comparing(ProfileTaskDTO::taskId))
+                .toList();
     }
 
-    private Set<ProfilePairTraitsDTO> getProfilePairsTraits(Set<ProfileTrait> profileTraits) {
+    private List<ProfilePairTraitsDTO> getProfilePairsTraits(List<ProfileTrait> profileTraits) {
         final Long[][] pairTraitIds = {
                 {1L, 2L},
                 {3L, 4L},
@@ -71,6 +72,6 @@ public class ProfileMapper implements Function<Profile, ProfileDTO> {
                             .secondProfileTrait(secondProfileTrait)
                             .build();
                 })
-                .collect(Collectors.toSet());
+                .toList();
     }
 }

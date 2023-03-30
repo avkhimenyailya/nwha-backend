@@ -17,7 +17,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author Ilya Avkhimenya
@@ -54,7 +53,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .username(registerRequest.username())
                 .password(strongPassword)
                 .invitationCode(encodeNewInvitingCode)
-                .roles(Set.of(roleByName.get()))
+                .roles(List.of(roleByName.get()))
                 .build();
         userRepository.save(newUser);
 

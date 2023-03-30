@@ -23,7 +23,8 @@ public class Thing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(optional = false)
+    @JoinColumn(name = "profile_task_id")
     private ProfileTask profileTask;
 
     @Column
@@ -33,10 +34,10 @@ public class Thing {
     private String description;
 
     @Column
-    private Boolean archived;
+    private boolean archived;
 
     @Column
-    private Boolean removed;
+    private boolean removed;
 
     @CreationTimestamp
     @Column(nullable = false)

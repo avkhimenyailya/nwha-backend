@@ -1,4 +1,7 @@
 package io.grayproject.nwha.api.dto;
 
-public class CollectionThingsDTO {
+import lombok.Builder;
+
+@Builder
+public record CollectionThingsDTO() {
 }

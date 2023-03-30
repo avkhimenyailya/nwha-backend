@@ -6,7 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Ilya Avkhimenya
@@ -32,7 +32,7 @@ public class Question {
     private Integer ordinalNumber;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private Set<Option> options;
+    private List<Option> options;
 
     @Column
     private Boolean removed;

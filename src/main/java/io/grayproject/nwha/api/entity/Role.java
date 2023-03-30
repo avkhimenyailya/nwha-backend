@@ -3,7 +3,7 @@ package io.grayproject.nwha.api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Ilya Avkhimenya
@@ -28,5 +28,5 @@ public class Role {
     @ManyToMany(
             mappedBy = "roles",
             fetch = FetchType.LAZY)
-    private Set<User> users;
+    private List<User> users;
 }

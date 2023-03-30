@@ -59,7 +59,7 @@ public class Config {
                 .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                .requestMatchers("/error", "/api/auth/**").permitAll()
+                .requestMatchers("/", "/error", "/api/auth/**").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

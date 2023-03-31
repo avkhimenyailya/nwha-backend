@@ -15,7 +15,7 @@ import java.util.Date;
 public class JwtTokenUtils {
 
     public static String generateAccessToken(String username) {
-        long jwtTokenExpirationMs = 300000L * 3; // 15 minutes
+        long jwtTokenExpirationMs = 1209600000L / 2; // 1 week // todo
         return generateJwtTokenByUsername(username, jwtTokenExpirationMs);
     }
 

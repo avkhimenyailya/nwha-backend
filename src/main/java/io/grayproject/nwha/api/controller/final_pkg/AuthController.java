@@ -37,21 +37,21 @@ public class AuthController {
     @PostMapping(POST_LOGIN)
     public AuthResponse login(@Validated @RequestBody LoginRequest loginRequest,
                               HttpServletRequest httpServletRequest) {
-        log.info(LOG_LOGIN, loginRequest.username(), httpServletRequest.getRemoteAddr());
+        log.info(LOG_LOGIN, loginRequest.username(), httpServletRequest.getHeader("X-Real-IP"));
         return authenticationService.login(loginRequest);
     }
 
     @PostMapping(POST_REGISTER)
     public AuthResponse register(@Validated @RequestBody RegisterRequest registerRequest,
                                  HttpServletRequest httpServletRequest) {
-        log.info(LOG_REGISTER, registerRequest.username(), httpServletRequest.getRemoteAddr());
+        log.info(LOG_REGISTER, registerRequest.username(), httpServletRequest.getHeader("X-Real-IP"));
         return authenticationService.register(registerRequest);
     }
 
     @PostMapping(POST_REFRESH)
     public AuthResponse refreshAccessToken(@Validated @RequestBody RefreshTokenRequest refreshTokenRequest,
                                            HttpServletRequest httpServletRequest) {
-        log.info(LOG_REFRESH, httpServletRequest.getRemoteAddr());
+        log.info(LOG_REFRESH, httpServletRequest.getHeader("X-Real-IP"));
         return authenticationService.refreshAccessToken(refreshTokenRequest);
     }
 }

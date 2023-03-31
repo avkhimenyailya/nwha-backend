@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.security;
+package io.grayproject.nwha.api.security.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -16,7 +16,6 @@ import java.io.IOException;
  */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
 
     @Override
     public void commence(HttpServletRequest request,

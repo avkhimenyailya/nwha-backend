@@ -1,14 +1,15 @@
 package io.grayproject.nwha.api.security;
 
-import io.grayproject.nwha.api.security.jwt.JwtTokenFilter;
+import io.grayproject.nwha.api.security.util.JwtTokenFilter;
+import io.grayproject.nwha.api.security.util.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,14 +21,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author Ilya Avkhimenya
  */
 @Configuration
-@EnableWebSecurity
-public class Config {
+@EnableMethodSecurity
+public class SecurityConfig {
     private final JwtTokenFilter jwtTokenFilter;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Autowired
-    public Config(JwtTokenFilter jwtTokenFilter,
-                  CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+    public SecurityConfig(JwtTokenFilter jwtTokenFilter,
+                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.jwtTokenFilter = jwtTokenFilter;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
     }
@@ -53,13 +54,15 @@ public class Config {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        final String[] permittedEndpoints = {"/", "/css/**", "/error", "/auth/**"};
+
         return http
                 .cors().and()
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/error", "/api/auth/**").permitAll()
+                .requestMatchers(permittedEndpoints).permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

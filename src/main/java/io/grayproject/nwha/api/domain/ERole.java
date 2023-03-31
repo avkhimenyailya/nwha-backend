@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.entity;
+package io.grayproject.nwha.api.domain;
 
 /**
  * @author Ilya Avkhimenya

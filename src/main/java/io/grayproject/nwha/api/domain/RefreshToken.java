@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.entity;
+package io.grayproject.nwha.api.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.List;
 
 /**
  * @author Ilya Avkhimenya
@@ -17,25 +16,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "questions")
-public class Question {
+@Table(name = "refresh_tokens")
+public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "task_id", nullable = false)
-    private Task task;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(unique = true, nullable = false)
-    private Integer ordinalNumber;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Option> options;
-
-    @Column
-    private Boolean removed;
+    @Column(nullable = false)
+    private String token;
 
     @CreationTimestamp
     @Column(nullable = false)

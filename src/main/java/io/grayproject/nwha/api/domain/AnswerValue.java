@@ -1,12 +1,9 @@
-package io.grayproject.nwha.api.entity;
+package io.grayproject.nwha.api.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.Instant;
 
 /**
  * @author Ilya Avkhimenya
@@ -17,32 +14,31 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "answers")
-public class Answer {
+@Table(name = "answers_values")
+public class AnswerValue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "trait_id", nullable = false)
+    private Trait trait;
+
+    @ManyToOne
     @JoinColumn(name = "option_id", nullable = false)
     private Option option;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_task_id", nullable = false)
-    private ProfileTask profileTask;
-
-    @CreationTimestamp
     @Column(nullable = false)
-    private Instant createdAt;
+    private int value;
 
     @Override
     public String toString() {
-        return "Answer{" +
+        return "AnswerValue{" +
                 "id=" + id +
+                ", traitId=" + trait.getId() +
                 ", optionId=" + option.getId() +
-                ", profileTaskId=" + profileTask.getId() +
-                ", createdAt=" + createdAt +
+                ", value=" + value +
                 '}';
     }
 
@@ -50,12 +46,12 @@ public class Answer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Answer answer = (Answer) o;
+        AnswerValue that = (AnswerValue) o;
         return new EqualsBuilder()
-                .append(id, answer.id)
-                .append(option.getId(), answer.option.getId())
-                .append(profileTask.getId(), answer.profileTask.getId())
-                .append(createdAt, answer.createdAt)
+                .append(value, that.value)
+                .append(id, that.id)
+                .append(trait.getId(), that.trait.getId())
+                .append(option.getId(), that.option.getId())
                 .isEquals();
     }
 
@@ -63,9 +59,9 @@ public class Answer {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
+                .append(trait.getId())
                 .append(option.getId())
-                .append(profileTask.getId())
-                .append(createdAt)
+                .append(value)
                 .toHashCode();
     }
 }

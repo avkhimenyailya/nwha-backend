@@ -1,7 +1,7 @@
 package io.grayproject.nwha.api.repository;
 
-import io.grayproject.nwha.api.entity.RefreshToken;
-import io.grayproject.nwha.api.entity.User;
+import io.grayproject.nwha.api.domain.RefreshToken;
+import io.grayproject.nwha.api.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -14,13 +14,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static io.grayproject.nwha.api.util.ControllerPaths.AuthControllerPaths.*;
+
 /**
  * @author Ilya Avkhimenya
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(CONTROLLER_PATH)
 public class AuthController {
+    private static final String LOG_LOGIN =     "Login request from {},     ip: {}";
+    private static final String LOG_REGISTER =  "Register request from {},  ip: {}";
+    private static final String LOG_REFRESH =   "Refresh request,           ip: {}";
+
     private final AuthenticationService authenticationService;
 
     @Autowired
@@ -28,29 +34,24 @@ public class AuthController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/login")
-    public AuthResponse signIn(
-            HttpServletRequest httpServletRequest,
-            @Validated @RequestBody LoginRequest loginRequest) {
-        log.info("Authentication request from {}, ip: {}",
-                loginRequest.username(), httpServletRequest.getRemoteAddr());
-        return authenticationService.signIn(loginRequest);
+    @PostMapping(POST_LOGIN)
+    public AuthResponse login(@Validated @RequestBody LoginRequest loginRequest,
+                              HttpServletRequest httpServletRequest) {
+        log.info(LOG_LOGIN, loginRequest.username(), httpServletRequest.getRemoteAddr());
+        return authenticationService.login(loginRequest);
     }
 
-    @PostMapping("/register")
-    public AuthResponse signUp(
-            HttpServletRequest httpServletRequest,
-            @Validated @RequestBody RegisterRequest registerRequest) {
-        log.info("Register request from {}, ip: {}",
-                registerRequest.username(), httpServletRequest.getRemoteAddr());
-        return authenticationService.signUp(registerRequest);
+    @PostMapping(POST_REGISTER)
+    public AuthResponse register(@Validated @RequestBody RegisterRequest registerRequest,
+                                 HttpServletRequest httpServletRequest) {
+        log.info(LOG_REGISTER, registerRequest.username(), httpServletRequest.getRemoteAddr());
+        return authenticationService.register(registerRequest);
     }
 
-    @PostMapping("/refresh")
-    public AuthResponse refreshAccessToken(
-            HttpServletRequest httpServletRequest,
-            @Validated @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        log.info("Refresh token request, ip: {}", httpServletRequest.getRemoteAddr());
+    @PostMapping(POST_REFRESH)
+    public AuthResponse refreshAccessToken(@Validated @RequestBody RefreshTokenRequest refreshTokenRequest,
+                                           HttpServletRequest httpServletRequest) {
+        log.info(LOG_REFRESH, httpServletRequest.getRemoteAddr());
         return authenticationService.refreshAccessToken(refreshTokenRequest);
     }
 }

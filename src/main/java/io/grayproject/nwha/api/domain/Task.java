@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.entity;
+package io.grayproject.nwha.api.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,29 +17,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "tasks")
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 32)
-    private String username;
-
-    @Column(nullable = false)
-    private String password;
+    @Column(unique = true, nullable = false)
+    private String description;
 
     @Column(unique = true, nullable = false)
-    private String invitationCode;
+    private Integer ordinalNumber;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_to_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private List<Role> roles;
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private List<Question> questions;
+
+    @Column
+    private Boolean removed;
 
     @CreationTimestamp
     @Column(nullable = false)

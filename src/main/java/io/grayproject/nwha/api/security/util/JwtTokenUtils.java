@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.security.jwt;
+package io.grayproject.nwha.api.security.util;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;

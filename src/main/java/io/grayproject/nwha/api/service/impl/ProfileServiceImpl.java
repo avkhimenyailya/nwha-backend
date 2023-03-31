@@ -3,7 +3,7 @@ package io.grayproject.nwha.api.service.impl;
 import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.dto.ProfileDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
-import io.grayproject.nwha.api.entity.Profile;
+import io.grayproject.nwha.api.domain.Profile;
 import io.grayproject.nwha.api.exception.ProfileNotFoundException;
 import io.grayproject.nwha.api.mapper.ProfileMapper;
 import io.grayproject.nwha.api.repository.ProfileRepository;

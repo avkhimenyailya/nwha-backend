@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.entity;
+package io.grayproject.nwha.api.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,8 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "profiles_tasks")
-public class ProfileTask {
+@Table(name = "questions")
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +28,11 @@ public class ProfileTask {
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_id", nullable = false)
-    private Profile profile;
+    @Column(unique = true, nullable = false)
+    private Integer ordinalNumber;
 
-    @OneToMany(mappedBy = "profileTask")
-    private List<Answer> answers;
-
-    @OneToOne(mappedBy = "profileTask")
-    private Thing thing;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Option> options;
 
     @Column
     private Boolean removed;

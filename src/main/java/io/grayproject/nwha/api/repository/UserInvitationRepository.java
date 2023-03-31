@@ -1,6 +1,6 @@
 package io.grayproject.nwha.api.repository;
 
-import io.grayproject.nwha.api.entity.UserInvitation;
+import io.grayproject.nwha.api.domain.UserInvitation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

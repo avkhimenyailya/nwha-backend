@@ -1,6 +1,6 @@
 package io.grayproject.nwha.api.repository;
 
-import io.grayproject.nwha.api.entity.ProfileTrait;
+import io.grayproject.nwha.api.domain.ProfileTrait;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

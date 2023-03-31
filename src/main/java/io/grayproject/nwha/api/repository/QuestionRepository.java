@@ -1,6 +1,6 @@
 package io.grayproject.nwha.api.repository;
 
-import io.grayproject.nwha.api.entity.Question;
+import io.grayproject.nwha.api.domain.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

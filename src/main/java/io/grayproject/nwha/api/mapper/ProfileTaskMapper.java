@@ -2,8 +2,8 @@ package io.grayproject.nwha.api.mapper;
 
 import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
-import io.grayproject.nwha.api.entity.Answer;
-import io.grayproject.nwha.api.entity.ProfileTask;
+import io.grayproject.nwha.api.domain.Answer;
+import io.grayproject.nwha.api.domain.ProfileTask;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

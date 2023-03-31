@@ -1,7 +1,7 @@
 package io.grayproject.nwha.api.repository;
 
-import io.grayproject.nwha.api.entity.ERole;
-import io.grayproject.nwha.api.entity.Role;
+import io.grayproject.nwha.api.domain.ERole;
+import io.grayproject.nwha.api.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

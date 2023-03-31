@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.security;
+package io.grayproject.nwha.api.security.util;
 
 import io.grayproject.nwha.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,9 +10,9 @@ import io.grayproject.nwha.api.dto.authentication.RegisterRequest;
  */
 public interface AuthenticationService {
 
-    AuthResponse signIn(LoginRequest loginRequest);
+    AuthResponse login(LoginRequest loginRequest);
 
-    AuthResponse signUp(RegisterRequest registerRequest);
+    AuthResponse register(RegisterRequest registerRequest);
 
     AuthResponse refreshAccessToken(RefreshTokenRequest refreshTokenRequest);
 }

@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.entity;
+package io.grayproject.nwha.api.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,19 +16,28 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "refresh_tokens")
-public class RefreshToken {
+@Table(name = "things")
+public class Thing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "profile_task_id")
+    private ProfileTask profileTask;
 
-    @Column(nullable = false)
-    private String token;
+    @Column
+    private String fileUrl;
+
+    @Column
+    private String description;
+
+    @Column
+    private boolean archived;
+
+    @Column
+    private boolean removed;
 
     @CreationTimestamp
     @Column(nullable = false)

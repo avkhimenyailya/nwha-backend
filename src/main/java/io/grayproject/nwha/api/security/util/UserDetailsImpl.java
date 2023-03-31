@@ -1,12 +1,11 @@
-package io.grayproject.nwha.api.security;
+package io.grayproject.nwha.api.security.util;
 
-import io.grayproject.nwha.api.entity.User;
+import io.grayproject.nwha.api.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * @author Ilya Avkhimenya

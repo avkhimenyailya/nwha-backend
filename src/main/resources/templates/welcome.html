@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,27 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
     <title>welcome to nwha api</title>
-    <style>
-        *::selection {
-            background: black;
-            color: lawngreen;
-        }
-
-        p, a {
-            font-family: 'Inconsolata', serif;
-            font-style: normal;
-            font-weight: 400;
-            font-size: 18px;
-            color: #E2E2E2;
-            text-decoration: none;
-
-            overflow-wrap: break-word;
-            font-feature-settings: "liga" 0, "rlig" 0, "dlig" 0, "hlig" 0, "smcp" 0;
-            -webkit-line-break: after-white-space;
-            text-rendering: optimizelegibility;
-            -webkit-font-smoothing: antialiased;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/styles.css}"/>
 </head>
 <body style="background-color: #272727">
 <div style="margin: 5%">

@@ -1,7 +1,7 @@
 package io.grayproject.nwha.api.mapper;
 
 import io.grayproject.nwha.api.dto.ProfileTraitDTO;
-import io.grayproject.nwha.api.entity.ProfileTrait;
+import io.grayproject.nwha.api.domain.ProfileTrait;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

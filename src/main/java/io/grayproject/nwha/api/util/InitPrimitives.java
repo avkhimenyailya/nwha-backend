@@ -1,6 +1,6 @@
 package io.grayproject.nwha.api.util;
 
-import io.grayproject.nwha.api.entity.*;
+import io.grayproject.nwha.api.domain.*;
 import io.grayproject.nwha.api.repository.RoleRepository;
 import io.grayproject.nwha.api.repository.TaskRepository;
 import io.grayproject.nwha.api.repository.TraitRepository;
@@ -14,7 +14,6 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Ilya Avkhimenya

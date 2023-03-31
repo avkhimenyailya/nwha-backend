@@ -4,12 +4,12 @@ import io.grayproject.nwha.api.dto.authentication.AuthResponse;
 import io.grayproject.nwha.api.dto.authentication.LoginRequest;
 import io.grayproject.nwha.api.dto.authentication.RefreshTokenRequest;
 import io.grayproject.nwha.api.dto.authentication.RegisterRequest;
-import io.grayproject.nwha.api.entity.Profile;
-import io.grayproject.nwha.api.entity.RefreshToken;
+import io.grayproject.nwha.api.domain.Profile;
+import io.grayproject.nwha.api.domain.RefreshToken;
 import io.grayproject.nwha.api.exception.BadRefreshTokenException;
 import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.repository.RefreshTokenRepository;
-import io.grayproject.nwha.api.security.jwt.JwtTokenUtils;
+import io.grayproject.nwha.api.security.util.JwtTokenUtils;
 import io.grayproject.nwha.api.service.AuthenticationService;
 import io.grayproject.nwha.api.service.RegisterService;
 import jakarta.transaction.Transactional;
@@ -54,14 +54,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public AuthResponse signUp(RegisterRequest registerRequest) {
+    public AuthResponse register(RegisterRequest registerRequest) {
         log.info("Attempt to register for {}", registerRequest.username());
         LoginRequest beforeRegister = registerService.register(registerRequest);
-        return signIn(beforeRegister);
+        return login(beforeRegister);
     }
 
     @Override
-    public AuthResponse signIn(LoginRequest loginRequest) {
+    public AuthResponse login(LoginRequest loginRequest) {
         log.info("Attempt to authenticate for {}", loginRequest.username());
 
         UsernamePasswordAuthenticationToken authenticationToken =

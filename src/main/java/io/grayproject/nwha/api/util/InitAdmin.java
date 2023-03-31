@@ -1,8 +1,8 @@
 package io.grayproject.nwha.api.util;
 
-import io.grayproject.nwha.api.entity.ERole;
-import io.grayproject.nwha.api.entity.Role;
-import io.grayproject.nwha.api.entity.User;
+import io.grayproject.nwha.api.domain.ERole;
+import io.grayproject.nwha.api.domain.Role;
+import io.grayproject.nwha.api.domain.User;
 import io.grayproject.nwha.api.repository.RoleRepository;
 import io.grayproject.nwha.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

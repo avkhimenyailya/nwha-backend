@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<String> handleConflict(Exception exception) throws JsonProcessingException {
+    public ResponseEntity<ObjectNode> handleConflict(Exception exception) {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode objectNode = objectMapper.createObjectNode();
         objectNode.put("message", exception.getMessage());
-        return ResponseEntity.badRequest().body(objectMapper.writeValueAsString(objectNode));
+        return ResponseEntity.badRequest().body(objectNode);
     }
 }

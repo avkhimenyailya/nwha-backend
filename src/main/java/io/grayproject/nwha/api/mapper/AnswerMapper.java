@@ -17,8 +17,9 @@ public class AnswerMapper implements Function<Answer, AnswerDTO> {
         return AnswerDTO
                 .builder()
                 .id(answer.getId())
-                .profileTaskId(answer.getProfileTask().getId())
                 .optionId(answer.getOption().getId())
+                .profileTaskId(answer.getProfileTask().getId())
+                .questionId(answer.getOption().getQuestion().getId())
                 .build();
     }
 }

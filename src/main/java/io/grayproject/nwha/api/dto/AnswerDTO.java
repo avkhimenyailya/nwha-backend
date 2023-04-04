@@ -8,5 +8,6 @@ import lombok.Builder;
 @Builder
 public record AnswerDTO(Long id,
                         Long optionId,
+                        Long questionId,
                         Long profileTaskId) {
 }

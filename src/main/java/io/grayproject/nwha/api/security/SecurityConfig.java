@@ -20,6 +20,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.List;
+
 /**
  * @author Ilya Avkhimenya
  */
@@ -58,7 +60,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.applyPermitDefaultValues();
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT"));
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
@@ -67,7 +72,7 @@ public class SecurityConfig {
         final String[] permittedEndpoints = {"/", "/css/**", "/error", "/auth/**"};
 
         return http
-                .cors().disable()
+                .cors().and()
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

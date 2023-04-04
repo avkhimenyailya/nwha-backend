@@ -67,7 +67,7 @@ public class SecurityConfig {
         final String[] permittedEndpoints = {"/", "/css/**", "/error", "/auth/**"};
 
         return http
-                .cors().and()
+                .cors().disable()
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

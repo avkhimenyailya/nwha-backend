@@ -4,10 +4,7 @@ import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
 import io.grayproject.nwha.api.service.ProfileTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;

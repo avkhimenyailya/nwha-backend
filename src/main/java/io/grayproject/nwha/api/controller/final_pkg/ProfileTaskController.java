@@ -25,7 +25,7 @@ public class ProfileTaskController {
     @PutMapping("{profileTaskId}/put/answer")
     public ProfileTaskDTO putAnswers(Principal principal,
                                      @PathVariable Long profileTaskId,
-                                     List<AnswerDTO> answers) {
+                                     @RequestBody List<AnswerDTO> answers) {
         return profileTaskService.putAnswers(principal, profileTaskId, answers);
     }
 

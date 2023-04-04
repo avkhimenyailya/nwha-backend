@@ -1,8 +1,8 @@
 package io.grayproject.nwha.api.service.impl;
 
-import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.domain.Profile;
 import io.grayproject.nwha.api.domain.ProfileTask;
+import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.mapper.ThingMapper;
 import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.repository.ThingRepository;

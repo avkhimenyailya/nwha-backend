@@ -1,10 +1,10 @@
 package io.grayproject.nwha.api.service.impl;
 
+import io.grayproject.nwha.api.domain.Profile;
 import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.dto.ProfileDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
-import io.grayproject.nwha.api.domain.Profile;
-import io.grayproject.nwha.api.exception.ProfileNotFoundException;
+import io.grayproject.nwha.api.exception.EntityNotFoundException;
 import io.grayproject.nwha.api.mapper.ProfileMapper;
 import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.service.ProfileService;
@@ -40,7 +40,7 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository
                 .findById(id)
                 .map(profileMapper)
-                .orElseThrow(() -> new ProfileNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDTO updateProfile(ProfileDTO profileDTO) {
         Profile profile = profileRepository
                 .findById(profileDTO.id())
-                .orElseThrow(() -> new ProfileNotFoundException(profileDTO.id()));
+                .orElseThrow(() -> new EntityNotFoundException(profileDTO.id()));
 
         String newDescription = profileDTO.description();
         profile.setDescription(newDescription);

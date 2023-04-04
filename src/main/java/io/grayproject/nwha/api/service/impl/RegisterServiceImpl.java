@@ -1,8 +1,8 @@
 package io.grayproject.nwha.api.service.impl;
 
+import io.grayproject.nwha.api.domain.*;
 import io.grayproject.nwha.api.dto.authentication.LoginRequest;
 import io.grayproject.nwha.api.dto.authentication.RegisterRequest;
-import io.grayproject.nwha.api.domain.*;
 import io.grayproject.nwha.api.exception.BadInvitationCodeException;
 import io.grayproject.nwha.api.repository.*;
 import io.grayproject.nwha.api.service.RegisterService;

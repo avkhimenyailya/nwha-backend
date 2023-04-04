@@ -1,11 +1,11 @@
 package io.grayproject.nwha.api.service.impl;
 
+import io.grayproject.nwha.api.domain.Profile;
+import io.grayproject.nwha.api.domain.RefreshToken;
 import io.grayproject.nwha.api.dto.authentication.AuthResponse;
 import io.grayproject.nwha.api.dto.authentication.LoginRequest;
 import io.grayproject.nwha.api.dto.authentication.RefreshTokenRequest;
 import io.grayproject.nwha.api.dto.authentication.RegisterRequest;
-import io.grayproject.nwha.api.domain.Profile;
-import io.grayproject.nwha.api.domain.RefreshToken;
 import io.grayproject.nwha.api.exception.BadRefreshTokenException;
 import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.repository.RefreshTokenRepository;

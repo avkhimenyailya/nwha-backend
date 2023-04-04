@@ -1,12 +1,12 @@
 package io.grayproject.nwha.api.mapper;
 
+import io.grayproject.nwha.api.domain.Profile;
+import io.grayproject.nwha.api.domain.ProfileTask;
+import io.grayproject.nwha.api.domain.ProfileTrait;
 import io.grayproject.nwha.api.dto.ProfileDTO;
 import io.grayproject.nwha.api.dto.ProfilePairTraitsDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
 import io.grayproject.nwha.api.dto.ProfileTraitDTO;
-import io.grayproject.nwha.api.domain.Profile;
-import io.grayproject.nwha.api.domain.ProfileTask;
-import io.grayproject.nwha.api.domain.ProfileTrait;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package io.grayproject.nwha.api.mapper;
 
-import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.domain.Thing;
+import io.grayproject.nwha.api.dto.ThingDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

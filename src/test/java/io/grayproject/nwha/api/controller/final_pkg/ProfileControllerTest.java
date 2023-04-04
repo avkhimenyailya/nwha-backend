@@ -1,6 +1,5 @@
 package io.grayproject.nwha.api.controller.final_pkg;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.grayproject.nwha.api.dto.authentication.AuthResponse;

@@ -12,10 +12,12 @@ import io.grayproject.nwha.api.repository.OptionRepository;
 import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.repository.ProfileTaskRepository;
 import io.grayproject.nwha.api.service.ProfileTaskService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,10 +46,13 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     }
 
     @Override
+    @Transactional
     public ProfileTaskDTO putAnswers(Principal principal,
                                      Long profileTaskId,
                                      List<AnswerDTO> answers) {
         ProfileTask pt = getProfileTask(principal, profileTaskId);
+        pt.setAnswers(new ArrayList<>());
+        profileTaskRepository.save(pt);
 
         List<Answer> newAnswers = answers
                 .stream()
@@ -63,10 +68,11 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
                             .build();
                 })
                 .toList();
-        answerRepository.saveAll(newAnswers);
 
         pt.setAnswers(newAnswers);
+        answerRepository.saveAll(newAnswers);
         profileTaskRepository.save(pt);
+
         return profileTaskMapper.apply(pt);
     }
 

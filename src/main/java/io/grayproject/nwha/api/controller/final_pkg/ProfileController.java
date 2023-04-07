@@ -35,6 +35,11 @@ public class ProfileController {
         return profileService.getProfileById(id);
     }
 
+    @GetMapping(GET_PROFILE_BY_USERNAME)
+    public ProfileDTO getProfileByUsername(@PathVariable String username) {
+        return profileService.getProfileByUsername(username);
+    }
+
     @GetMapping(GET_ALL_THINGS)
     public List<ThingDTO> getProfileThings(Principal principal,
                                            @RequestParam(required = false) Boolean archive) {

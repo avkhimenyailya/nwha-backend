@@ -13,6 +13,8 @@ public interface ProfileService {
 
     ProfileDTO getProfileById(Long id);
 
+    ProfileDTO getProfileByUsername(String username);
+
     List<ThingDTO> getProfileThings(Principal principal, Boolean archive);
 
     List<CollectionThingsDTO> getProfileCollectionsThings(Principal principal);

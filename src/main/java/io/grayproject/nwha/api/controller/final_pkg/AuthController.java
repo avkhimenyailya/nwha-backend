@@ -23,9 +23,9 @@ import static io.grayproject.nwha.api.util.ControllerPaths.AuthControllerPaths.*
 @RestController
 @RequestMapping(CONTROLLER_PATH)
 public class AuthController {
-    private static final String LOG_LOGIN =     "Login request from {},     ip: {}";
-    private static final String LOG_REGISTER =  "Register request from {},  ip: {}";
-    private static final String LOG_REFRESH =   "Refresh request,           ip: {}";
+    private static final String LOG_LOGIN = "Login request from {},     ip: {}";
+    private static final String LOG_REGISTER = "Register request from {},  ip: {}";
+    private static final String LOG_REFRESH = "Refresh request,           ip: {}";
 
     private final AuthenticationService authenticationService;
 

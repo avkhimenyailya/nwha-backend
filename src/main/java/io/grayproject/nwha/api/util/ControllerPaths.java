@@ -18,7 +18,8 @@ public class ControllerPaths {
     public static class ProfileControllerPaths {
         public static final String CONTROLLER_PATH = MAIN + "/profile";
         public static final String GET_PROFILE = "";
-        public static final String GET_PROFILE_BY_ID = "/{id}";
+        public static final String GET_PROFILE_BY_ID = "/id/{id}";
+        public static final String GET_PROFILE_BY_USERNAME = "/usr/{username}";
         public static final String GET_ALL_THINGS = "/things";
         public static final String GET_ALL_COLLECTIONS = "/collection";
         public static final String GET_ALL_THINGS_BY_PROFILE_ID = "/{id}/things";

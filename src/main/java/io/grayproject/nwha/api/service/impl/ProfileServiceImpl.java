@@ -44,6 +44,14 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    public ProfileDTO getProfileByUsername(String username) {
+        return profileRepository
+                .findProfileByUserUsername(username)
+                .map(profileMapper)
+                .orElseThrow(() -> new EntityNotFoundException(username)) ;
+    }
+
+    @Override
     public List<ThingDTO> getProfileThings(Principal principal, Boolean archive) {
         // todo filter archive!
         return getProfileByPrincipal(principal)

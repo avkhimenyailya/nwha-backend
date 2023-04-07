@@ -6,7 +6,10 @@ package io.grayproject.nwha.api.exception;
 public class EntityNotFoundException extends RuntimeException {
 
     public EntityNotFoundException(Long id) {
-        // todo (сделать уточнение)
         super(String.format("Entity (id: %s) not found", id));
+    }
+
+    public EntityNotFoundException(String string) {
+        super(String.format("Entity (string: %s) not found", string));
     }
 }

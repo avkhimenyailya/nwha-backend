@@ -12,11 +12,15 @@ import java.util.function.Function;
 @Component
 public class ThingMapper implements Function<Thing, ThingDTO> {
 
-    // todo
     @Override
     public ThingDTO apply(Thing thing) {
         return ThingDTO
                 .builder()
+                .id(thing.getId())
+                .archived(thing.isArchived())
+                .description(thing.getDescription())
+                .profileTaskId(thing.getProfileTask().getId())
+                .fileUrl(thing.getFileUrl())
                 .build();
     }
 }

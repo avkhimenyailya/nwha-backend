@@ -4,10 +4,12 @@ import io.grayproject.nwha.api.domain.Answer;
 import io.grayproject.nwha.api.domain.ProfileTask;
 import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
+import io.grayproject.nwha.api.dto.ThingDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -22,11 +24,17 @@ public class ProfileTaskMapper implements Function<ProfileTask, ProfileTaskDTO> 
 
     @Override
     public ProfileTaskDTO apply(ProfileTask profileTask) {
+        ThingDTO thingDTO =
+                Optional
+                        .ofNullable(profileTask.getThing())
+                        .map(thingMapper)
+                        .orElse(null);
+
         return ProfileTaskDTO
                 .builder()
+                .thing(thingDTO)
                 .id(profileTask.getId())
                 .task(taskMapper.apply(profileTask.getTask()))
-                .thing(thingMapper.apply(profileTask.getThing()))
                 .answers(getAnswers(profileTask.getAnswers()))
                 .build();
     }

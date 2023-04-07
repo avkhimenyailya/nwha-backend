@@ -37,7 +37,7 @@ public class ProfileMapper implements Function<Profile, ProfileDTO> {
         return profileTasks
                 .stream()
                 .map(profileTaskMapper)
-                .sorted(Comparator.comparing(ProfileTaskDTO::taskId))
+                .sorted(Comparator.comparing(profileTaskDTO -> profileTaskDTO.task().id()))
                 .toList();
     }
 

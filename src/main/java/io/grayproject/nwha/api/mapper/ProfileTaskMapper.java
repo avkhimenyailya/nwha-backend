@@ -16,6 +16,7 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class ProfileTaskMapper implements Function<ProfileTask, ProfileTaskDTO> {
+    private final TaskMapper taskMapper;
     private final AnswerMapper answerMapper;
 
     @Override
@@ -23,7 +24,7 @@ public class ProfileTaskMapper implements Function<ProfileTask, ProfileTaskDTO> 
         return ProfileTaskDTO
                 .builder()
                 .id(profileTask.getId())
-                .taskId(profileTask.getTask().getId())
+                .task(taskMapper.apply(profileTask.getTask()))
                 .answers(getAnswers(profileTask.getAnswers()))
                 .build();
     }

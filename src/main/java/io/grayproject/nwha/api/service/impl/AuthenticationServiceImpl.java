@@ -128,10 +128,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return AuthResponse
                 .builder()
-                .profileId(profileId)
                 .accessToken(accessTokenString)
                 .refreshToken(refreshTokenString)
-                .roles(roles)
+                .username(userDetails.getUsername())
                 .build();
     }
 }

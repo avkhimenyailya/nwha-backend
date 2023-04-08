@@ -11,8 +11,16 @@ import io.grayproject.nwha.api.repository.ProfileTaskRepository;
 import io.grayproject.nwha.api.repository.ThingRepository;
 import io.grayproject.nwha.api.service.ThingService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +30,7 @@ import java.util.Optional;
 /**
  * @author Ilya Avkhimenya
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ThingServiceImpl implements ThingService {
@@ -99,6 +108,33 @@ public class ThingServiceImpl implements ThingService {
     @Override
     public void deleteThing(Principal principal, Long id) {
 
+    }
+
+    @Override
+    public ThingDTO setImageUrl(Principal principal,
+                                MultipartFile multipartFile,
+                                String thingId)
+            throws IOException {
+
+        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+
+        String generatedName
+                = RandomStringUtils.random(40, true, false) + "." + extension;
+        File file = new File("images/" + generatedName);
+        try (OutputStream os = new FileOutputStream(file)) {
+            os.write(multipartFile.getBytes());
+        }
+
+        return thingRepository
+                .findById(Long.parseLong(thingId))
+                .map(thing -> {
+                    thing.setFileUrl("https://api.nwha.grayproject.io/img/"
+                            + generatedName);
+                    thingRepository.save(thing);
+                    return thingMapper.apply(thing);
+                })
+                .orElseThrow(() ->
+                        new EntityNotFoundException(Long.parseLong(thingId)));
     }
 
     private Optional<Profile> getProfileByPrincipal(Principal principal) {

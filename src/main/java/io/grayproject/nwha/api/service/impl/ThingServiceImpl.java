@@ -10,6 +10,7 @@ import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.repository.ProfileTaskRepository;
 import io.grayproject.nwha.api.repository.ThingRepository;
 import io.grayproject.nwha.api.service.ThingService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -111,11 +112,10 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
+    @Transactional
     public ThingDTO setImageUrl(Principal principal,
                                 MultipartFile multipartFile,
-                                String thingId)
-            throws IOException {
-
+                                String thingId) throws IOException {
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 
         String generatedName

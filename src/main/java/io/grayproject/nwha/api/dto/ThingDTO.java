@@ -7,6 +7,6 @@ import lombok.NonNull;
 public record ThingDTO(Long id,
                        String description,
                        Boolean archived,
-                       @NonNull Long profileTaskId,
-                       @NonNull String fileUrl) {
+                       String fileUrl,
+                       @NonNull Long profileTaskId) {
 }

@@ -130,7 +130,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .builder()
                 .accessToken(accessTokenString)
                 .refreshToken(refreshTokenString)
-                .username(userDetails.getUsername())
+                .profileId(profileId)
                 .build();
     }
 }

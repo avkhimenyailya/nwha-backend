@@ -32,8 +32,9 @@ public class ProfileTaskMapper implements Function<ProfileTask, ProfileTaskDTO> 
 
         return ProfileTaskDTO
                 .builder()
-                .thing(thingDTO)
                 .id(profileTask.getId())
+                .profileId(profileTask.getProfile().getId())
+                .thing(thingDTO)
                 .task(taskMapper.apply(profileTask.getTask()))
                 .answers(getAnswers(profileTask.getAnswers()))
                 .build();

@@ -95,6 +95,7 @@ public class ThingServiceImpl implements ThingService {
                 .profileTask(profileTask)
                 .fileUrl(thingDTO.fileUrl())
                 .build();
+
         profileTask.setThing(thing);
         Thing saved = thingRepository.save(thing);
         profileTaskRepository.save(profileTask);

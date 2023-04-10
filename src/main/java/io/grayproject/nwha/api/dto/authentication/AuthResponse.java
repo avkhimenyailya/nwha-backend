@@ -6,9 +6,7 @@ import lombok.Builder;
  * @author Ilya Avkhimenya
  */
 @Builder
-public record AuthResponse(
-        String username,
-        String accessToken,
-        String refreshToken
-) {
+public record AuthResponse(Long profileId,
+                           String accessToken,
+                           String refreshToken) {
 }

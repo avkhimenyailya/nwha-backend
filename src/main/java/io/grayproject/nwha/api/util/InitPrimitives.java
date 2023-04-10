@@ -42,8 +42,8 @@ public class InitPrimitives {
         // Get YAML file from resources.primitives.tasks.yml
         Map<String, Object> yaml = getYaml(TASKS_YAML);
         // Define language
-        String keyForDescription =
-                locale == Locale.ENG ? "description-english" : "description-russian";
+        String localeKey =
+                locale == Locale.ENG ? "-english" : "-russian";
 
         // Get tasks array from yaml
         @SuppressWarnings("unchecked")
@@ -56,7 +56,8 @@ public class InitPrimitives {
                     Map<String, Object> taskMap = (Map<String, Object>) taskObj;
                     Task newTask = Task.builder()
                             .ordinalNumber((Integer) taskMap.get("ordinal-number"))
-                            .description((String) taskMap.get(keyForDescription))
+                            .description((String) taskMap.get("description" + localeKey))
+                            .details((String) taskMap.get("details" + localeKey))
                             .build();
 
                     // Get questions array from yaml.tasks
@@ -84,7 +85,7 @@ public class InitPrimitives {
                                             Map<String, Object> optionMap = (Map<String, Object>) optionObj;
                                             return Option.builder()
                                                     .question(newQuestion)
-                                                    .description((String) optionMap.get(keyForDescription))
+                                                    .description((String) optionMap.get("description" + localeKey))
                                                     .build();
                                         })
                                         .toList();

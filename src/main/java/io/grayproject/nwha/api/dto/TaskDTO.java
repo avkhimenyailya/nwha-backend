@@ -11,5 +11,6 @@ import java.util.List;
 public record TaskDTO(Long id,
                       Integer ordinalNumber,
                       String description,
+                      String details,
                       List<QuestionDTO> questions) {
 }

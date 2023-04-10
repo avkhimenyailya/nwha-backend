@@ -23,6 +23,7 @@ public class TaskMapper implements Function<Task, TaskDTO> {
                 .builder()
                 .id(task.getId())
                 .description(task.getDescription())
+                .details(task.getDetails())
                 .ordinalNumber(task.getOrdinalNumber())
                 .questions(task.getQuestions().stream().map(questionMapper).toList())
                 .build();

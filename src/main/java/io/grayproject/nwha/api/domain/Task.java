@@ -27,6 +27,9 @@ public class Task {
     @Column(unique = true, nullable = false)
     private String description;
 
+    @Column(columnDefinition = "text")
+    private String details;
+
     @Column(unique = true, nullable = false)
     private Integer ordinalNumber;
 

@@ -1,5 +1,6 @@
 package io.grayproject.nwha.api.controller.final_pkg;
 
+import io.grayproject.nwha.api.dto.LastThingDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.service.ThingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class ThingController {
     @GetMapping("/random")
     public List<ThingDTO> getRandomThings(@RequestParam Integer limit) {
         return thingService.getRandomThings(limit);
+    }
+
+    @GetMapping("/recently")
+    public List<LastThingDTO> getLastThingsLimit80() {
+        return thingService.getLastThingsLimit80();
     }
 
     @GetMapping("/{id}")

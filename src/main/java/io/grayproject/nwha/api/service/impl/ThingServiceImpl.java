@@ -3,6 +3,7 @@ package io.grayproject.nwha.api.service.impl;
 import io.grayproject.nwha.api.domain.Profile;
 import io.grayproject.nwha.api.domain.ProfileTask;
 import io.grayproject.nwha.api.domain.Thing;
+import io.grayproject.nwha.api.dto.LastThingDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.exception.EntityNotFoundException;
 import io.grayproject.nwha.api.mapper.ThingMapper;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,10 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Ilya Avkhimenya
@@ -63,6 +62,24 @@ public class ThingServiceImpl implements ThingService {
                 .map(thingMapper)
                 .limit(limit)
                 .toList();
+    }
+
+    @Override
+    public List<LastThingDTO> getLastThingsLimit80() {
+        List<Thing> recentlyAddedLimit80 = thingRepository.findAll();
+        List<LastThingDTO> list = new ArrayList<>(recentlyAddedLimit80
+                .stream()
+                .map(thing -> LastThingDTO
+                        .builder()
+                        .thingId(thing.getId())
+                        .taskOrdinalNumber(thing.getProfileTask().getTask().getOrdinalNumber())
+                        .taskDescription(thing.getProfileTask().getTask().getDescription())
+                        .username(thing.getProfileTask().getProfile().getUser().getUsername())
+                        .addingTime(new PrettyTime(Locale.ENGLISH).format(thing.getCreatedAt()))
+                        .build())
+                .toList());
+        Collections.reverse(list);
+        return list;
     }
 
     @Override

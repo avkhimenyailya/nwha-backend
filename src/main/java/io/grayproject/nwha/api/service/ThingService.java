@@ -1,6 +1,6 @@
 package io.grayproject.nwha.api.service;
 
-import io.grayproject.nwha.api.dto.LastThingDTO;
+import io.grayproject.nwha.api.dto.RecentlyAddedThingDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +15,7 @@ public interface ThingService {
 
     List<ThingDTO> getRandomThings(Integer limit);
 
-    List<LastThingDTO> getLastThingsLimit80();
+    List<RecentlyAddedThingDTO> getRecentlyAddedThings();
 
     ThingDTO getThingById(Long id);
 

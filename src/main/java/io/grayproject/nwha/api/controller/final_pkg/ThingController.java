@@ -1,6 +1,6 @@
 package io.grayproject.nwha.api.controller.final_pkg;
 
-import io.grayproject.nwha.api.dto.LastThingDTO;
+import io.grayproject.nwha.api.dto.RecentlyAddedThingDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.service.ThingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class ThingController {
     }
 
     @GetMapping("/recently")
-    public List<LastThingDTO> getLastThingsLimit80() {
-        return thingService.getLastThingsLimit80();
+    public List<RecentlyAddedThingDTO> getRecentlyAddedThings() {
+        return thingService.getRecentlyAddedThings();
     }
 
     @GetMapping("/{id}")

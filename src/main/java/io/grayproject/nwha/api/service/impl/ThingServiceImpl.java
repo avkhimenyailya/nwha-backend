@@ -3,7 +3,7 @@ package io.grayproject.nwha.api.service.impl;
 import io.grayproject.nwha.api.domain.Profile;
 import io.grayproject.nwha.api.domain.ProfileTask;
 import io.grayproject.nwha.api.domain.Thing;
-import io.grayproject.nwha.api.dto.LastThingDTO;
+import io.grayproject.nwha.api.dto.RecentlyAddedThingDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.exception.EntityNotFoundException;
 import io.grayproject.nwha.api.mapper.ThingMapper;
@@ -65,13 +65,14 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
-    public List<LastThingDTO> getLastThingsLimit80() {
-        List<Thing> recentlyAddedLimit80 = thingRepository.findAll();
-        List<LastThingDTO> list = new ArrayList<>(recentlyAddedLimit80
+    public List<RecentlyAddedThingDTO> getRecentlyAddedThings() {
+        List<Thing> all = thingRepository.findAll();
+        List<RecentlyAddedThingDTO> list = new ArrayList<>(all
                 .stream()
-                .map(thing -> LastThingDTO
+                .map(thing -> RecentlyAddedThingDTO
                         .builder()
                         .thingId(thing.getId())
+                        .thingFileUrl(thing.getFileUrl())
                         .taskOrdinalNumber(thing.getProfileTask().getTask().getOrdinalNumber())
                         .taskDescription(thing.getProfileTask().getTask().getDescription())
                         .username(thing.getProfileTask().getProfile().getUser().getUsername())

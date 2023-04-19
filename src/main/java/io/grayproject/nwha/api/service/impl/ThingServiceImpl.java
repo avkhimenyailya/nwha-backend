@@ -127,7 +127,20 @@ public class ThingServiceImpl implements ThingService {
 
     @Override
     public void deleteThing(Principal principal, Long id) {
+        Profile profile = getProfileByPrincipal(principal)
+                // fatal error (this should not be)
+                .orElseThrow(RuntimeException::new);
 
+        Thing thing = thingRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+
+        if (thing.getProfileTask().getProfile().getId().equals(profile.getId())) {
+            thingRepository.delete(thing);
+            log.info("Thing was successfully deleted");
+        } else {
+            throw new RuntimeException("Невозможно удалить чужую вещь");
+        }
     }
 
     @Override

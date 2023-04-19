@@ -62,6 +62,6 @@ public class ThingController {
 
     @DeleteMapping
     public void deleteThing(Principal principal, Long id) {
-        // todo
+        thingService.deleteThing(principal, id);
     }
 }

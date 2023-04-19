@@ -60,8 +60,8 @@ public class ThingController {
         return null;
     }
 
-    @DeleteMapping
-    public void deleteThing(Principal principal, Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteThing(Principal principal, @PathVariable Long id) {
         thingService.deleteThing(principal, id);
     }
 }

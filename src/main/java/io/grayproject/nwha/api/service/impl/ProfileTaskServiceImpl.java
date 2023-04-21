@@ -51,8 +51,6 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
                                      Long profileTaskId,
                                      List<AnswerDTO> answers) {
         ProfileTask pt = getProfileTask(principal, profileTaskId);
-        pt.setAnswers(new ArrayList<>());
-        profileTaskRepository.save(pt);
 
         List<Answer> newAnswers = answers
                 .stream()
@@ -69,10 +67,9 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
                 })
                 .toList();
 
-        pt.setAnswers(newAnswers);
         answerRepository.saveAll(newAnswers);
+        pt.setAnswers(new ArrayList<>(newAnswers));
         profileTaskRepository.save(pt);
-
         return profileTaskMapper.apply(pt);
     }
 

@@ -32,7 +32,7 @@ public class ProfileTask {
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile profile;
 
-    @OneToMany(mappedBy = "profileTask", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "profileTask")
     private List<Answer> answers;
 
     @OneToOne(mappedBy = "profileTask")

@@ -7,10 +7,7 @@ import io.grayproject.nwha.api.domain.ProfileTask;
 import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
 import io.grayproject.nwha.api.mapper.ProfileTaskMapper;
-import io.grayproject.nwha.api.repository.AnswerRepository;
-import io.grayproject.nwha.api.repository.OptionRepository;
-import io.grayproject.nwha.api.repository.ProfileRepository;
-import io.grayproject.nwha.api.repository.ProfileTaskRepository;
+import io.grayproject.nwha.api.repository.*;
 import io.grayproject.nwha.api.service.ProfileTaskService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,7 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     private final OptionRepository optionRepository;
     private final AnswerRepository answerRepository;
     private final ProfileRepository profileRepository;
+    private final ThingRepository thingRepository;
     private final ProfileTaskRepository profileTaskRepository;
     private final ProfileTaskMapper profileTaskMapper;
 
@@ -36,11 +34,13 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     public ProfileTaskServiceImpl(OptionRepository optionRepository,
                                   AnswerRepository answerRepository,
                                   ProfileRepository profileRepository,
+                                  ThingRepository thingRepository,
                                   ProfileTaskRepository profileTaskRepository,
                                   ProfileTaskMapper profileTaskMapper) {
         this.optionRepository = optionRepository;
         this.answerRepository = answerRepository;
         this.profileRepository = profileRepository;
+        this.thingRepository = thingRepository;
         this.profileTaskRepository = profileTaskRepository;
         this.profileTaskMapper = profileTaskMapper;
     }
@@ -50,7 +50,9 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     public ProfileTaskDTO putAnswers(Principal principal,
                                      Long profileTaskId,
                                      List<AnswerDTO> answers) {
+
         ProfileTask pt = getProfileTask(principal, profileTaskId);
+        answerRepository.deleteAll(pt.getAnswers());
 
         List<Answer> newAnswers = answers
                 .stream()
@@ -69,8 +71,8 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
 
         answerRepository.saveAll(newAnswers);
         pt.setAnswers(new ArrayList<>(newAnswers));
-        profileTaskRepository.save(pt);
-        return profileTaskMapper.apply(pt);
+        ProfileTask save = profileTaskRepository.save(pt);
+        return profileTaskMapper.apply(save);
     }
 
     @Override
@@ -84,8 +86,15 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     @Override
     public ProfileTaskDTO refreshProfileTask(Principal principal,
                                              Long profileTaskId) {
-        // todo!
-        return null;
+        ProfileTask pt = getProfileTask(principal, profileTaskId);
+        Optional.of(pt.getThing()).ifPresent(thing -> {
+            thing.setRemoved(true);
+            thingRepository.save(thing);
+            pt.setThing(null);
+        });
+        answerRepository.deleteAll(pt.getAnswers());
+        ProfileTask save = profileTaskRepository.save(pt);
+        return profileTaskMapper.apply(save);
     }
 
     private ProfileTask getProfileTask(Principal principal, Long profileTaskId) {

@@ -48,6 +48,7 @@ public class ThingServiceImpl implements ThingService {
                         .stream()
                         .map(ProfileTask::getThing)
                         .filter(Objects::nonNull)
+                        .filter(thing -> !thing.isRemoved())
                         .map(thingMapper)
                         .toList())
                 // fatal error (this should not be)
@@ -59,6 +60,7 @@ public class ThingServiceImpl implements ThingService {
         List<Thing> all = thingRepository.findAll();
         Collections.shuffle(all);
         return all.stream()
+                .filter(thing -> !thing.isRemoved())
                 .map(thingMapper)
                 .limit(limit)
                 .toList();
@@ -69,6 +71,7 @@ public class ThingServiceImpl implements ThingService {
         List<Thing> all = thingRepository.findAll();
         List<RecentlyAddedThingDTO> list = new ArrayList<>(all
                 .stream()
+                .filter(thing -> !thing.isRemoved())
                 .map(thing -> RecentlyAddedThingDTO
                         .builder()
                         .thingId(thing.getId())
@@ -87,6 +90,7 @@ public class ThingServiceImpl implements ThingService {
     public ThingDTO getThingById(Long id) {
         return thingRepository
                 .findById(id)
+                .filter(thing -> !thing.isRemoved())
                 .map(thingMapper)
                 .orElseThrow(() -> new EntityNotFoundException(id));
     }
@@ -126,6 +130,7 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
+    @Transactional
     public void deleteThing(Principal principal, Long id) {
         Profile profile = getProfileByPrincipal(principal)
                 // fatal error (this should not be)
@@ -136,8 +141,12 @@ public class ThingServiceImpl implements ThingService {
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
         if (thing.getProfileTask().getProfile().getId().equals(profile.getId())) {
-            thingRepository.delete(thing);
-            log.info("Thing was successfully deleted");
+            ProfileTask profileTask = thing.getProfileTask();
+            profileTask.setThing(null);
+            thing.setRemoved(true);
+
+            profileTaskRepository.save(profileTask);
+            thingRepository.save(thing);
         } else {
             throw new RuntimeException("Невозможно удалить чужую вещь");
         }

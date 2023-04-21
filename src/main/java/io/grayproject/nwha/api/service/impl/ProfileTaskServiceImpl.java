@@ -84,15 +84,21 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     }
 
     @Override
+    @Transactional
     public ProfileTaskDTO refreshProfileTask(Principal principal,
                                              Long profileTaskId) {
         ProfileTask pt = getProfileTask(principal, profileTaskId);
-        Optional.of(pt.getThing()).ifPresent(thing -> {
+
+        Optional
+                .of(pt.getThing())
+                .ifPresent(thing -> {
             thing.setRemoved(true);
             thingRepository.save(thing);
             pt.setThing(null);
         });
+
         answerRepository.deleteAll(pt.getAnswers());
+        pt.setAnswers(new ArrayList<>());
         ProfileTask save = profileTaskRepository.save(pt);
         return profileTaskMapper.apply(save);
     }

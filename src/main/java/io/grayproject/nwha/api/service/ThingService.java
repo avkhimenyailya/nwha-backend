@@ -25,5 +25,5 @@ public interface ThingService {
 
     void deleteThing(Principal principal, Long id);
 
-    ThingDTO setImageUrl(Principal principal, MultipartFile file, String thingId) throws IOException;
+    String setImageUrl(Principal principal, MultipartFile file) throws IOException;
 }

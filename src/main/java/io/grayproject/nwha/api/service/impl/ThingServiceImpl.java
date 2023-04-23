@@ -204,10 +204,8 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
-    @Transactional
-    public ThingDTO setImageUrl(Principal principal,
-                                MultipartFile multipartFile,
-                                String thingId) throws IOException {
+    public String setImageUrl(Principal principal,
+                              MultipartFile multipartFile) throws IOException {
 
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 
@@ -216,17 +214,7 @@ public class ThingServiceImpl implements ThingService {
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         }
-
-        return thingRepository
-                .findById(Long.parseLong(thingId))
-                .map(thing -> {
-                    thing.setFileUrl("https://api.nwha.grayproject.io/img/"
-                            + generatedName);
-                    thingRepository.save(thing);
-                    return thingMapper.apply(thing);
-                })
-                .orElseThrow(() ->
-                        new EntityNotFoundException(Long.parseLong(thingId)));
+        return "https://api.nwha.grayproject.io/img/" + generatedName;
     }
 
     private Optional<Profile> getProfileByPrincipal(Principal principal) {

@@ -41,11 +41,11 @@ public class ThingController {
     }
 
     @PostMapping("/upload")
-    public ThingDTO setImageUrl(Principal principal,
-                                @RequestParam("file") MultipartFile file,
-                                @RequestParam("thingId") String thingId)
+    public String setImageUrl(Principal principal,
+                              @RequestParam("file") MultipartFile file,
+                              @RequestParam("thingId") String thingId)
             throws IOException {
-        return thingService.setImageUrl(principal, file, thingId);
+        return thingService.setImageUrl(principal, file);
     }
 
     @PostMapping

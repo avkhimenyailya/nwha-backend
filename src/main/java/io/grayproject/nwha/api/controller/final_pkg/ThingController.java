@@ -42,8 +42,7 @@ public class ThingController {
 
     @PostMapping("/upload")
     public String setImageUrl(Principal principal,
-                              @RequestParam("file") MultipartFile file,
-                              @RequestParam("thingId") String thingId)
+                              @RequestParam("file") MultipartFile file)
             throws IOException {
         return thingService.setImageUrl(principal, file);
     }

@@ -107,7 +107,7 @@ public class ThingServiceImpl implements ThingService {
                 .filter(p -> p.getId().equals(thingDTO.profileTaskId()))
                 .findFirst()
                 .orElseThrow(() ->
-                        new RuntimeException("Невозможно создать вещь для указанного profileTaskId"));
+                        new RuntimeException("It is impossible to create thing for the specified profile task"));
 
         Thing thing = Thing
                 .builder()
@@ -126,7 +126,33 @@ public class ThingServiceImpl implements ThingService {
 
     @Override
     public ThingDTO updateThing(Principal principal, ThingDTO thingDTO) {
-        return null;
+        /* you can update the description and/or photo as well as delete and/or archive the item */
+        Profile profile = getProfileByPrincipal(principal)
+                // fatal error (this should not be)
+                .orElseThrow(RuntimeException::new);
+
+        ProfileTask profileTask = profile
+                .getProfileTasks()
+                .stream()
+                .filter(p -> p.getId().equals(thingDTO.profileTaskId()))
+                .findFirst()
+                .orElseThrow(() ->
+                        new RuntimeException("It is impossible to update thing for the specified profile task"));
+
+        if (!profileTask.getThing().getId().equals(thingDTO.id())) {
+            throw new RuntimeException("Missing thing id");
+        }
+
+        Thing originalThing = profileTask.getThing();
+        originalThing.setArchived(thingDTO.archived());
+        originalThing.setFileUrl(thingDTO.fileUrl());
+        originalThing.setDescription(thingDTO.description());
+
+        Thing save = thingRepository.save(originalThing);
+        profileTask.setThing(save);
+        profileTaskRepository.save(profileTask);
+
+        return thingMapper.apply(originalThing);
     }
 
     @Override
@@ -157,10 +183,10 @@ public class ThingServiceImpl implements ThingService {
     public ThingDTO setImageUrl(Principal principal,
                                 MultipartFile multipartFile,
                                 String thingId) throws IOException {
+
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 
-        String generatedName
-                = RandomStringUtils.random(40, true, false) + "." + extension;
+        String generatedName = RandomStringUtils.random(40, true, false) + "." + extension;
         File file = new File("images/" + generatedName);
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());

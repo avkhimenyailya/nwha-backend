@@ -209,7 +209,7 @@ public class ThingServiceImpl implements ThingService {
 
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 
-        String generatedName = RandomStringUtils.random(40, true, false) + "." + extension;
+        String generatedName = RandomStringUtils.random(15, true, true) + "." + extension;
         File file = new File("images/" + generatedName);
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());

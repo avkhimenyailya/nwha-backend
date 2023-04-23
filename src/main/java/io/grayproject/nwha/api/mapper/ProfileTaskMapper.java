@@ -27,6 +27,7 @@ public class ProfileTaskMapper implements Function<ProfileTask, ProfileTaskDTO> 
         ThingDTO thingDTO =
                 Optional
                         .ofNullable(profileTask.getThing())
+                        .filter(thing -> !thing.isRemoved())
                         .map(thingMapper)
                         .orElse(null);
 

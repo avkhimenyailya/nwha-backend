@@ -169,10 +169,10 @@ public class ThingServiceImpl implements ThingService {
         if (thing.getProfileTask().getProfile().getId().equals(profile.getId())) {
             ProfileTask profileTask = thing.getProfileTask();
             profileTask.setThing(null);
-            thing.setRemoved(true);
-
             profileTaskRepository.save(profileTask);
-            thingRepository.save(thing);
+            thing.setRemoved(true);
+            thing = thingRepository.save(thing);
+            log.info("Успешное удаление вещи [id: {}, removed: {}]", thing.getId(), thing.isRemoved());
         } else {
             throw new RuntimeException("Невозможно удалить чужую вещь");
         }

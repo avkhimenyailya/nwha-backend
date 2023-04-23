@@ -23,8 +23,8 @@ public class Thing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "profile_task_id")
+    @ManyToOne
+    @JoinColumn(name = "profile_task_id", nullable = false)
     private ProfileTask profileTask;
 
     @Column
@@ -45,4 +45,18 @@ public class Thing {
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+    @Override
+    public String toString() {
+        return "Thing{" +
+                "id=" + id +
+                ", profileTaskId=" + profileTask.getId() +
+                ", fileUrl='" + fileUrl + '\'' +
+                ", description='" + description + '\'' +
+                ", archived=" + archived +
+                ", removed=" + removed +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

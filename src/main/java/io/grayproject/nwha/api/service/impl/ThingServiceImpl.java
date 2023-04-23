@@ -42,17 +42,18 @@ public class ThingServiceImpl implements ThingService {
 
     // use only profileService
     public List<ThingDTO> getAllThingsByProfileId(Long profileId) {
-        return profileRepository.findById(profileId)
+        List<ProfileTask> profileTasks = profileRepository
+                .findById(profileId)
                 .map(Profile::getProfileTasks)
-                .map(profileTasks -> profileTasks
-                        .stream()
-                        .map(ProfileTask::getThing)
-                        .filter(Objects::nonNull)
-                        .filter(thing -> !thing.isRemoved())
-                        .map(thingMapper)
-                        .toList())
-                // fatal error (this should not be)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new EntityNotFoundException(profileId));
+
+
+        return profileTasks
+                .stream()
+                .flatMap(profileTask -> profileTask.getThings().stream())
+                .filter(thing -> !thing.isRemoved())
+                .map(thingMapper)
+                .toList();
     }
 
     @Override
@@ -109,6 +110,17 @@ public class ThingServiceImpl implements ThingService {
                 .orElseThrow(() ->
                         new RuntimeException("It is impossible to create thing for the specified profile task"));
 
+        profileTask
+                .getThings()
+                .stream()
+                .filter(thing -> !thing.isRemoved())
+                .findFirst()
+                .ifPresent(thing -> {
+                    profileTask.getThings().forEach(System.out::println);
+                    throw new RuntimeException("Вещь нельзя создать");
+                });
+
+
         Thing thing = Thing
                 .builder()
                 .removed(false)
@@ -118,7 +130,12 @@ public class ThingServiceImpl implements ThingService {
                 .fileUrl(thingDTO.fileUrl())
                 .build();
 
-        profileTask.setThing(thing);
+        if (profileTask.getThings() != null) {
+            profileTask.getThings().add(thing);
+        } else {
+            profileTask.setThings(new ArrayList<>(List.of(thing)));
+        }
+
         Thing saved = thingRepository.save(thing);
         profileTaskRepository.save(profileTask);
         return thingMapper.apply(saved);
@@ -139,17 +156,25 @@ public class ThingServiceImpl implements ThingService {
                 .orElseThrow(() ->
                         new RuntimeException("It is impossible to update thing for the specified profile task"));
 
-        if (!profileTask.getThing().getId().equals(thingDTO.id())) {
-            throw new RuntimeException("Missing thing id");
-        }
+        Thing originalThing = Optional
+                .ofNullable(profileTask.getThings())
+                .map(things -> things.stream()
+                        .filter(thing -> !thing.isRemoved() && thing.getId().equals(thingDTO.id()))
+                        .findFirst()
+                        .get()
+                )
+                .orElseThrow(() -> new RuntimeException("Missing thing id"));
 
-        Thing originalThing = profileTask.getThing();
         originalThing.setArchived(thingDTO.archived());
         originalThing.setFileUrl(thingDTO.fileUrl());
         originalThing.setDescription(thingDTO.description());
 
         Thing save = thingRepository.save(originalThing);
-        profileTask.setThing(save);
+        if (profileTask.getThings() != null) {
+            profileTask.getThings().add(save);
+        } else {
+            profileTask.setThings(new ArrayList<>(List.of(save)));
+        }
         profileTaskRepository.save(profileTask);
 
         return thingMapper.apply(originalThing);
@@ -168,7 +193,7 @@ public class ThingServiceImpl implements ThingService {
 
         if (thing.getProfileTask().getProfile().getId().equals(profile.getId())) {
             ProfileTask profileTask = thing.getProfileTask();
-            profileTask.setThing(null);
+            profileTask.setThings(new ArrayList<>());
             profileTaskRepository.save(profileTask);
             thing.setRemoved(true);
             thing = thingRepository.save(thing);

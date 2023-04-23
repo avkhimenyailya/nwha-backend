@@ -35,8 +35,8 @@ public class ProfileTask {
     @OneToMany(mappedBy = "profileTask")
     private List<Answer> answers;
 
-    @OneToOne(mappedBy = "profileTask")
-    private Thing thing;
+    @OneToMany(mappedBy = "profileTask")
+    private List<Thing> things;
 
     @Column
     private Boolean removed;

@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Ilya Avkhimenya
@@ -152,6 +149,7 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
                 .stream()
                 .filter(collectionThings -> !collectionThings.getRemoved())
                 .map(collectionThingsMapper)
+                .sorted(Comparator.comparing(CollectionThingsDTO::id))
                 .toList();
     }
 

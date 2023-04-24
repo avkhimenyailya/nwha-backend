@@ -31,7 +31,8 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDTO getProfile(Principal principal) {
         return getProfileByPrincipal(principal)
                 .map(profileMapper)
-                // fatal error (this should not be)
+                // fatal
+                // error (this should not be)
                 .orElseThrow(RuntimeException::new);
     }
 

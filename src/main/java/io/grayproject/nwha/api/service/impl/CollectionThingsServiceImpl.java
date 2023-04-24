@@ -49,6 +49,7 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
         }
         collectionThings.setName(name.trim());
         collectionThings.setProfile(profile);
+        collectionThings.setRemoved(false);
 
         CollectionThings save = collectionThingsRepository.save(collectionThings);
         return collectionThingsMapper.apply(save);

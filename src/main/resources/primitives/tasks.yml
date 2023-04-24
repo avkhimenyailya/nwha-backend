@@ -48,7 +48,7 @@ tasks:
           - description-english: 'I like to welcome guests, when the house is alive and full of people'
             description-russian: 'Люблю принимать гостей, когда дом живет и наполнен людьми'
   - ordinal-number: 1
-    description-english: 'A thing or a few things I carry in my bag every day'
+    description-english: 'A thing or a few things%%%I carry in my bag every day'
     description-russian: 'Вещь или несколько вещей, которые я каждый день ношу в сумке'
     details-english:
     details-russian:
@@ -72,7 +72,7 @@ tasks:
           - description-english: 'Change in habits, a constant search'
             description-russian: 'Смена привычек, поиск'
   - ordinal-number: 3
-    description-english: 'The thing that my favorite weekend ritual is connected with'
+    description-english: 'The thing that my favorite weekend ritual%%%is connected%%%with'
     description-russian: 'Вещь, с которой связан мой любимый ритуал выходного дня'
     details-english:
     details-russian:
@@ -96,7 +96,7 @@ tasks:
           - description-english: 'I can''t focus on one thing for a long time, I need to change activities often'
             description-russian: 'Я не могу долго сосредотачиваться на одном деле, мне нужно часто менять деятельность'
   - ordinal-number: 5
-    description-english: 'Favorite corner of the house'
+    description-english: 'Favorite corner%%%of the house'
     description-russian: 'Любимый уголок дома'
     details-english:
     details-russian:
@@ -108,7 +108,7 @@ tasks:
           - description-english: 'A lot of space, air, distance, light'
             description-russian: 'Много пространства, воздух, дистанция, свет'
   - ordinal-number: 6
-    description-english: 'My favorite everyday outfit'
+    description-english: 'My favorite%%%everyday outfit'
     description-russian: 'Мой любимый повседневный наряд'
     details-english: 'Explain why these particular things are chosen in the description'
     details-russian: 'В описании объясни, почему именно эти вещи подобраны в твоем наряде'
@@ -120,7 +120,7 @@ tasks:
           - description-english: 'Details'
             description-russian: 'Детали'
   - ordinal-number: 7
-    description-english: 'The most chaotic place in my house'
+    description-english: 'The most chaotic%%%place in my house'
     description-russian: 'Самое беспорядочное место в моем доме'
     details-english:
     details-russian:
@@ -144,7 +144,7 @@ tasks:
           - description-english: 'Every thing in my house is valuable in its own way, being separate from the other ones'
             description-russian: 'Каждая вещь в моем доме самоценна, существует отдельно от других'
   - ordinal-number: 9
-    description-english: 'The thing I don''t go out without, visible to everyone'
+    description-english: 'The thing I don''t go out without, visible%%%to everyone'
     description-russian: 'Вещь, без которой я не выхожу на улицу и она видна всем'
     details-english:
     details-russian:
@@ -192,7 +192,7 @@ tasks:
           - description-english: 'My personality is clear and stable. All the things in my house are subordinated to a certain logic, a certain style'
             description-russian: 'Мой образ понятен и устойчив. Все вещи в моем доме подчинены единой логике, единому стилю'
   - ordinal-number: 13
-    description-english: 'My personal collection'
+    description-english: 'My personal%%%collection'
     description-russian: 'Моя личная коллекция'
     details-english:
     details-russian:
@@ -204,7 +204,7 @@ tasks:
           - description-english: 'I''m a wasteful person'
             description-russian: 'Я расточительный человек'
   - ordinal-number: 14
-    description-english: 'What my house smells like'
+    description-english: 'What my house%%%smells like'
     description-russian: 'Как пахнет мой дом'
     details-english: 'Take a picture of something that gives your house a special smell'
     details-russian: 'Сфотографируй вещь, которая наделяет твой дом особым запахом'
@@ -240,7 +240,7 @@ tasks:
           - description-english: 'Shopping for the aim'
             description-russian: 'Покупки по делу'
   - ordinal-number: 17
-    description-english: 'A thing I would gift to a close friend'
+    description-english: 'A thing I would gift%%%to a close friend'
     description-russian: 'Вещь, которую я бы подарил близкому другу'
     details-english:
     details-russian:
@@ -252,7 +252,7 @@ tasks:
           - description-english: 'Originality, but unpredictability'
             description-russian: 'Оригинальность, но непредсказуемость'
   - ordinal-number: 18
-    description-english: 'The thing I don''t show to people I''m not close with but is very important to me'
+    description-english: 'The thing I don''t show to people I''m not%%%close with but is very important to me'
     description-russian: 'Вещь, которую я не показываю неблизким людям, но она очень важна для меня'
     details-english:
     details-russian:
@@ -264,7 +264,7 @@ tasks:
           - description-english: 'I don''t avoid mess to any degree, I let guests into my world, which may not be perfect'
             description-russian: 'Я не стесняюсь беспорядка в любой его степени, я впускаю гостей в свой мир, который может быть неидеальным'
   - ordinal-number: 19
-    description-english: 'Things of the color that dominates my house'
+    description-english: 'Things of the color%%%that dominates%%%my house'
     description-russian: 'Вещи цвета, которого больше всего в моем доме'
     details-english: 'Count how many things of different colors you see around you: on tables, bookshelves, windowsills, floor etc. Find the color that dominates. Put a few things of that color next to each other and take a picture. You don''t have to choose one color: you can select a group by brightness or color saturation'
     details-russian: 'Посчитай, сколько вещей разных цветов ты видишь вокруг себя: на столах, тумбочках, подоконниках, полу. Найди цвет, который преобладает. Сложи рядом несколько вещей этого цвета и сфотографируй. Не обязательно выбирать один цвет: можно выделить группу по яркости или насыщенности цвета'
@@ -288,7 +288,7 @@ tasks:
           - description-english: 'I strive for multifunctionality and reducing the number of things in my life'
             description-russian: 'Я стремлюсь к многофункциональности и сокращению количества вещей в жизни'
   - ordinal-number: 21
-    description-english: 'A broken or damaged thing that I can''t part with'
+    description-english: 'A broken or damaged thing that I can''t%%%part with'
     description-russian: 'Сломанная или испорченная вещь, с которой я не могу расстаться'
     details-english: 'For any reason: the thing is very valuable to you/ you found another use for it/ you just can''t find time to throw it away'
     details-russian: 'Причина может быть любой: вещь может быть очень дорога тебе, ты нашел ей другое применение или же просто не находишь времени выбросить'
@@ -312,7 +312,7 @@ tasks:
           - description-english: 'It is difficult for me to arrange a common household, I prefer to live alone, just to stay within the boundaries of the way of life I am used to'
             description-russian: 'Мне трудно налаживать совместный быт, я предпочитаю жить один, лишь бы не выходить за рамки привычного мне образа жизни'
   - ordinal-number: 23
-    description-english: 'The thing that reminds me of something very satisfying when I look at it'
+    description-english: 'The thing that reminds me of something very satisfying when I%%%look at it'
     description-russian: 'Вещь, глядя на которую я вспоминаю что-то очень приятное'
     details-english:
     details-russian:

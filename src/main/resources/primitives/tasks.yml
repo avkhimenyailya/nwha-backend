@@ -48,7 +48,7 @@ tasks:
           - description-english: 'I like to welcome guests, when the house is alive and full of people'
             description-russian: 'Люблю принимать гостей, когда дом живет и наполнен людьми'
   - ordinal-number: 1
-    description-english: 'A thing or a few things%%%I carry in my bag%%%every day'
+    description-english: 'A thing or a few%%%things I carry in my%%%bag every day'
     description-russian: 'Вещь или несколько вещей, которые я каждый день ношу в сумке'
     details-english:
     details-russian:
@@ -72,7 +72,7 @@ tasks:
           - description-english: 'Change in habits, a constant search'
             description-russian: 'Смена привычек, поиск'
   - ordinal-number: 3
-    description-english: 'The thing that my%%%favorite weekend ritual%%%is connected with'
+    description-english: 'The thing that my%%%favorite weekend%%%ritual is connected%%%with'
     description-russian: 'Вещь, с которой связан мой любимый ритуал выходного дня'
     details-english:
     details-russian:
@@ -252,7 +252,7 @@ tasks:
           - description-english: 'Originality, but unpredictability'
             description-russian: 'Оригинальность, но непредсказуемость'
   - ordinal-number: 18
-    description-english: 'The thing I don''t%%%show to innocents but%%%is very important to me'
+    description-english: 'The thing I don''t%%%show to innocents%%%but is very important%%%to me'
     description-russian: 'Вещь, которую я не показываю неблизким людям, но она очень важна для меня'
     details-english:
     details-russian:

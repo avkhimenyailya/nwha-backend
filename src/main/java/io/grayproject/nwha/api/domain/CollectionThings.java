@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -43,7 +43,7 @@ public class CollectionThings {
             joinColumns = @JoinColumn(name = "collection_id"),
             inverseJoinColumns = @JoinColumn(name = "thing_id")
     )
-    private Set<Thing> things;
+    private Set<Thing> things = new HashSet<>();
 
     @ToString.Include
     private Boolean removed;

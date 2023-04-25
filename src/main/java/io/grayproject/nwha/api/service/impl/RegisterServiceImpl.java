@@ -74,7 +74,7 @@ public class RegisterServiceImpl implements RegisterService {
         profileTaskRepository.saveAll(newProfileTasks);
 
         // Create traits for profile
-        AtomicInteger val = new AtomicInteger(0);
+        AtomicInteger val = new AtomicInteger();
         AtomicInteger counter = new AtomicInteger(1);
         List<Trait> allTraits = traitRepository.findAll();
         List<ProfileTrait> newProfileTraits = allTraits.stream()
@@ -84,7 +84,6 @@ public class RegisterServiceImpl implements RegisterService {
                     } else {
                         val.set(100 - val.get());
                         counter.set(1);
-                        val.set(0);
                     }
                     return ProfileTrait.builder()
                             .trait(trait)

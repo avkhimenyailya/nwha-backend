@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Ilya Avkhimenya
@@ -73,13 +74,24 @@ public class RegisterServiceImpl implements RegisterService {
         profileTaskRepository.saveAll(newProfileTasks);
 
         // Create traits for profile
+        AtomicInteger val = new AtomicInteger(0);
+        AtomicInteger counter = new AtomicInteger(1);
         List<Trait> allTraits = traitRepository.findAll();
         List<ProfileTrait> newProfileTraits = allTraits.stream()
-                .map(trait -> ProfileTrait.builder()
-                        .trait(trait)
-                        .profile(newProfile)
-                        .value(0)
-                        .build())
+                .map(trait -> {
+                    if (counter.getAndIncrement() == 1) {
+                        val.set((int) (1 + Math.random() * 100));
+                    } else {
+                        val.set(100 - val.get());
+                        counter.set(1);
+                        val.set(0);
+                    }
+                    return ProfileTrait.builder()
+                            .trait(trait)
+                            .profile(newProfile)
+                            .value(val.get())
+                            .build();
+                })
                 .toList();
         profileTraitRepository.saveAll(newProfileTraits);
 

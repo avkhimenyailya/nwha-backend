@@ -3,7 +3,7 @@ package io.grayproject.nwha.api.dto;
 import lombok.Builder;
 
 @Builder
-public record ProfileTraitDTO(Long traitId,
+public record ProfileTraitDTO(String traitName,
                               Long profileId,
                               Integer value) {
 }

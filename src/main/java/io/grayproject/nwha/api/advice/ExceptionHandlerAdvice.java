@@ -7,13 +7,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
+
 @Slf4j
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
 
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ObjectNode> handleConflict(Exception exception) {
-        log.error(exception.getMessage());
+    @ExceptionHandler(value = IOException.class)
+    public String handleIOException(IOException exception) {
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<ObjectNode> handleCommonConflict(Exception exception) {
+        log.error("По какой-то причине, я здесь... вот коротокий exception {}", exception.getMessage().substring(0, 30));
+
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode objectNode = objectMapper.createObjectNode();
         objectNode.put("message", exception.getMessage());

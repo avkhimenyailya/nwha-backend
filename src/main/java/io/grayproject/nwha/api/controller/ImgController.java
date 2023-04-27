@@ -23,15 +23,13 @@ import java.nio.file.Files;
 @RequestMapping("/img")
 public class ImgController {
 
-    @GetMapping(value = "/{name}", produces = {
-            MediaType.IMAGE_GIF_VALUE,
-            MediaType.IMAGE_PNG_VALUE,
-            MediaType.IMAGE_JPEG_VALUE
-    })
+    @GetMapping(value = "/{name}", produces = "image/*")
     public ResponseEntity<InputStreamResource> getFileFromFtpServerByPath(@PathVariable String name)
             throws IOException {
         File file = new File("images/" + name);
         String mimeType = Files.probeContentType(file.toPath());
+
+        log.debug("Type запрашиваемой картинки {}", mimeType);
         InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(file));
         return ResponseEntity
                 .ok()

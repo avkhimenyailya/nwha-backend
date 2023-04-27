@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -24,26 +23,16 @@ import java.nio.file.Files;
 @RequestMapping("/img")
 public class ImgController {
 
-    @GetMapping(name = "/{name}", produces = {
-//            MediaType.IMAGE_GIF_VALUE,
-//            MediaType.IMAGE_PNG_VALUE,
-//            MediaType.IMAGE_JPEG_VALUE,
-            MediaType.ALL_VALUE
+    @GetMapping(value = "/{name}", produces = {
+            MediaType.IMAGE_GIF_VALUE,
+            MediaType.IMAGE_PNG_VALUE,
+            MediaType.IMAGE_JPEG_VALUE
     })
-    public ResponseEntity<InputStreamResource> getFileFromFtpServerByPath(
-            @PathVariable String name) throws FileNotFoundException {
+    public ResponseEntity<InputStreamResource> getFileFromFtpServerByPath(@PathVariable String name)
+            throws IOException {
         File file = new File("images/" + name);
-
-        String mimeType;
-        try {
-            mimeType = Files.probeContentType(file.toPath());
-        } catch (IOException e) {
-            log.debug("Ошибка произошла при получении mimeType");
-            throw new RuntimeException(e);
-        }
-
+        String mimeType = Files.probeContentType(file.toPath());
         InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(file));
-
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.asMediaType(MimeType.valueOf(mimeType)))

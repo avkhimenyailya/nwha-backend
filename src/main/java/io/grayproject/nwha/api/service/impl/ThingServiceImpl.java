@@ -57,9 +57,14 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
-    public List<ThingDTO> getRandomThings(Integer limit) {
+    public List<ThingDTO> getRandomThings(Integer limit, Integer taskOrdinalNumber) {
         List<Thing> all = thingRepository.findAll();
         Collections.shuffle(all);
+
+        if (taskOrdinalNumber != null) {
+            all.removeIf(thing -> !Objects.equals(thing.getProfileTask().getTask().getOrdinalNumber(), taskOrdinalNumber));
+        }
+
         return all.stream()
                 .filter(thing -> !thing.isRemoved())
                 .map(thingMapper)

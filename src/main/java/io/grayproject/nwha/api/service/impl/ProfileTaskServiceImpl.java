@@ -6,6 +6,7 @@ import io.grayproject.nwha.api.domain.Profile;
 import io.grayproject.nwha.api.domain.ProfileTask;
 import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
+import io.grayproject.nwha.api.exception.EntityNotFoundException;
 import io.grayproject.nwha.api.mapper.ProfileTaskMapper;
 import io.grayproject.nwha.api.repository.*;
 import io.grayproject.nwha.api.service.ProfileTaskService;
@@ -43,6 +44,14 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
         this.thingRepository = thingRepository;
         this.profileTaskRepository = profileTaskRepository;
         this.profileTaskMapper = profileTaskMapper;
+    }
+
+    @Override
+    public ProfileTaskDTO getProfileTaskById(Long id) {
+        ProfileTask profileTask = profileTaskRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+        return profileTaskMapper.apply(profileTask);
     }
 
     @Override

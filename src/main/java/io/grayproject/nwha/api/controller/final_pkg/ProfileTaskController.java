@@ -22,6 +22,11 @@ public class ProfileTaskController {
         this.profileTaskService = profileTaskService;
     }
 
+    @GetMapping("/{id}")
+    public ProfileTaskDTO getProfileTaskById(@PathVariable Long id) {
+        return profileTaskService.getProfileTaskById(id);
+    }
+
     @PutMapping("{profileTaskId}/put/answer")
     public ProfileTaskDTO putAnswers(Principal principal,
                                      @PathVariable Long profileTaskId,

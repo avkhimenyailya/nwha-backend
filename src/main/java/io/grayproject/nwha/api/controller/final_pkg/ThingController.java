@@ -26,8 +26,9 @@ public class ThingController {
     }
 
     @GetMapping("/random")
-    public List<ThingDTO> getRandomThings(@RequestParam Integer limit) {
-        return thingService.getRandomThings(limit);
+    public List<ThingDTO> getRandomThings(@RequestParam Integer limit,
+                                          @RequestParam(required = false) Integer taskOrdinalNumber) {
+        return thingService.getRandomThings(limit, taskOrdinalNumber);
     }
 
     @GetMapping("/recently")

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ThingService {
 
-    List<ThingDTO> getRandomThings(Integer limit);
+    List<ThingDTO> getRandomThings(Integer limit, Integer taskOrdinalNumber);
 
     List<RecentlyAddedThingDTO> getRecentlyAddedThings();
 

@@ -4,6 +4,7 @@ import io.grayproject.nwha.api.domain.Thing;
 import io.grayproject.nwha.api.dto.ThingDTO;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
@@ -15,10 +16,9 @@ public class ThingMapper implements Function<Thing, ThingDTO> {
 
     @Override
     public ThingDTO apply(Thing thing) {
-
         String pattern = "dd/MM/yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String addedDate = simpleDateFormat.format(thing.getCreatedAt());
+        String addedDate = simpleDateFormat.format(Date.from(thing.getCreatedAt()));
 
         return ThingDTO
                 .builder()

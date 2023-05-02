@@ -9,5 +9,6 @@ public record ThingDTO(Long id,
                        Boolean archived,
                        String fileUrl,
                        Long profileId,
+                       String addedDate,
                        @NonNull Long profileTaskId) {
 }

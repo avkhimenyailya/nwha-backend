@@ -13,11 +13,16 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/collection")
 public class CollectionController {
-    private CollectionThingsService collectionThingsService;
+    private final CollectionThingsService collectionThingsService;
 
     @Autowired
     public CollectionController(CollectionThingsService collectionThingsService) {
         this.collectionThingsService = collectionThingsService;
+    }
+
+    @GetMapping("/count/{thingId}")
+    public Integer countCollectionsByThingId(@PathVariable Long thingId) {
+        return collectionThingsService.countCollectionsByThingId(thingId);
     }
 
     @GetMapping("/{id}")

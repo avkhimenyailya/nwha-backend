@@ -30,6 +30,11 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
     private final ThingRepository thingRepository;
 
     @Override
+    public Integer countCollectionsByThingId(Long thingId) {
+        return collectionThingsRepository.countCollectionsByThingId(thingId);
+    }
+
+    @Override
     public CollectionThingsDTO getCollectionThingById(Long id) {
         // todo
         return null;

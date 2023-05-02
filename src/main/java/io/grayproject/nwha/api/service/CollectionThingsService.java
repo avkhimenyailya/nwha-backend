@@ -9,6 +9,8 @@ import java.security.Principal;
  */
 public interface CollectionThingsService {
 
+    Integer countCollectionsByThingId(Long thingId);
+
     CollectionThingsDTO getCollectionThingById(Long id);
 
     CollectionThingsDTO createCollectionThing(Principal principal, String name);

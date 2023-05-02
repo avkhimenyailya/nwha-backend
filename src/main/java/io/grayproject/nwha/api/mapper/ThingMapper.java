@@ -17,6 +17,7 @@ public class ThingMapper implements Function<Thing, ThingDTO> {
         return ThingDTO
                 .builder()
                 .id(thing.getId())
+                .profileId(thing.getProfileTask().getProfile().getId())
                 .archived(thing.isArchived())
                 .description(thing.getDescription())
                 .profileTaskId(thing.getProfileTask().getId())

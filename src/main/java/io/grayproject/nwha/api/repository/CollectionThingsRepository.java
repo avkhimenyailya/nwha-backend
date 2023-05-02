@@ -13,7 +13,7 @@ import java.util.List;
 public interface CollectionThingsRepository extends JpaRepository<CollectionThings, Long> {
 
     @Query("SELECT COUNT(DISTINCT c.id) FROM CollectionThings c JOIN c.things i WHERE i.id = :thingId")
-    Integer countCollectionsByThingId(@Param("itemId") Long thingId);
+    Integer countCollectionsByThingId(@Param("thingId") Long thingId);
 
     List<CollectionThings> findAllByProfileId(Long profileId);
 }

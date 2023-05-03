@@ -36,8 +36,10 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
 
     @Override
     public CollectionThingsDTO getCollectionThingById(Long id) {
-        // todo
-        return null;
+        CollectionThings collectionThings = collectionThingsRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+        return collectionThingsMapper.apply(collectionThings);
     }
 
     @Override

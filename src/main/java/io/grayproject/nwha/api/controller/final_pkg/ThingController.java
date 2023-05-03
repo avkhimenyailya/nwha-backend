@@ -56,8 +56,7 @@ public class ThingController {
 
     @PutMapping
     public ThingDTO updateThing(Principal principal, ThingDTO thingDTO) {
-        // todo
-        return null;
+        return thingService.updateThing(principal, thingDTO);
     }
 
     @DeleteMapping("/{id}")

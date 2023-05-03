@@ -5,10 +5,11 @@ import lombok.NonNull;
 
 @Builder
 public record ThingDTO(Long id,
-                       String description,
-                       Boolean archived,
-                       String fileUrl,
                        Long profileId,
-                       String addedDate,
-                       @NonNull Long profileTaskId) {
+                       String fileUrl,
+                       String description,
+                       Integer taskOrdinalNumber,
+                       @NonNull Long profileTaskId,
+                       Boolean archived,
+                       String addedDate) {
 }

@@ -27,6 +27,7 @@ public class ThingMapper implements Function<Thing, ThingDTO> {
                 .archived(thing.isArchived())
                 .description(thing.getDescription())
                 .profileTaskId(thing.getProfileTask().getId())
+                .taskOrdinalNumber(thing.getProfileTask().getTask().getOrdinalNumber())
                 .addedDate(addedDate)
                 .fileUrl(thing.getFileUrl())
                 .build();

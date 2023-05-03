@@ -32,7 +32,7 @@ public class CollectionThingsMapper implements Function<CollectionThings, Collec
                         .getThings()
                         .stream()
                         .map(thingMapper)
-                        .sorted(Comparator.comparing(ThingDTO::id))
+                        .sorted(Comparator.comparing(ThingDTO::id).reversed())
                         .toList())
                 .build();
     }

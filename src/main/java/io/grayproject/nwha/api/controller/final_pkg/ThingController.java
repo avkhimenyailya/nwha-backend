@@ -55,7 +55,8 @@ public class ThingController {
     }
 
     @PutMapping
-    public ThingDTO updateThing(Principal principal, ThingDTO thingDTO) {
+    public ThingDTO updateThing(Principal principal,
+                                @Validated @RequestBody ThingDTO thingDTO) {
         return thingService.updateThing(principal, thingDTO);
     }
 

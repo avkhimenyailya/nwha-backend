@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.function.Function;
 
 /**
@@ -16,8 +17,8 @@ public class ThingMapper implements Function<Thing, ThingDTO> {
 
     @Override
     public ThingDTO apply(Thing thing) {
-        String pattern = "dd/MM/yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String pattern = "MMMM dd, yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
         String addedDate = simpleDateFormat.format(Date.from(thing.getCreatedAt()));
 
         return ThingDTO

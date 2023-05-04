@@ -20,8 +20,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<ObjectNode> handleCommonConflict(Exception exception) {
-        log.error("По какой-то причине, я здесь... вот коротокий exception {}", exception.getMessage().substring(0, 30));
-
+        log.error(exception.getMessage());
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode objectNode = objectMapper.createObjectNode();
         objectNode.put("message", exception.getMessage());

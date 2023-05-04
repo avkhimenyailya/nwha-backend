@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * @author Ilya Avkhimenya
@@ -28,11 +27,7 @@ public class ImgController {
     })
     public InputStreamResource getFileFromFtpServerByPath(@PathVariable String name)
             throws IOException {
-
         File file = new File("images/" + name);
-        String mimeType = Files.probeContentType(file.toPath());
-
-        log.info("Type запрашиваемой картинки {}", mimeType);
         return new InputStreamResource(new FileInputStream(file));
     }
 }

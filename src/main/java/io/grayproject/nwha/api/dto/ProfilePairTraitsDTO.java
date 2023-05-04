@@ -6,6 +6,6 @@ import lombok.Builder;
  * @author Ilya Avkhimenya
  */
 @Builder
-public record ProfilePairTraitsDTO(ProfileTraitDTO firstProfileTrait,
-                                   ProfileTraitDTO secondProfileTrait) {
+public record ProfilePairTraitsDTO(ProfileAttributeDTO firstProfileTrait,
+                                   ProfileAttributeDTO secondProfileTrait) {
 }

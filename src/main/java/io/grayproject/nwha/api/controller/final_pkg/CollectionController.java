@@ -2,7 +2,10 @@ package io.grayproject.nwha.api.controller.final_pkg;
 
 import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.service.CollectionThingsService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -26,39 +29,47 @@ public class CollectionController {
     }
 
     @GetMapping("/{id}")
-    public CollectionThingsDTO getCollectionThingById(@PathVariable Long id) {
-        return collectionThingsService.getCollectionThingById(id);
+    public CollectionThingsDTO getCollectionThingsById(@PathVariable Long id) {
+        return collectionThingsService.getCollectionThingsById(id);
     }
 
     @PostMapping
-    public CollectionThingsDTO createCollectionThing(Principal principal,
-                                                     @RequestParam String name) {
-        return collectionThingsService.createCollectionThing(principal, name);
+    public CollectionThingsDTO createCollectionThings(Principal principal,
+                                                      @RequestParam
+                                                      @Validated
+                                                      @Min(6)
+                                                      @Max(20)
+                                                      String name) {
+        return collectionThingsService.createCollectionThings(principal, name);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCollectionThing(Principal principal, @PathVariable Long id) {
-        collectionThingsService.deleteCollectionThing(principal, id);
+        collectionThingsService.deleteCollectionThings(principal, id);
     }
 
     @PutMapping("/{id}")
     public CollectionThingsDTO updateCollectionThingName(Principal principal,
                                                          @PathVariable Long id,
-                                                         @RequestParam String name) {
-        return collectionThingsService.updateCollectionThingName(principal, id, name);
+                                                         @RequestParam
+                                                         @Validated
+                                                         @Min(6)
+                                                         @Max(20)
+                                                         String name) {
+        return collectionThingsService.updateCollectionThingsName(principal, id, name);
     }
 
     @PutMapping("/{collectionId}/put/{thingId}")
     public CollectionThingsDTO putThingToCollectionThing(Principal principal,
                                                          @PathVariable Long collectionId,
                                                          @PathVariable Long thingId) {
-        return collectionThingsService.putThingToCollectionThing(principal, collectionId, thingId);
+        return collectionThingsService.putThingToCollectionThings(principal, collectionId, thingId);
     }
 
     @PutMapping("/{collectionId}/rm/{thingId}")
     public CollectionThingsDTO removeThingFromCollectionThing(Principal principal,
                                                               @PathVariable Long collectionId,
                                                               @PathVariable Long thingId) {
-        return collectionThingsService.removeThingFromCollectionThing(principal, collectionId, thingId);
+        return collectionThingsService.removeThingFromCollectionThings(principal, collectionId, thingId);
     }
 }

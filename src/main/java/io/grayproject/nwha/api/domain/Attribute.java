@@ -13,12 +13,12 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "traits")
-public class Trait {
+public class Attribute {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false, length = 32)
-    private String name; // such as introvert
+    private String name;
 }

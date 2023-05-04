@@ -3,6 +3,7 @@ package io.grayproject.nwha.api.service;
 import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * @author Ilya Avkhimenya
@@ -11,15 +12,19 @@ public interface CollectionThingsService {
 
     Integer countCollectionsByThingId(Long thingId);
 
-    CollectionThingsDTO getCollectionThingById(Long id);
+    CollectionThingsDTO getCollectionThingsById(Long id);
 
-    CollectionThingsDTO createCollectionThing(Principal principal, String name);
+    CollectionThingsDTO createCollectionThings(Principal principal, String name);
 
-    void deleteCollectionThing(Principal principal, Long id);
+    void deleteCollectionThings(Principal principal, Long id);
 
-    CollectionThingsDTO updateCollectionThingName(Principal principal, Long id, String name);
+    CollectionThingsDTO updateCollectionThingsName(Principal principal, Long id, String name);
 
-    CollectionThingsDTO putThingToCollectionThing(Principal principal, Long collectionId, Long thingId);
+    CollectionThingsDTO putThingToCollectionThings(Principal principal, Long collectionId, Long thingId);
 
-    CollectionThingsDTO removeThingFromCollectionThing(Principal principal, Long collectionId, Long thingId);
+    CollectionThingsDTO removeThingFromCollectionThings(Principal principal, Long collectionId, Long thingId);
+
+    List<CollectionThingsDTO> getCollectionThingsByProfileId(Long profileId);
+
+    List<CollectionThingsDTO> getCollectionThingsPrincipal(Principal principal);
 }

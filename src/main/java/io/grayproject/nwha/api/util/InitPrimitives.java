@@ -119,15 +119,15 @@ public class InitPrimitives {
         // Get traits array from yaml
         @SuppressWarnings("unchecked")
         List<Object> traits = (List<Object>) yaml.get("traits");
-        List<Trait> traitEntities = traits
+        List<Attribute> attributeEntities = traits
                 .stream()
                 .map(traitObj ->
-                        Trait.builder().name((String) traitObj).build()
+                        Attribute.builder().name((String) traitObj).build()
                 )
                 .toList();
-        log.info("Traits successfully generated, total entities: {}", traitEntities.size());
+        log.info("Traits successfully generated, total entities: {}", attributeEntities.size());
 
-        traitRepository.saveAll(traitEntities);
+        traitRepository.saveAll(attributeEntities);
     }
 
 

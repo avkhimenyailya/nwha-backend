@@ -23,7 +23,7 @@ public class AnswerValue {
 
     @ManyToOne
     @JoinColumn(name = "trait_id", nullable = false)
-    private Trait trait;
+    private Attribute attribute;
 
     @ManyToOne
     @JoinColumn(name = "option_id", nullable = false)
@@ -36,7 +36,7 @@ public class AnswerValue {
     public String toString() {
         return "AnswerValue{" +
                 "id=" + id +
-                ", traitId=" + trait.getId() +
+                ", traitId=" + attribute.getId() +
                 ", optionId=" + option.getId() +
                 ", value=" + value +
                 '}';
@@ -50,7 +50,7 @@ public class AnswerValue {
         return new EqualsBuilder()
                 .append(value, that.value)
                 .append(id, that.id)
-                .append(trait.getId(), that.trait.getId())
+                .append(attribute.getId(), that.attribute.getId())
                 .append(option.getId(), that.option.getId())
                 .isEquals();
     }
@@ -59,7 +59,7 @@ public class AnswerValue {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
-                .append(trait.getId())
+                .append(attribute.getId())
                 .append(option.getId())
                 .append(value)
                 .toHashCode();

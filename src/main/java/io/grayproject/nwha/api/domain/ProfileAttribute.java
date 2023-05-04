@@ -17,7 +17,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Entity
 @Table(name = "profiles_traits")
-public class ProfileTrait {
+public class ProfileAttribute {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class ProfileTrait {
 
     @ManyToOne
     @JoinColumn(name = "trait_id", nullable = false)
-    private Trait trait;
+    private Attribute attribute;
 
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)

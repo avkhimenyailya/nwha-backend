@@ -2,68 +2,117 @@ package io.grayproject.nwha.api.controller.final_pkg;
 
 import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.dto.ProfileDTO;
+import io.grayproject.nwha.api.dto.ProfileTaskDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
+import io.grayproject.nwha.api.service.CollectionThingsService;
 import io.grayproject.nwha.api.service.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.grayproject.nwha.api.service.ProfileTaskService;
+import io.grayproject.nwha.api.service.ThingService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.Max;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
 
-import static io.grayproject.nwha.api.util.ControllerPaths.ProfileControllerPaths.*;
-
 /**
  * @author Ilya Avkhimenya
  */
+@Slf4j
 @RestController
-@RequestMapping(CONTROLLER_PATH)
+@RequiredArgsConstructor
+@RequestMapping("/profile")
 public class ProfileController {
     private final ProfileService profileService;
+    private final ProfileTaskService profileTaskService;
+    private final CollectionThingsService collectionThingsService;
+    private final ThingService thingService;
 
-    @Autowired
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
+    @GetMapping
+    public ResponseEntity<ProfileDTO> getProfile(Principal principal,
+                                                 HttpServletRequest httpServletRequest) {
+        log.info("Request to get profile by principal ({}), ip: {}", principal.getName(), httpServletRequest.getHeader("X-Real-IP"));
+        ProfileDTO profileDto = profileService.getProfileByPrincipal(principal);
+        return ResponseEntity.ok(profileDto);
     }
 
-    @GetMapping(GET_PROFILE)
-    public ProfileDTO getProfile(Principal principal) {
-        return profileService.getProfile(principal);
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfileDTO> getProfileById(@PathVariable Long id,
+                                                     HttpServletRequest httpServletRequest) {
+        log.info("Request to get profile by id: {}, ip: {}", id, httpServletRequest.getHeader("X-Real-IP"));
+        ProfileDTO profileDto = profileService.getProfileById(id);
+        return ResponseEntity.ok(profileDto);
     }
 
-    @GetMapping(GET_PROFILE_BY_ID)
-    public ProfileDTO getProfileById(@PathVariable Long id) {
-        return profileService.getProfileById(id);
+    @GetMapping("/{username}")
+    public ResponseEntity<ProfileDTO> getProfileByUsername(@PathVariable String username,
+                                                           HttpServletRequest httpServletRequest) {
+        log.info("Request to get profile by username: {}, ip: {}",
+                username,
+                httpServletRequest.getHeader("X-Real-IP"));
+        ProfileDTO profileDto = profileService.getProfileByUsername(username);
+        return ResponseEntity.ok(profileDto);
     }
 
-    @GetMapping(GET_PROFILE_BY_USERNAME)
-    public ProfileDTO getProfileByUsername(@PathVariable String username) {
-        return profileService.getProfileByUsername(username);
+    @PutMapping
+    public ResponseEntity<ProfileDTO> updateProfileDescriptionByPrincipal(Principal principal,
+                                                                          HttpServletRequest httpServletRequest,
+                                                                          @RequestParam @Validated @Max(200) String description) {
+        log.info("Request to update profile description by principal ({}), ip: {}",
+                principal.getName(),
+                httpServletRequest.getHeader("X-Real-IP"));
+        ProfileDTO profileDto = profileService.updateProfileDescription(principal, description);
+        return ResponseEntity.ok(profileDto);
     }
 
-    @GetMapping(GET_ALL_THINGS)
-    public List<ThingDTO> getProfileThings(Principal principal,
-                                           @RequestParam(required = false) Boolean archive) {
-        if (archive == null) archive = false;
-        return profileService.getProfileThings(principal, archive);
+    @GetMapping("/task")
+    public ResponseEntity<List<ProfileTaskDTO>> getProfileTasksByPrincipal(Principal principal,
+                                                                           HttpServletRequest httpServletRequest) {
+        log.info("Request to get profile task by principal ({}), ip: {}",
+                principal.getName(),
+                httpServletRequest.getHeader("X-Real-IP"));
+        return ResponseEntity.ok(profileTaskService.getProfileTasksByPrincipal(principal));
     }
 
-    @GetMapping(GET_ALL_THINGS_BY_PROFILE_ID)
-    public List<ThingDTO> getProfileThingsByProfileId(@PathVariable Long id) {
-        return profileService.getProfileThingsByProfileId(id);
+    @GetMapping("/{profileId}/task")
+    public ResponseEntity<List<ProfileTaskDTO>> getProfileTasksById(@PathVariable Long profileId,
+                                                                    HttpServletRequest httpServletRequest) {
+        log.info("Request to get profile task by id: {}, ip: {}",
+                profileId,
+                httpServletRequest.getHeader("X-Real-IP"));
+        return ResponseEntity.ok(profileTaskService.getProfileTasksByProfileId(profileId));
     }
 
-    @GetMapping(GET_ALL_COLLECTIONS)
-    public List<CollectionThingsDTO> getProfileCollectionsThings(Principal principal) {
-        return profileService.getProfileCollectionsThings(principal);
+    @GetMapping("/collections")
+    public ResponseEntity<List<CollectionThingsDTO>> getProfileCollectionByPrincipal(Principal principal,
+                                                                                     HttpServletRequest httpServletRequest) {
+        log.info("Request to get collection things by principal ({}), ip: {}",
+                principal.getName(),
+                httpServletRequest.getHeader("X-Real-IP"));
+        return ResponseEntity.ok(collectionThingsService.getCollectionThingsPrincipal(principal));
     }
 
-    @GetMapping(GET_ALL_COLLECTIONS_BY_PROFILE_ID)
-    public List<CollectionThingsDTO> getProfileCollectionsThingsByProfileId(@PathVariable Long id) {
-        return profileService.getProfileCollectionsThingsByProfileId(id);
+    @GetMapping("/{profileId}/collections")
+    public ResponseEntity<List<CollectionThingsDTO>> getProfileCollectionById(@PathVariable Long profileId,
+                                                                              HttpServletRequest httpServletRequest) {
+        log.info("Request to get collection things by id: {}, ip: {}",
+                profileId,
+                httpServletRequest.getHeader("X-Real-IP"));
+        return ResponseEntity.ok(collectionThingsService.getCollectionThingsByProfileId(profileId));
     }
 
-    @PutMapping(PUT_UPDATE_PROFILE_BY_DTO)
-    public ProfileDTO updateProfile(@RequestBody ProfileDTO profileDTO) {
-        return profileService.updateProfile(profileDTO);
+    @GetMapping("/archived")
+    public ResponseEntity<List<ThingDTO>> getArchivedThingsByPrincipal(Principal principal,
+                                                                       HttpServletRequest httpServletRequest) {
+        log.info("Request to get archived things by principal ({}), ip: {}",
+                principal.getName(),
+                httpServletRequest.getHeader("X-Real-IP"));
+        return ResponseEntity.ok(thingService.getArchivedThings(principal));
     }
 }
+
+

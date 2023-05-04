@@ -76,8 +76,8 @@ public class RegisterServiceImpl implements RegisterService {
         // Create traits for profile
         AtomicInteger val = new AtomicInteger();
         AtomicInteger counter = new AtomicInteger(1);
-        List<Trait> allTraits = traitRepository.findAll();
-        List<ProfileTrait> newProfileTraits = allTraits.stream()
+        List<Attribute> allAttributes = traitRepository.findAll();
+        List<ProfileAttribute> newProfileAttributes = allAttributes.stream()
                 .map(trait -> {
                     if (counter.getAndIncrement() == 1) {
                         val.set((int) (1 + Math.random() * 100));
@@ -85,14 +85,14 @@ public class RegisterServiceImpl implements RegisterService {
                         val.set(100 - val.get());
                         counter.set(1);
                     }
-                    return ProfileTrait.builder()
-                            .trait(trait)
+                    return ProfileAttribute.builder()
+                            .attribute(trait)
                             .profile(newProfile)
                             .value(val.get())
                             .build();
                 })
                 .toList();
-        profileTraitRepository.saveAll(newProfileTraits);
+        profileTraitRepository.saveAll(newProfileAttributes);
 
         // Save invitation
         UserInvitation newUserInvitation = UserInvitation.builder()

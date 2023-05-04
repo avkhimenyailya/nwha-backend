@@ -25,11 +25,10 @@ public class ProfileTaskMapper implements Function<ProfileTask, ProfileTaskDTO> 
     @Override
     public ProfileTaskDTO apply(ProfileTask profileTask) {
         ThingDTO thingDTO =
-                Optional
-                        .ofNullable(profileTask.getThings())
+                Optional.ofNullable(profileTask.getThings())
                         .flatMap(things -> things
                                 .stream()
-                                .filter(thing -> !thing.isRemoved())
+                                .filter(thing -> !thing.isRemoved() && !thing.isArchived())
                                 .findFirst()
                                 .map(thingMapper))
                         .orElse(null);

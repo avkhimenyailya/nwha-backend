@@ -1,6 +1,5 @@
 package io.grayproject.nwha.api.service;
 
-import io.grayproject.nwha.api.domain.ProfileTask;
 import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
 
@@ -14,13 +13,9 @@ public interface ProfileTaskService {
 
     ProfileTaskDTO getProfileTaskById(Long id);
 
-    ProfileTaskDTO putAnswers(Principal principal,
-                              Long profileTaskId,
-                              List<AnswerDTO> answers);
+    List<ProfileTaskDTO> getProfileTasksByProfileId(Long profileId);
 
-    ProfileTaskDTO removeAnswers(Principal principal,
-                                 Long profileTaskId);
+    List<ProfileTaskDTO> getProfileTasksByPrincipal(Principal principal);
 
-    ProfileTaskDTO refreshProfileTask(Principal principal,
-                                      Long profileTaskId);
+    ProfileTaskDTO updateAnswers(Principal principal, Long profileTaskId, List<AnswerDTO> answers);
 }

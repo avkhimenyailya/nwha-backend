@@ -8,119 +8,92 @@ import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
 import io.grayproject.nwha.api.exception.EntityNotFoundException;
 import io.grayproject.nwha.api.mapper.ProfileTaskMapper;
-import io.grayproject.nwha.api.repository.*;
+import io.grayproject.nwha.api.repository.AnswerRepository;
+import io.grayproject.nwha.api.repository.OptionRepository;
+import io.grayproject.nwha.api.repository.ProfileTaskRepository;
+import io.grayproject.nwha.api.service.ProfileService;
 import io.grayproject.nwha.api.service.ProfileTaskService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Ilya Avkhimenya
  */
 @Service
+@RequiredArgsConstructor
 public class ProfileTaskServiceImpl implements ProfileTaskService {
+    private final ProfileService profileService;
+    private final ProfileTaskMapper profileTaskMapper;
+    private final ProfileTaskRepository profileTaskRepository;
+
     private final OptionRepository optionRepository;
     private final AnswerRepository answerRepository;
-    private final ProfileRepository profileRepository;
-    private final ThingRepository thingRepository;
-    private final ProfileTaskRepository profileTaskRepository;
-    private final ProfileTaskMapper profileTaskMapper;
 
-    @Autowired
-    public ProfileTaskServiceImpl(OptionRepository optionRepository,
-                                  AnswerRepository answerRepository,
-                                  ProfileRepository profileRepository,
-                                  ThingRepository thingRepository,
-                                  ProfileTaskRepository profileTaskRepository,
-                                  ProfileTaskMapper profileTaskMapper) {
-        this.optionRepository = optionRepository;
-        this.answerRepository = answerRepository;
-        this.profileRepository = profileRepository;
-        this.thingRepository = thingRepository;
-        this.profileTaskRepository = profileTaskRepository;
-        this.profileTaskMapper = profileTaskMapper;
-    }
 
     @Override
     public ProfileTaskDTO getProfileTaskById(Long id) {
-        ProfileTask profileTask = profileTaskRepository
+        return profileTaskRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
-        return profileTaskMapper.apply(profileTask);
+                .map(profileTaskMapper)
+                .orElseThrow(() -> new EntityNotFoundException(ProfileTask.class, id));
+    }
+
+    @Override
+    public List<ProfileTaskDTO> getProfileTasksByProfileId(Long profileId) {
+        return getProfileTasks(profileService.getProfileEntityById(profileId));
+    }
+
+    @Override
+    public List<ProfileTaskDTO> getProfileTasksByPrincipal(Principal principal) {
+        return getProfileTasks(profileService.getProfileEntityByPrincipal(principal));
     }
 
     @Override
     @Transactional
-    public ProfileTaskDTO putAnswers(Principal principal,
-                                     Long profileTaskId,
-                                     List<AnswerDTO> answers) {
+    public ProfileTaskDTO updateAnswers(Principal principal, Long profileTaskId, List<AnswerDTO> answers) {
+        ProfileTask profileTask = getProfileTaskByPrincipalAndId(principal, profileTaskId);
+        answerRepository.deleteAll(profileTask.getAnswers());
 
-        ProfileTask pt = getProfileTask(principal, profileTaskId);
-        answerRepository.deleteAll(pt.getAnswers());
 
-        List<Answer> newAnswers = answers
+        List<Option> options = answers
                 .stream()
-                .map(answerDTO -> {
-                    Option opt = optionRepository
-                            .findById(answerDTO.optionId())
-                            .orElseThrow(() -> new RuntimeException("Error parsing responses"));
-
-                    return Answer
-                            .builder()
-                            .profileTask(pt)
-                            .option(opt)
-                            .build();
-                })
+                .map(a -> optionRepository.findById(a.optionId()).orElseThrow())
                 .toList();
 
-        answerRepository.saveAll(newAnswers);
-        pt.setAnswers(new ArrayList<>(newAnswers));
-        ProfileTask save = profileTaskRepository.save(pt);
-        return profileTaskMapper.apply(save);
+        List<Answer> answersEntities = options
+                .stream()
+                .map(option -> Answer
+                        .builder()
+                        .option(option)
+                        .profileTask(profileTask)
+                        .build())
+                .toList();
+
+        answerRepository.saveAll(answersEntities);
+        profileTask.setAnswers(answersEntities);
+        return profileTaskMapper.apply(profileTaskRepository.save(profileTask));
     }
 
-    @Override
-    public ProfileTaskDTO removeAnswers(Principal principal,
-                                        Long profileTaskId) {
-        ProfileTask pt = getProfileTask(principal, profileTaskId);
-        pt.setAnswers(null);
-        return profileTaskMapper.apply(pt);
-    }
-
-    @Override
-    @Transactional
-    public ProfileTaskDTO refreshProfileTask(Principal principal,
-                                             Long profileTaskId) {
-        ProfileTask pt = getProfileTask(principal, profileTaskId);
-        Optional
-                .ofNullable(pt.getThings())
-                .ifPresent(thingRepository::deleteAll);
-        answerRepository.deleteAll(pt.getAnswers());
-        pt.setAnswers(new ArrayList<>());
-        ProfileTask save = profileTaskRepository.save(pt);
-        return profileTaskMapper.apply(save);
-    }
-
-    private ProfileTask getProfileTask(Principal principal, Long profileTaskId) {
-        Profile profile = getProfileByPrincipal(principal)
-                // fatal error (this should not be)
-                .orElseThrow(RuntimeException::new);
-
+    private List<ProfileTaskDTO> getProfileTasks(Profile profile) {
         return profile
                 .getProfileTasks()
                 .stream()
-                .filter(profileTask -> profileTask.getId().equals(profileTaskId))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Profile task with this id cannot be edited"));
+                .filter(profileTask -> !profileTask.getRemoved())
+                .map(profileTaskMapper)
+                .toList();
     }
 
-    private Optional<Profile> getProfileByPrincipal(Principal principal) {
-        return profileRepository
-                .findProfileByUserUsername(principal.getName());
+    private ProfileTask getProfileTaskByPrincipalAndId(Principal principal, Long id) {
+        return profileService
+                .getProfileEntityByPrincipal(principal)
+                .getProfileTasks()
+                .stream()
+                .filter(pt -> pt.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Sorry, but you cannot update this task."));
     }
 }

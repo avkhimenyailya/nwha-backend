@@ -7,14 +7,17 @@ import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.exception.EntityNotFoundException;
 import io.grayproject.nwha.api.mapper.CollectionThingsMapper;
 import io.grayproject.nwha.api.repository.CollectionThingsRepository;
-import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.repository.ThingRepository;
 import io.grayproject.nwha.api.service.CollectionThingsService;
+import io.grayproject.nwha.api.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Ilya Avkhimenya
@@ -22,7 +25,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class CollectionThingsServiceImpl implements CollectionThingsService {
-    private final ProfileRepository profileRepository;
+    private final ProfileService profileService;
 
     private final CollectionThingsMapper collectionThingsMapper;
     private final CollectionThingsRepository collectionThingsRepository;
@@ -35,7 +38,7 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
     }
 
     @Override
-    public CollectionThingsDTO getCollectionThingById(Long id) {
+    public CollectionThingsDTO getCollectionThingsById(Long id) {
         CollectionThings collectionThings = collectionThingsRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
@@ -43,99 +46,59 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
     }
 
     @Override
-    public CollectionThingsDTO createCollectionThing(Principal principal, String name) {
-        Profile profile = getProfileByPrincipal(principal)
-                .orElseThrow(() -> new RuntimeException("Fatal error"));
-        CollectionThings collectionThings = new CollectionThings();
+    public CollectionThingsDTO createCollectionThings(Principal principal, String name) {
+        Profile profile = profileService.getProfileEntityByPrincipal(principal);
 
-        if (name.trim().length() < 6) {
-            throw new RuntimeException("Имя коллекции слишком короткое (минимум 6 символов)");
-        }
-        collectionThings.setName(name.trim());
-        collectionThings.setProfile(profile);
-        collectionThings.setRemoved(false);
+        CollectionThings collectionThings = CollectionThings
+                .builder()
+                .name(name)
+                .profile(profile)
+                .removed(false)
+                .build();
 
-        CollectionThings save = collectionThingsRepository.save(collectionThings);
-        return collectionThingsMapper.apply(save);
+        return collectionThingsMapper
+                .apply(collectionThingsRepository.save(collectionThings));
     }
 
     @Override
-    public void deleteCollectionThing(Principal principal, Long id) {
+    public void deleteCollectionThings(Principal principal, Long id) {
         CollectionThings collectionThings
-                = collectionThingsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
-
-        Profile profile = getProfileByPrincipal(principal)
-                .orElseThrow(() -> new RuntimeException("Fatal error"));
-
-        if (!collectionThings.getProfile().getId().equals(profile.getId())) {
-            throw new RuntimeException("Нельзя удалить чужую коллекцию");
-        }
-
+                = getCollectionThingsByPrincipalAndId(principal, id);
         collectionThings.setRemoved(true);
         collectionThingsRepository.save(collectionThings);
     }
 
     @Override
-    public CollectionThingsDTO updateCollectionThingName(Principal principal, Long id, String name) {
-        CollectionThings collectionThings
-                = collectionThingsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
-
-        Profile profile = getProfileByPrincipal(principal)
-                .orElseThrow(() -> new RuntimeException("Fatal error"));
-
-        if (!collectionThings.getProfile().getId().equals(profile.getId())) {
-            throw new RuntimeException("Нельзя обновить чужую коллекцию");
-        }
-
-        if (name.trim().length() < 6) {
-            throw new RuntimeException("Имя коллекции слишком короткое (минимум 6 символов)");
-        }
-        collectionThings.setName(name.trim());
-
-        CollectionThings save = collectionThingsRepository.save(collectionThings);
-        return collectionThingsMapper.apply(save);
+    public CollectionThingsDTO updateCollectionThingsName(Principal principal, Long id, String name) {
+        CollectionThings collectionThings = getCollectionThingsByPrincipalAndId(principal, id);
+        collectionThings.setName(name);
+        return collectionThingsMapper.apply(collectionThingsRepository.save(collectionThings));
     }
 
     @Override
-    public CollectionThingsDTO putThingToCollectionThing(Principal principal, Long collectionId, Long thingId) {
-        CollectionThings collectionThings
-                = collectionThingsRepository.findById(collectionId).orElseThrow(() -> new EntityNotFoundException(collectionId));
-
-        Profile profile = getProfileByPrincipal(principal)
-                .orElseThrow(() -> new RuntimeException("Fatal error"));
-
-        if (!collectionThings.getProfile().getId().equals(profile.getId())) {
-            throw new RuntimeException("Нельзя добавить вещь в чужую коллекцию");
-        }
+    public CollectionThingsDTO putThingToCollectionThings(Principal principal, Long collectionId, Long thingId) {
+        CollectionThings collectionThings = getCollectionThingsByPrincipalAndId(principal, collectionId);
 
         Thing thing = thingRepository
                 .findById(thingId)
-                .orElseThrow(() -> new EntityNotFoundException(thingId));
+                .orElseThrow(() -> new EntityNotFoundException(Thing.class, thingId));
 
         Set<Thing> things = Optional
                 .ofNullable(collectionThings.getThings())
                 .orElse(new HashSet<>());
         things.add(thing);
+
         collectionThings.setThings(things);
-        CollectionThings save = collectionThingsRepository.save(collectionThings);
-        return collectionThingsMapper.apply(save);
+        return collectionThingsMapper.apply(collectionThingsRepository.save(collectionThings));
     }
 
     @Override
-    public CollectionThingsDTO removeThingFromCollectionThing(Principal principal, Long collectionId, Long thingId) {
-        CollectionThings collectionThings
-                = collectionThingsRepository.findById(collectionId).orElseThrow(() -> new EntityNotFoundException(collectionId));
-
-        Profile profile = getProfileByPrincipal(principal)
-                .orElseThrow(() -> new RuntimeException("Fatal error"));
-
-        if (!collectionThings.getProfile().getId().equals(profile.getId())) {
-            throw new RuntimeException("Нельзя удалить вещь из чужой коллекции");
-        }
+    public CollectionThingsDTO removeThingFromCollectionThings(Principal principal, Long collectionId, Long thingId) {
+        CollectionThings collectionThings = getCollectionThingsByPrincipalAndId(principal, collectionId);
 
         Thing thing = thingRepository
                 .findById(thingId)
-                .orElseThrow(() -> new EntityNotFoundException(thingId));
+                .orElseThrow(() -> new EntityNotFoundException(Thing.class, thingId));
 
         Set<Thing> things = Optional.ofNullable(collectionThings.getThings()).orElse(new HashSet<>());
         things.removeIf(t -> t.equals(thing));
@@ -145,23 +108,28 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
         return collectionThingsMapper.apply(save);
     }
 
-    /**
-     * Для внутреннего использования (точно будет использоваться в ProfileServiceImpl)
-     *
-     * @return возвращает коллекции, которые принадлежат профилю с переданным id
-     */
-    List<CollectionThingsDTO> getAllCollectionThingsByProfileId(Long profileId) {
+    @Override
+    public List<CollectionThingsDTO> getCollectionThingsPrincipal(Principal principal) {
+        Profile profile = profileService.getProfileEntityByPrincipal(principal);
+        return getCollectionThingsByProfileId(profile.getId());
+    }
+
+    @Override
+    public List<CollectionThingsDTO> getCollectionThingsByProfileId(Long profileId) {
         return collectionThingsRepository
                 .findAllByProfileId(profileId)
                 .stream()
-                .filter(collectionThings -> !collectionThings.getRemoved())
                 .map(collectionThingsMapper)
-                .sorted(Comparator.comparing(CollectionThingsDTO::id))
                 .toList();
     }
 
-    private Optional<Profile> getProfileByPrincipal(Principal principal) {
-        return profileRepository
-                .findProfileByUserUsername(principal.getName());
+    private CollectionThings getCollectionThingsByPrincipalAndId(Principal principal, Long id) {
+        Long principalProfileId = profileService.getProfileEntityByPrincipal(principal).getId();
+        return collectionThingsRepository
+                .findById(id)
+                .stream()
+                .filter(collectionThings -> collectionThings.getProfile().getId().equals(principalProfileId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Sorry, but you cannot update this collection things."));
     }
 }

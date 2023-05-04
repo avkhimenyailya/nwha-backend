@@ -39,7 +39,7 @@ public class Profile {
     private List<ProfileTask> profileTasks;
 
     @OneToMany(mappedBy = "profile")
-    private List<ProfileTrait> profileTraits;
+    private List<ProfileAttribute> profileAttributes;
 
     @Column
     private Boolean removed;
@@ -73,7 +73,7 @@ public class Profile {
                 .append(user.getId(), profile.user.getId())
                 .append(description, profile.description)
                 .append(profileTasks.size(), profile.profileTasks.size())
-                .append(profileTraits.size(), profile.profileTraits.size())
+                .append(profileAttributes.size(), profile.profileAttributes.size())
                 .append(removed, profile.removed)
                 .append(createdAt, profile.createdAt)
                 .append(updatedAt, profile.updatedAt).isEquals();
@@ -86,7 +86,7 @@ public class Profile {
                 .append(user.getId())
                 .append(description)
                 .append(profileTasks.size())
-                .append(profileTraits.size())
+                .append(profileAttributes.size())
                 .append(removed)
                 .append(createdAt)
                 .append(updatedAt).toHashCode();

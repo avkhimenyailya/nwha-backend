@@ -10,6 +10,7 @@ import io.grayproject.nwha.api.mapper.ThingMapper;
 import io.grayproject.nwha.api.repository.ProfileRepository;
 import io.grayproject.nwha.api.repository.ProfileTaskRepository;
 import io.grayproject.nwha.api.repository.ThingRepository;
+import io.grayproject.nwha.api.service.ProfileService;
 import io.grayproject.nwha.api.service.ThingService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -34,27 +35,12 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ThingServiceImpl implements ThingService {
+    private final ProfileService profileService;
     private final ProfileRepository profileRepository;
 
     private final ThingMapper thingMapper;
     private final ThingRepository thingRepository;
     private final ProfileTaskRepository profileTaskRepository;
-
-    // use only profileService
-    public List<ThingDTO> getAllThingsByProfileId(Long profileId, Boolean archived) {
-        List<ProfileTask> profileTasks = profileRepository
-                .findById(profileId)
-                .map(Profile::getProfileTasks)
-                .orElseThrow(() -> new EntityNotFoundException(profileId));
-
-        return profileTasks
-                .stream()
-                .flatMap(profileTask -> profileTask.getThings().stream())
-                .filter(thing -> !thing.isRemoved())
-                .filter(thing -> thing.isArchived() == archived)
-                .map(thingMapper)
-                .toList();
-    }
 
     @Override
     public List<ThingDTO> getRandomThings(Integer limit, Integer taskOrdinalNumber) {
@@ -102,10 +88,9 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
+    @Transactional
     public ThingDTO createThing(Principal principal, ThingDTO thingDTO) {
-        Profile profile = getProfileByPrincipal(principal)
-                // fatal error (this should not be)
-                .orElseThrow(RuntimeException::new);
+        Profile profile = profileService.getProfileEntityByPrincipal(principal);
 
         ProfileTask profileTask = profile
                 .getProfileTasks()
@@ -147,11 +132,10 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
+    @Transactional
     public ThingDTO updateThing(Principal principal, ThingDTO thingDTO) {
         /* you can update the description and/or photo as well as delete and/or archive the item */
-        Profile profile = getProfileByPrincipal(principal)
-                // fatal error (this should not be)
-                .orElseThrow(RuntimeException::new);
+        Profile profile = profileService.getProfileEntityByPrincipal(principal);
 
         ProfileTask profileTask = profile
                 .getProfileTasks()
@@ -188,9 +172,7 @@ public class ThingServiceImpl implements ThingService {
     @Override
     @Transactional
     public void deleteThing(Principal principal, Long id) {
-        Profile profile = getProfileByPrincipal(principal)
-                // fatal error (this should not be)
-                .orElseThrow(RuntimeException::new);
+        Profile profile = profileService.getProfileEntityByPrincipal(principal);
 
         Thing thing = thingRepository
                 .findById(id)
@@ -222,8 +204,15 @@ public class ThingServiceImpl implements ThingService {
         return "https://api.nwha.grayproject.io/img/" + generatedName;
     }
 
-    private Optional<Profile> getProfileByPrincipal(Principal principal) {
-        return profileRepository
-                .findProfileByUserUsername(principal.getName());
+    @Override
+    public List<ThingDTO> getArchivedThings(Principal principal) {
+        Profile profile = profileService.getProfileEntityByPrincipal(principal);
+        return profile.getProfileTasks()
+                .stream()
+                .map(ProfileTask::getThings)
+                .flatMap(Collection::stream)
+                .filter(Thing::isArchived)
+                .map(thingMapper)
+                .toList();
     }
 }

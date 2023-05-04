@@ -43,6 +43,7 @@ public class ProfileController {
     @GetMapping(GET_ALL_THINGS)
     public List<ThingDTO> getProfileThings(Principal principal,
                                            @RequestParam(required = false) Boolean archive) {
+        if (archive == null) archive = false;
         return profileService.getProfileThings(principal, archive);
     }
 

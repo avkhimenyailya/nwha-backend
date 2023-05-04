@@ -41,17 +41,17 @@ public class ThingServiceImpl implements ThingService {
     private final ProfileTaskRepository profileTaskRepository;
 
     // use only profileService
-    public List<ThingDTO> getAllThingsByProfileId(Long profileId) {
+    public List<ThingDTO> getAllThingsByProfileId(Long profileId, Boolean archived) {
         List<ProfileTask> profileTasks = profileRepository
                 .findById(profileId)
                 .map(Profile::getProfileTasks)
                 .orElseThrow(() -> new EntityNotFoundException(profileId));
 
-
         return profileTasks
                 .stream()
                 .flatMap(profileTask -> profileTask.getThings().stream())
                 .filter(thing -> !thing.isRemoved())
+                .filter(thing -> thing.isArchived() == archived)
                 .map(thingMapper)
                 .toList();
     }

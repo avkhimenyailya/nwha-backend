@@ -49,15 +49,14 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository
                 .findProfileByUserUsername(username)
                 .map(profileMapper)
-                .orElseThrow(() -> new EntityNotFoundException(username)) ;
+                .orElseThrow(() -> new EntityNotFoundException(username));
     }
 
     @Override
     public List<ThingDTO> getProfileThings(Principal principal, Boolean archive) {
-        // todo filter archive!
         return getProfileByPrincipal(principal)
                 .map(Profile::getId)
-                .map(thingService::getAllThingsByProfileId)
+                .map(profileId -> thingService.getAllThingsByProfileId(profileId, archive))
                 .orElseThrow(RuntimeException::new);
     }
 
@@ -71,7 +70,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public List<ThingDTO> getProfileThingsByProfileId(Long id) {
-        return thingService.getAllThingsByProfileId(id);
+        return thingService.getAllThingsByProfileId(id, false);
     }
 
     @Override

@@ -14,12 +14,12 @@ import java.security.Principal;
  * @author Ilya Avkhimenya
  */
 @RestController
-@RequestMapping("/collection")
-public class CollectionController {
+@RequestMapping("/collectionThings")
+public class CollectionThingsController {
     private final CollectionThingsService collectionThingsService;
 
     @Autowired
-    public CollectionController(CollectionThingsService collectionThingsService) {
+    public CollectionThingsController(CollectionThingsService collectionThingsService) {
         this.collectionThingsService = collectionThingsService;
     }
 

@@ -40,7 +40,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<ProfileDTO> getProfileById(@PathVariable Long id,
                                                      HttpServletRequest httpServletRequest) {
         log.info("Request to get profile by id: {}, ip: {}", id, httpServletRequest.getHeader("X-Real-IP"));
@@ -48,7 +48,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileDto);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<ProfileDTO> getProfileByUsername(@PathVariable String username,
                                                            HttpServletRequest httpServletRequest) {
         log.info("Request to get profile by username: {}, ip: {}",
@@ -69,7 +69,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileDto);
     }
 
-    @GetMapping("/task")
+    @GetMapping("/tasks")
     public ResponseEntity<List<ProfileTaskDTO>> getProfileTasksByPrincipal(Principal principal,
                                                                            HttpServletRequest httpServletRequest) {
         log.info("Request to get profile task by principal ({}), ip: {}",
@@ -78,7 +78,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileTaskService.getProfileTasksByPrincipal(principal));
     }
 
-    @GetMapping("/{profileId}/task")
+    @GetMapping("/{profileId}/tasks")
     public ResponseEntity<List<ProfileTaskDTO>> getProfileTasksById(@PathVariable Long profileId,
                                                                     HttpServletRequest httpServletRequest) {
         log.info("Request to get profile task by id: {}, ip: {}",
@@ -87,7 +87,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileTaskService.getProfileTasksByProfileId(profileId));
     }
 
-    @GetMapping("/collections")
+    @GetMapping("/collectionsThings")
     public ResponseEntity<List<CollectionThingsDTO>> getProfileCollectionByPrincipal(Principal principal,
                                                                                      HttpServletRequest httpServletRequest) {
         log.info("Request to get collection things by principal ({}), ip: {}",
@@ -96,7 +96,7 @@ public class ProfileController {
         return ResponseEntity.ok(collectionThingsService.getCollectionThingsPrincipal(principal));
     }
 
-    @GetMapping("/{profileId}/collections")
+    @GetMapping("/{profileId}/collectionsThings")
     public ResponseEntity<List<CollectionThingsDTO>> getProfileCollectionById(@PathVariable Long profileId,
                                                                               HttpServletRequest httpServletRequest) {
         log.info("Request to get collection things by id: {}, ip: {}",
@@ -105,7 +105,7 @@ public class ProfileController {
         return ResponseEntity.ok(collectionThingsService.getCollectionThingsByProfileId(profileId));
     }
 
-    @GetMapping("/archived")
+    @GetMapping("/archivedThings")
     public ResponseEntity<List<ThingDTO>> getArchivedThingsByPrincipal(Principal principal,
                                                                        HttpServletRequest httpServletRequest) {
         log.info("Request to get archived things by principal ({}), ip: {}",

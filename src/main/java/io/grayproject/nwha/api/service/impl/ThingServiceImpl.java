@@ -172,22 +172,12 @@ public class ThingServiceImpl implements ThingService {
     @Override
     @Transactional
     public void deleteThing(Principal principal, Long id) {
-        Profile profile = profileService.getProfileEntityByPrincipal(principal);
+        removeThingFromProfileTask("remove", principal, id);
+    }
 
-        Thing thing = thingRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
-
-        if (thing.getProfileTask().getProfile().getId().equals(profile.getId())) {
-            ProfileTask profileTask = thing.getProfileTask();
-            profileTask.setThings(new ArrayList<>());
-            profileTaskRepository.save(profileTask);
-            thing.setRemoved(true);
-            thing = thingRepository.save(thing);
-            log.info("Успешное удаление вещи [id: {}, removed: {}]", thing.getId(), thing.isRemoved());
-        } else {
-            throw new RuntimeException("Невозможно удалить чужую вещь");
-        }
+    @Override
+    public void archiveThing(Principal principal, Long id) {
+        removeThingFromProfileTask("archive", principal, id);
     }
 
     @Override
@@ -201,7 +191,7 @@ public class ThingServiceImpl implements ThingService {
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         }
-        return "https://api.nwha.grayproject.io/img/" + generatedName;
+        return "http://192.168.1.53:8080/img/" + generatedName;
     }
 
     @Override
@@ -214,5 +204,27 @@ public class ThingServiceImpl implements ThingService {
                 .filter(Thing::isArchived)
                 .map(thingMapper)
                 .toList();
+    }
+
+    private void removeThingFromProfileTask(String action, Principal principal, Long thingId) {
+        Profile profile = profileService.getProfileEntityByPrincipal(principal);
+
+        Thing thing = thingRepository
+                .findById(thingId)
+                .orElseThrow(() -> new EntityNotFoundException(Thing.class, thingId));
+
+        if (thing.getProfileTask().getProfile().getId().equals(profile.getId())) {
+            ProfileTask profileTask = thing.getProfileTask();
+            profileTask.setThings(new ArrayList<>());
+            profileTaskRepository.save(profileTask);
+            switch (action) {
+                case "remove" -> thing.setRemoved(true);
+                case "archive" -> thing.setArchived(true);
+            }
+            thing = thingRepository.save(thing);
+            log.info("Успешное удаление вещи [id: {}, removed: {}]", thing.getId(), thing.isRemoved());
+        } else {
+            throw new RuntimeException("Невозможно удалить чужую вещь");
+        }
     }
 }

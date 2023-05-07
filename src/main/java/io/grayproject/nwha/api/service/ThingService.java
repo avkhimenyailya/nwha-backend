@@ -25,6 +25,8 @@ public interface ThingService {
 
     void deleteThing(Principal principal, Long id);
 
+    void archiveThing(Principal principal, Long id);
+
     String setImageUrl(Principal principal, MultipartFile file) throws IOException;
 
     List<ThingDTO> getArchivedThings(Principal principal);

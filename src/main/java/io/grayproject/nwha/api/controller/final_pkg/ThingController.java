@@ -64,4 +64,9 @@ public class ThingController {
     public void deleteThing(Principal principal, @PathVariable Long id) {
         thingService.deleteThing(principal, id);
     }
+
+    @PutMapping("/{id}")
+    public void archiveThing(Principal principal, @PathVariable Long id) {
+        thingService.archiveThing(principal, id);
+    }
 }

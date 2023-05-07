@@ -35,7 +35,7 @@ public class JwtTokenUtils {
     }
 
     private static JwtParser getJwtParser() throws JwtException {
-        return Jwts.parser().setSigningKey(System.getenv("NWHA_JWT_SECRET"));
+        return Jwts.parser().setSigningKey("genabukin");
     }
 
     private static String generateJwtTokenByUsername(String username, Long duration) {
@@ -43,7 +43,7 @@ public class JwtTokenUtils {
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + duration))
-                .signWith(SignatureAlgorithm.HS256, System.getenv("NWHA_JWT_SECRET"))
+                .signWith(SignatureAlgorithm.HS256, "genabukin")
                 .compact();
     }
 

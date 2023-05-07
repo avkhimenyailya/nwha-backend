@@ -10,6 +10,7 @@ import io.grayproject.nwha.api.repository.CollectionThingsRepository;
 import io.grayproject.nwha.api.repository.ThingRepository;
 import io.grayproject.nwha.api.service.CollectionThingsService;
 import io.grayproject.nwha.api.service.ProfileService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,7 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
     }
 
     @Override
+    @Transactional
     public CollectionThingsDTO createCollectionThings(Principal principal, String name) {
         Profile profile = profileService.getProfileEntityByPrincipal(principal);
 
@@ -53,6 +55,7 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
                 .builder()
                 .name(name)
                 .profile(profile)
+                .things(new HashSet<>())
                 .removed(false)
                 .build();
 

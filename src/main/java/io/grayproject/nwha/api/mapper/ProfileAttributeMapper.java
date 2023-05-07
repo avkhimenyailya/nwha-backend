@@ -13,7 +13,7 @@ public class ProfileAttributeMapper implements Function<ProfileAttribute, Profil
     public ProfileAttributeDTO apply(ProfileAttribute profileAttribute) {
         return ProfileAttributeDTO
                 .builder()
-                .traitName(profileAttribute.getAttribute().getName())
+                .attributeName(profileAttribute.getAttribute().getName())
                 .profileId(profileAttribute.getProfile().getId())
                 .value(profileAttribute.getValue())
                 .build();

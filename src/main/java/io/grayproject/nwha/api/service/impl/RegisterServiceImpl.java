@@ -60,6 +60,7 @@ public class RegisterServiceImpl implements RegisterService {
         // Create new profile
         Profile newProfile = Profile.builder()
                 .user(newUser)
+                .removed(false)
                 .build();
         profileRepository.save(newProfile);
 
@@ -69,6 +70,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .map(task -> ProfileTask.builder()
                         .task(task)
                         .profile(newProfile)
+                        .removed(false)
                         .build())
                 .toList();
         profileTaskRepository.saveAll(newProfileTasks);

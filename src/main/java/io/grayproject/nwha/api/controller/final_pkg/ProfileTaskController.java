@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/pt")
+@RequestMapping("/profileTask/")
 @RequiredArgsConstructor
 public class ProfileTaskController {
     private final ProfileTaskService profileTaskService;
@@ -32,14 +32,14 @@ public class ProfileTaskController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProfileTaskDTO> updateAnswers(Principal principal,
+    @PutMapping("/{profileTaskId}")
+    public ResponseEntity<ProfileTaskDTO> updateAnswersByProfileTaskId(Principal principal,
                                                         HttpServletRequest httpServletRequest,
-                                                        @PathVariable Long id,
+                                                        @PathVariable Long profileTaskId,
                                                         @RequestBody List<AnswerDTO> answers) {
         log.info("Request to update answers in profile task by id: {}, ip: {}",
-                id,
+                profileTaskId,
                 httpServletRequest.getHeader("X-Real-IP"));
-        return ResponseEntity.ok(profileTaskService.updateAnswers(principal, id, answers));
+        return ResponseEntity.ok(profileTaskService.updateAnswers(principal, profileTaskId, answers));
     }
 }

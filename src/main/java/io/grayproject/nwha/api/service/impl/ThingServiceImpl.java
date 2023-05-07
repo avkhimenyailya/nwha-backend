@@ -103,7 +103,7 @@ public class ThingServiceImpl implements ThingService {
         profileTask
                 .getThings()
                 .stream()
-                .filter(thing -> !thing.isRemoved())
+                .filter(thing -> !thing.isRemoved() && !thing.isArchived())
                 .findFirst()
                 .ifPresent(thing -> {
                     profileTask.getThings().forEach(System.out::println);

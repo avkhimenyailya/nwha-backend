@@ -34,6 +34,7 @@ public class RegisterServiceImpl implements RegisterService {
     private final ProfileRepository profileRepository;
     private final ProfileTaskRepository profileTaskRepository;
     private final ProfileTraitRepository profileTraitRepository;
+    private final AgreementRepository agreementRepository;
 
     @Override
     @Transactional
@@ -63,6 +64,12 @@ public class RegisterServiceImpl implements RegisterService {
                 .removed(false)
                 .build();
         profileRepository.save(newProfile);
+
+        // Create agreements
+        Agreement agreement = new Agreement();
+        agreement.setProfile(newProfile);
+        agreement.setAcceptedPhotoUsage(true);
+        agreementRepository.save(agreement);
 
         // Create tasks for profile
         List<Task> allTasks = taskRepository.findAll();

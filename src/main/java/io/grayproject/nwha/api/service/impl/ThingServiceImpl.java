@@ -191,7 +191,7 @@ public class ThingServiceImpl implements ThingService {
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         }
-        return "http://192.168.1.53:8080/img/" + generatedName;
+        return "https://api.nwha.grayproject.io/img/" + generatedName;
     }
 
     @Override

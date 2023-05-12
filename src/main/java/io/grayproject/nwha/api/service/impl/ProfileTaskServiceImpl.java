@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -83,6 +84,7 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
                 .getProfileTasks()
                 .stream()
                 .filter(profileTask -> !profileTask.getRemoved())
+                .sorted(Comparator.comparing(profileTask -> profileTask.getTask().getOrdinalNumber()))
                 .map(profileTaskMapper)
                 .toList();
     }

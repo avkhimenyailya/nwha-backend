@@ -15,6 +15,8 @@ public interface ProfileService {
 
     ProfileDTO updateProfileDescription(Principal principal, String description);
 
+    ProfileDTO updateProfilePersonalLink(Principal principal, String personalLink);
+
     Profile getProfileEntityById(Long id);
 
     Profile getProfileEntityByPrincipal(Principal principal);

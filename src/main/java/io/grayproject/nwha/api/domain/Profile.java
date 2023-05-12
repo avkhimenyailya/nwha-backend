@@ -35,11 +35,17 @@ public class Profile {
     @Column
     private String description;
 
+    @Column
+    private String personalLink;
+
     @OneToMany(mappedBy = "profile")
     private List<ProfileTask> profileTasks;
 
     @OneToMany(mappedBy = "profile")
     private List<ProfileAttribute> profileAttributes;
+
+    @Column
+    private Boolean acceptedPhotoUsage;
 
     @Column
     private Boolean removed;

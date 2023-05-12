@@ -58,7 +58,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileDto);
     }
 
-    @PutMapping
+    @PutMapping("/description")
     public ResponseEntity<ProfileDTO> updateProfileDescriptionByPrincipal(Principal principal,
                                                                           HttpServletRequest httpServletRequest,
                                                                           @RequestParam @Validated @Max(200) String description) {
@@ -66,6 +66,17 @@ public class ProfileController {
                 principal.getName(),
                 httpServletRequest.getHeader("X-Real-IP"));
         ProfileDTO profileDto = profileService.updateProfileDescription(principal, description);
+        return ResponseEntity.ok(profileDto);
+    }
+
+    @PutMapping("/personalLink")
+    public ResponseEntity<ProfileDTO> updateProfilePersonalLinkByPrincipal(Principal principal,
+                                                                          HttpServletRequest httpServletRequest,
+                                                                          @RequestParam @Validated @Max(200) String personalLink) {
+        log.info("Request to update profile personal link by principal ({}), ip: {}",
+                principal.getName(),
+                httpServletRequest.getHeader("X-Real-IP"));
+        ProfileDTO profileDto = profileService.updateProfilePersonalLink(principal, personalLink);
         return ResponseEntity.ok(profileDto);
     }
 

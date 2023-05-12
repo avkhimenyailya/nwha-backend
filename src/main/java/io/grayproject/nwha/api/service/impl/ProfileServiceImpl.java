@@ -41,7 +41,14 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileDTO updateProfileDescription(Principal principal, String description) {
         Profile profile = getProfileEntityByPrincipal(principal);
-        profile.setDescription(description);
+        profile.setDescription(description.equals("") ? null : description);
+        return profileMapper.apply(profileRepository.save(profile));
+    }
+
+    @Override
+    public ProfileDTO updateProfilePersonalLink(Principal principal, String personalLink) {
+        Profile profile = getProfileEntityByPrincipal(principal);
+        profile.setPersonalLink(personalLink.equals("") ? null : personalLink);
         return profileMapper.apply(profileRepository.save(profile));
     }
 

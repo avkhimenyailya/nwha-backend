@@ -22,6 +22,7 @@ public class ProfileMapper implements Function<Profile, ProfileDTO> {
                 .id(profile.getId())
                 .username(profile.getUser().getUsername())
                 .description(profile.getDescription())
+                .personalLink(profile.getPersonalLink())
                 .profileAttributes(getProfileAttributes(profile.getProfileAttributes()))
                 .build();
     }

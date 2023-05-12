@@ -45,7 +45,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // Create new user with encrypted password
         String strongPassword = passwordEncoder.encode(registerRequest.password());
-        String encodeNewInvitingCode = encodeBase64(RandomStringUtils.random(32, true, false));
+        String encodeNewInvitingCode = encodeBase64(RandomStringUtils.random(12, true, true));
 
 
         Optional<Role> roleByName = roleRepository.findRoleByName(ERole.ROLE_USER);

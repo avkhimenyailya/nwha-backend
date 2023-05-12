@@ -11,5 +11,6 @@ import java.util.List;
 public record ProfileDTO(Long id,
                          String username,
                          String description,
+                         String personalLink,
                          List<ProfileAttributeDTO> profileAttributes) {
 }

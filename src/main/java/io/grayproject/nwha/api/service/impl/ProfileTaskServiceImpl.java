@@ -75,7 +75,7 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
 
         answerRepository.saveAll(answersEntities);
         profileTask.setAnswers(answersEntities);
-        return profileTaskMapper.apply(profileTaskRepository.save(profileTask));
+        return profileTaskMapper.apply(profileTask);
     }
 
     private List<ProfileTaskDTO> getProfileTasks(Profile profile) {

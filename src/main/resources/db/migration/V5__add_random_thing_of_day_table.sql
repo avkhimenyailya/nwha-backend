@@ -5,5 +5,5 @@ create table random_things_of_day
 
     created_at timestamp not null,
 
-    foreign key (thing_id) references things (id),
+    foreign key (thing_id) references things (id)
 );

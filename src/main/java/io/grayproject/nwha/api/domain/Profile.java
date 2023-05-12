@@ -45,9 +45,6 @@ public class Profile {
     private List<ProfileAttribute> profileAttributes;
 
     @Column
-    private Boolean acceptedPhotoUsage;
-
-    @Column
     private Boolean removed;
 
     @CreationTimestamp

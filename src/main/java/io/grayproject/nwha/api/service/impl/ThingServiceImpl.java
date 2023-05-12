@@ -107,7 +107,7 @@ public class ThingServiceImpl implements ThingService {
                 .findFirst()
                 .ifPresent(thing -> {
                     profileTask.getThings().forEach(System.out::println);
-                    throw new RuntimeException("Вещь нельзя создать");
+                    throw new RuntimeException("It is not possible to create a new Thing because the task already contains an actual Thing");
                 });
 
 

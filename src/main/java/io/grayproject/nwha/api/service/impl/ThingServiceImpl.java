@@ -64,6 +64,7 @@ public class ThingServiceImpl implements ThingService {
         List<RecentlyAddedThingDTO> list = new ArrayList<>(all
                 .stream()
                 .filter(thing -> !thing.isRemoved())
+                .sorted(Comparator.comparing(Thing::getCreatedAt))
                 .map(thing -> RecentlyAddedThingDTO
                         .builder()
                         .thingId(thing.getId())

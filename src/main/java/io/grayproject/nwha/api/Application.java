@@ -1,6 +1,7 @@
 package io.grayproject.nwha.api;
 
 import io.grayproject.nwha.api.util.InitAdmin;
+import io.grayproject.nwha.api.util.InitAnswerValues;
 import io.grayproject.nwha.api.util.InitPrimitives;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @RequiredArgsConstructor
 public class Application {
+    private final InitAnswerValues initAnswerValues;
     private final InitPrimitives initPrimitives;
     private final InitAdmin initAdmin;
 
@@ -24,6 +26,7 @@ public class Application {
     @Bean
     public CommandLineRunner runner() {
         return (args) -> {
+//            initAnswerValues.initAnswerValues();
             if (INIT_PRIMITIVES) {
                 initPrimitives.initRoles();
                 initPrimitives.initTraits();

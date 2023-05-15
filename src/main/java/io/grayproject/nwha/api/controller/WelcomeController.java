@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.controller.final_pkg;
+package io.grayproject.nwha.api.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

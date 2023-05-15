@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.controller.final_pkg;
+package io.grayproject.nwha.api.controller;
 
 import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.service.CollectionThingsService;

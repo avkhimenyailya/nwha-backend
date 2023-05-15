@@ -1,4 +1,4 @@
-package io.grayproject.nwha.api.controller.final_pkg;
+package io.grayproject.nwha.api.controller;
 
 import io.grayproject.nwha.api.dto.RecentlyAddedThingDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
@@ -6,9 +6,7 @@ import io.grayproject.nwha.api.service.ThingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -39,13 +37,6 @@ public class ThingController {
     @GetMapping("/{id}")
     public ThingDTO getThingById(@PathVariable Long id) {
         return thingService.getThingById(id);
-    }
-
-    @PostMapping("/upload")
-    public String setImageUrl(Principal principal,
-                              @RequestParam("file") MultipartFile file)
-            throws IOException {
-        return thingService.setImageUrl(principal, file);
     }
 
     @PostMapping

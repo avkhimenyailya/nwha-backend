@@ -15,16 +15,9 @@ import io.grayproject.nwha.api.service.ThingService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.security.Principal;
 import java.util.*;
 
@@ -179,20 +172,6 @@ public class ThingServiceImpl implements ThingService {
     @Override
     public void archiveThing(Principal principal, Long id) {
         removeThingFromProfileTask("archive", principal, id);
-    }
-
-    @Override
-    public String setImageUrl(Principal principal,
-                              MultipartFile multipartFile) throws IOException {
-
-        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-
-        String generatedName = RandomStringUtils.random(15, true, true) + "." + extension;
-        File file = new File("images/" + generatedName);
-        try (OutputStream os = new FileOutputStream(file)) {
-            os.write(multipartFile.getBytes());
-        }
-        return "https://api.nwha.grayproject.io/img/" + generatedName;
     }
 
     @Override

@@ -5,10 +5,7 @@ import io.grayproject.nwha.api.dto.AnswerDTO;
 import io.grayproject.nwha.api.dto.ProfileTaskDTO;
 import io.grayproject.nwha.api.exception.EntityNotFoundException;
 import io.grayproject.nwha.api.mapper.ProfileTaskMapper;
-import io.grayproject.nwha.api.repository.AnswerRepository;
-import io.grayproject.nwha.api.repository.AnswerValueRepository;
-import io.grayproject.nwha.api.repository.OptionRepository;
-import io.grayproject.nwha.api.repository.ProfileTaskRepository;
+import io.grayproject.nwha.api.repository.*;
 import io.grayproject.nwha.api.service.ProfileService;
 import io.grayproject.nwha.api.service.ProfileTaskService;
 import jakarta.transaction.Transactional;
@@ -17,9 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Ilya Avkhimenya
@@ -31,6 +28,7 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     private final ProfileTaskMapper profileTaskMapper;
     private final ProfileTaskRepository profileTaskRepository;
     private final AnswerValueRepository answerValueRepository;
+    private final ProfileTraitRepository profileTraitRepository;
 
     private final OptionRepository optionRepository;
     private final AnswerRepository answerRepository;
@@ -103,20 +101,66 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     }
 
     private void attributeRecalculation(Profile profile) {
-        Map<Long, Integer> scoreAttrs = new HashMap<>();
+        Map<Long, Integer> scores = new TreeMap<>(Comparator.comparing(Long::longValue));
         List<Answer> answers = answerRepository.getAnswersByProfileId(profile.getId());
         List<Option> options = answers.stream().map(Answer::getOption).toList();
         options.forEach(option -> {
             List<AnswerValue> answerValuesByOptionId = answerValueRepository.getAnswerValuesByOptionId(option.getId());
             answerValuesByOptionId.forEach(answerValue -> {
-                if (scoreAttrs.get(answerValue.getAttribute().getId()) != null) {
-                    int newValue = answerValue.getValue() + scoreAttrs.get(answerValue.getAttribute().getId());
-                    scoreAttrs.put(answerValue.getAttribute().getId(), newValue);
+                if (scores.get(answerValue.getAttribute().getId()) != null) {
+                    int newValue = answerValue.getValue() + scores.get(answerValue.getAttribute().getId());
+                    scores.put(answerValue.getAttribute().getId(), newValue);
                 } else {
-                    scoreAttrs.put(answerValue.getAttribute().getId(), answerValue.getValue());
+                    scores.put(answerValue.getAttribute().getId(), answerValue.getValue());
                 }
             });
         });
-        System.out.println(scoreAttrs);
+        for (long i = 1; i <= 10; i++) {
+            scores.putIfAbsent(i, 0);
+        }
+
+        // Conductor — Producer
+        attributePairCalc(profile, 1L, 2L, scores);
+
+        // Altruistic — Separate
+        attributePairCalc(profile, 3L, 4L, scores);
+
+        // Extravert — Introvert
+        attributePairCalc(profile, 5L, 6L, scores);
+
+        // Order — Disorder
+        attributePairCalc(profile, 7L, 8L, scores);
+
+        // Mind — Feeling
+        attributePairCalc(profile, 9L, 10L, scores);
     }
+
+    private void attributePairCalc(Profile profile,
+                                   Long id1, Long id2,
+                                   Map<Long, Integer> scores) {
+        Integer attrVal1 = scores.get(id1);
+        Integer attrVal2 = scores.get(id2);
+
+        double coefficient = (double) 100 / (attrVal1 + attrVal2);
+        double profileAttrVal1 = attrVal1 * coefficient;
+        double profileAttrVal2 = attrVal2 * coefficient;
+
+        ProfileAttribute profileAttribute1 = profile.getProfileAttributes()
+                .stream()
+                .filter(profileAttribute -> profileAttribute.getAttribute().getId().equals(id1))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
+        ProfileAttribute profileAttribute2 = profile.getProfileAttributes()
+                .stream()
+                .filter(profileAttribute -> profileAttribute.getAttribute().getId().equals(id2))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
+
+        profileAttribute1.setValue((int) Math.round(profileAttrVal1));
+        profileAttribute2.setValue((int) Math.round(profileAttrVal2));
+
+        profileTraitRepository.save(profileAttribute1);
+        profileTraitRepository.save(profileAttribute2);
+    }
+
 }

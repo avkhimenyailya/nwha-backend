@@ -79,7 +79,7 @@ public class PictureServiceImpl implements PictureService {
         FileUtils.copyInputStreamToFile(inputStream, file);
         inputStream.close();
 
-        return String.format("/%s/picture/%s", REMOTE_URL, pictureName);
+        return String.format("%s/picture/%s", REMOTE_URL, pictureName);
     }
 
     private boolean checkNeedsCompression(MultipartFile multipartFile) {

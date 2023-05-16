@@ -17,7 +17,7 @@ public class Application {
     private final InitAdmin initAdmin;
 
     // todo before launch!
-    private final boolean INIT_PRIMITIVES = false;
+    private final boolean INIT_PRIMITIVES = true;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -26,11 +26,11 @@ public class Application {
     @Bean
     public CommandLineRunner runner() {
         return (args) -> {
-//            initAnswerValues.initAnswerValues();
             if (INIT_PRIMITIVES) {
                 initPrimitives.initRoles();
                 initPrimitives.initTraits();
                 initPrimitives.initTasks();
+                initAnswerValues.initAnswerValues();
                 initAdmin.init();
             }
         };

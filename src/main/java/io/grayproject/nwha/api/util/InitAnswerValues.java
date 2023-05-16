@@ -53,7 +53,7 @@ public class InitAnswerValues {
 
     @SneakyThrows
     private static Map<String, List<String>> taskParse() {
-        FileInputStream file = new FileInputStream("/Users/ilya/Desktop/Tasks.xlsx");
+        FileInputStream file = new FileInputStream("src/main/resources/primitives/Tasks.xlsx");
         Workbook workbook = new XSSFWorkbook(file);
         Sheet sheet = workbook.getSheetAt(0);
 

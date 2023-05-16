@@ -26,7 +26,7 @@ public class Application {
     @Bean
     public CommandLineRunner runner() {
         return (args) -> {
-//            initAnswerValues.initAnswerValues();
+            initAnswerValues.initAnswerValues();
             if (INIT_PRIMITIVES) {
                 initPrimitives.initRoles();
                 initPrimitives.initTraits();

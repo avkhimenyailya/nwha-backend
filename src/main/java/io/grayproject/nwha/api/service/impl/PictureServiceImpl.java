@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +15,10 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.Iterator;
 
@@ -26,7 +28,7 @@ import java.util.Iterator;
 @Slf4j
 @Service
 public class PictureServiceImpl implements PictureService {
-    private static final String REMOTE_URL = "http://localhost:8080";
+    private static final String REMOTE_URL = "https://api.nwha.grayproject.io";
 
     @SneakyThrows
     public InputStream compressFile(MultipartFile multipartFile) {
@@ -58,12 +60,10 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     @SneakyThrows
-    public InputStreamResource getPicture(String directoryName, String name) {
+    public File getPicture(String directoryName, String name) {
         String pathString = String.format("src/main/resources/pics/%s/%s", directoryName, name);
         File file = new File(pathString);
-        if (file.exists()) {
-            return new InputStreamResource(new FileInputStream(file));
-        }
+        if (file.exists()) return file;
         throw new RuntimeException();
     }
 
@@ -79,7 +79,7 @@ public class PictureServiceImpl implements PictureService {
         FileUtils.copyInputStreamToFile(inputStream, file);
         inputStream.close();
 
-        return String.format("%s/picture/%s", REMOTE_URL, pictureName);
+        return String.format("/%s/picture/%s", REMOTE_URL, pictureName);
     }
 
     private boolean checkNeedsCompression(MultipartFile multipartFile) {

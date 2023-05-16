@@ -4,6 +4,7 @@ import io.grayproject.nwha.api.dto.CollectionThingsDTO;
 import io.grayproject.nwha.api.service.CollectionThingsService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.security.Principal;
 /**
  * @author Ilya Avkhimenya
  */
+@Slf4j
 @RestController
 @RequestMapping("/collectionThings")
 public class CollectionThingsController {

@@ -122,6 +122,7 @@ public class CollectionThingsServiceImpl implements CollectionThingsService {
         return collectionThingsRepository
                 .findAllByProfileId(profileId)
                 .stream()
+                .filter(collectionThings -> !collectionThings.getRemoved())
                 .map(collectionThingsMapper)
                 .toList();
     }

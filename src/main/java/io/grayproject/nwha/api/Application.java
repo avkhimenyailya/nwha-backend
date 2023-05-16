@@ -17,7 +17,7 @@ public class Application {
     private final InitAdmin initAdmin;
 
     // todo before launch!
-    private final boolean INIT_PRIMITIVES = true;
+    private final boolean INIT_PRIMITIVES = false;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

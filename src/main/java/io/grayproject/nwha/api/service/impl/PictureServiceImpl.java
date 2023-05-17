@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.Iterator;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author Ilya Avkhimenya
@@ -36,6 +38,7 @@ public class PictureServiceImpl implements PictureService {
 
         BufferedImage image = ImageIO.read(multipartFile.getInputStream());
         ByteArrayOutputStream os = new ByteArrayOutputStream((int) multipartFile.getSize());
+        ImageIO.write(image, "jpg", os);
 
         Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(extension);
         ImageWriter writer = writers.next();
@@ -85,13 +88,17 @@ public class PictureServiceImpl implements PictureService {
     private boolean checkNeedsCompression(MultipartFile multipartFile) {
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
         return extension != null
-                && (extension.equals("png") || extension.equals("jpg"))
+                && (extension.toLowerCase(Locale.ROOT).equals("png")
+                || extension.toLowerCase(Locale.ROOT).equals("jpg")
+                || extension.toLowerCase(Locale.ROOT).equals("jpeg")
+                || extension.toLowerCase(Locale.ROOT).equals("heic"))
                 && (multipartFile.getSize() / 1048576) > 1;
     }
 
     private String createPictureName(Principal principal, MultipartFile multipartFile) {
         String name = RandomStringUtils.random(8, true, true);
-        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        return String.format("%s/%s.%s", principal.getName(), name, extension);
+        String extension
+                = Objects.requireNonNull(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toLowerCase(Locale.ROOT);
+        return String.format("%s/%s.%s", principal.getName(), name, !extension.equals("heic") ? extension : "jpg");
     }
 }

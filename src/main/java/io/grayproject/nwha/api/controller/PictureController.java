@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.security.Principal;
 import java.time.Duration;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author Ilya Avkhimenya
@@ -32,10 +34,12 @@ public class PictureController {
     @PostMapping("/upload")
     public String uploadPicture(Principal principal,
                                 @RequestParam("file") MultipartFile multipartFile) {
-        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        if (extension != null && (extension.equals("jpg")
+        String extension = Objects.requireNonNull(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toLowerCase(Locale.ROOT);
+        if (extension.equals("heic")
+                || extension.equals("jpeg")
+                || extension.equals("jpg")
                 || extension.equals("gif")
-                || extension.equals("png"))) {
+                || extension.equals("png")) {
             return pictureService.uploadPicture(principal, multipartFile);
         }
         throw new RuntimeException();

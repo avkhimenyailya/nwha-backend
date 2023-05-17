@@ -1,5 +1,6 @@
 package io.grayproject.nwha.api.service.impl;
 
+import io.grayproject.nwha.api.TelegramNotificationSender;
 import io.grayproject.nwha.api.domain.*;
 import io.grayproject.nwha.api.dto.authentication.LoginRequest;
 import io.grayproject.nwha.api.dto.authentication.RegisterRequest;
@@ -36,6 +37,7 @@ public class RegisterServiceImpl implements RegisterService {
     private final ProfileTaskRepository profileTaskRepository;
     private final ProfileTraitRepository profileTraitRepository;
     private final AgreementRepository agreementRepository;
+    private final TelegramNotificationSender telegramNotificationSender;
 
     @Override
     @Transactional
@@ -110,6 +112,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .build();
         userInvitationRepository.save(newUserInvitation);
 
+        telegramNotificationSender.sendMessage("Зарегистирован новый пользователь: " + newUser.getUsername());
         // передаем результат регистрации в логин-сервис,
         // чтобы сразу получить токены для авторизации
         return LoginRequest

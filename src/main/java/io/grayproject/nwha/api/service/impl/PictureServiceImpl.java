@@ -3,6 +3,7 @@ package io.grayproject.nwha.api.service.impl;
 import io.grayproject.nwha.api.service.PictureService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -33,12 +34,16 @@ public class PictureServiceImpl implements PictureService {
     private static final String REMOTE_URL = "https://api.nwha.grayproject.io";
 
     @SneakyThrows
-    public InputStream compressFile(MultipartFile multipartFile) {
-        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+    public InputStream compressFile(InputStream is, String origName) {
+        String extension = FilenameUtils.getExtension(origName);
+        if (extension != null) {
+            extension = extension.toLowerCase(Locale.ROOT);
+        } else {
+            throw new RuntimeException();
+        }
 
-        BufferedImage image = ImageIO.read(multipartFile.getInputStream());
-        ByteArrayOutputStream os = new ByteArrayOutputStream((int) multipartFile.getSize());
-        ImageIO.write(image, "jpg", os);
+        BufferedImage image = ImageIO.read(is);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
 
         Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(extension);
         ImageWriter writer = writers.next();
@@ -73,32 +78,44 @@ public class PictureServiceImpl implements PictureService {
     @Override
     @SneakyThrows
     public String uploadPicture(Principal principal, MultipartFile multipartFile) {
+        BufferedImage image = Thumbnails.of(multipartFile.getInputStream()).scale(1).asBufferedImage();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+        assert extension != null;
+        ImageIO.write(image, extension, os);
+        ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+
         InputStream inputStream = checkNeedsCompression(multipartFile)
-                ? compressFile(multipartFile)
-                : multipartFile.getInputStream();
+                ? compressFile(is, multipartFile.getOriginalFilename())
+                : is;
 
         String pictureName = createPictureName(principal, multipartFile);
         File file = new File(String.format("src/main/resources/pics/%s", pictureName));
         FileUtils.copyInputStreamToFile(inputStream, file);
         inputStream.close();
 
+
         return String.format("%s/picture/%s", REMOTE_URL, pictureName);
     }
 
     private boolean checkNeedsCompression(MultipartFile multipartFile) {
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        return extension != null
-                && (extension.toLowerCase(Locale.ROOT).equals("png")
-                || extension.toLowerCase(Locale.ROOT).equals("jpg")
-                || extension.toLowerCase(Locale.ROOT).equals("jpeg")
-                || extension.toLowerCase(Locale.ROOT).equals("heic"))
-                && (multipartFile.getSize() / 1048576) > 1;
+        if (extension != null) {
+            extension = extension.toLowerCase(Locale.ROOT);
+        } else {
+            throw new RuntimeException();
+        }
+        long size = multipartFile.getSize() / 1048576;
+        return (extension.equals("png")
+                || extension.equals("jpg")
+                || extension.equals("jpeg"))
+                && size >= 1;
     }
 
     private String createPictureName(Principal principal, MultipartFile multipartFile) {
         String name = RandomStringUtils.random(8, true, true);
         String extension
                 = Objects.requireNonNull(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toLowerCase(Locale.ROOT);
-        return String.format("%s/%s.%s", principal.getName(), name, !extension.equals("heic") ? extension : "jpg");
+        return String.format("%s/%s.%s", principal.getName(), name, extension);
     }
 }

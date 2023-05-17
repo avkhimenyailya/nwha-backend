@@ -12,7 +12,7 @@ import java.security.Principal;
  */
 public interface PictureService {
 
-    InputStream compressFile(MultipartFile multipartFile);
+    InputStream compressFile(InputStream is, String origName);
 
     File getPicture(String username, String name);
 

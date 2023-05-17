@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -48,10 +49,9 @@ public class RegisterServiceImpl implements RegisterService {
         String strongPassword = passwordEncoder.encode(registerRequest.password());
         String encodeNewInvitingCode = encodeBase64(RandomStringUtils.random(12, true, true));
 
-
         Optional<Role> roleByName = roleRepository.findRoleByName(ERole.ROLE_USER);
         User newUser = User.builder()
-                .username(registerRequest.username())
+                .username(registerRequest.username().trim().toLowerCase(Locale.ROOT))
                 .password(strongPassword)
                 .invitationCode(encodeNewInvitingCode)
                 .roles(List.of(roleByName.get()))
@@ -114,7 +114,7 @@ public class RegisterServiceImpl implements RegisterService {
         // чтобы сразу получить токены для авторизации
         return LoginRequest
                 .builder()
-                .username(registerRequest.username())
+                .username(newProfile.getUser().getUsername())
                 .password(registerRequest.password())
                 .build();
     }

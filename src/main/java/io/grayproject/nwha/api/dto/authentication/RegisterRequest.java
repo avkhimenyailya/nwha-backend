@@ -16,7 +16,7 @@ public record RegisterRequest(
 
         @NotBlank(message = "Password cannot be blank")
         @Size(min = 8, max = 50, message = "Password must be between 8 and 50 characters long")
-        @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[A-Za-z\\d]{8,50}$",
+        @Pattern(regexp = "^(?=.*\\d).{8,}$",
                 message = "Password must be at least 8 characters long and contain at least one letter and one digit")
         String password,
         @NotBlank String invitationCode) {

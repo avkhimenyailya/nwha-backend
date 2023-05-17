@@ -37,7 +37,11 @@ public class Task {
     private List<Question> questions;
 
     @Column
+    private Boolean hide;
+
+    @Column
     private Boolean removed;
+
 
     @CreationTimestamp
     @Column(nullable = false)

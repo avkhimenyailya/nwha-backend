@@ -12,5 +12,6 @@ public record TaskDTO(Long id,
                       Integer ordinalNumber,
                       String description,
                       String details,
+                      Boolean hide,
                       List<QuestionDTO> questions) {
 }

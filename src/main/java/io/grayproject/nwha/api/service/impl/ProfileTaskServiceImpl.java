@@ -38,6 +38,7 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     public ProfileTaskDTO getProfileTaskById(Long id) {
         return profileTaskRepository
                 .findById(id)
+                .filter(profileTask -> !profileTask.getTask().getHide())
                 .map(profileTaskMapper)
                 .orElseThrow(() -> new EntityNotFoundException(ProfileTask.class, id));
     }
@@ -57,7 +58,6 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
     public ProfileTaskDTO updateAnswers(Principal principal, Long profileTaskId, List<AnswerDTO> answers) {
         ProfileTask profileTask = getProfileTaskByPrincipalAndId(principal, profileTaskId);
         answerRepository.deleteAll(profileTask.getAnswers());
-
 
         List<Option> options = answers
                 .stream()
@@ -85,6 +85,7 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
                 .getProfileTasks()
                 .stream()
                 .filter(profileTask -> !profileTask.getRemoved())
+                .filter(profileTask -> !profileTask.getTask().getHide())
                 .sorted(Comparator.comparing(profileTask -> profileTask.getTask().getOrdinalNumber()))
                 .map(profileTaskMapper)
                 .toList();
@@ -96,6 +97,7 @@ public class ProfileTaskServiceImpl implements ProfileTaskService {
                 .getProfileTasks()
                 .stream()
                 .filter(pt -> pt.getId().equals(id))
+                .filter(profileTask -> !profileTask.getTask().getHide())
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Sorry, but you cannot update this task."));
     }

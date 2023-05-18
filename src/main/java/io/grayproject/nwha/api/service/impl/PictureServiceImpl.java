@@ -78,12 +78,17 @@ public class PictureServiceImpl implements PictureService {
     @Override
     @SneakyThrows
     public String uploadPicture(Principal principal, MultipartFile multipartFile) {
-        BufferedImage image = Thumbnails.of(multipartFile.getInputStream()).scale(1).asBufferedImage();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        assert extension != null;
-        ImageIO.write(image, extension, os);
-        ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+
+        InputStream is;
+        if (extension != null && !extension.toLowerCase(Locale.ROOT).equals("gif")) {
+            BufferedImage image = Thumbnails.of(multipartFile.getInputStream()).scale(1).asBufferedImage();
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(image, extension, os);
+            is = new ByteArrayInputStream(os.toByteArray());
+        } else {
+            is = multipartFile.getInputStream();
+        }
 
         InputStream inputStream = checkNeedsCompression(multipartFile)
                 ? compressFile(is, multipartFile.getOriginalFilename())
@@ -93,7 +98,6 @@ public class PictureServiceImpl implements PictureService {
         File file = new File(String.format("src/main/resources/pics/%s", pictureName));
         FileUtils.copyInputStreamToFile(inputStream, file);
         inputStream.close();
-
 
         return String.format("%s/picture/%s", REMOTE_URL, pictureName);
     }

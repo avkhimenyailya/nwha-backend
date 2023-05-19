@@ -17,4 +17,6 @@ public interface ThingService2 {
     ThingDTO2 updateThing(Principal principal, ThingDTO2 thingDTO2);
 
     List<ThingDTO2> getArchivedThings(Principal principal);
+
+    List<ThingDTO2> getThingsByTaskOrdinalNumber(Long taskOrdinalNumber);
 }

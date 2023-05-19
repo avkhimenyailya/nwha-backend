@@ -104,4 +104,10 @@ public class ThingService2Impl implements ThingService2 {
     public List<ThingDTO2> getArchivedThings(Principal principal) {
         return null;
     }
+
+    @Override
+    public List<ThingDTO2> getThingsByTaskOrdinalNumber(Long taskOrdinalNumber) {
+        List<Thing> thingByTaskOrdinalNumber = thingRepository.findThingByTaskOrdinalNumber(taskOrdinalNumber);
+        return thingByTaskOrdinalNumber.stream().map(thingMapper2).toList();
+    }
 }

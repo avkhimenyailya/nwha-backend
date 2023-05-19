@@ -40,4 +40,9 @@ public class ThingController2 {
     public ResponseEntity<List<ThingDTO2>> getArchivedThings(Principal principal) {
         return ResponseEntity.ok(thingService2.getArchivedThings(principal));
     }
+
+    @GetMapping("/taskNumber/{taskOrdinalNumber}")
+    public ResponseEntity<List<ThingDTO2>> getThingsByTaskOrdinalNumber(@PathVariable Long taskOrdinalNumber) {
+        return ResponseEntity.ok(thingService2.getThingsByTaskOrdinalNumber(taskOrdinalNumber));
+    }
 }

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Ilya Avkhimenya
  */
@@ -14,4 +16,7 @@ public interface ThingRepository extends JpaRepository<Thing, Long> {
 
     @Query("SELECT COUNT(DISTINCT c.id) FROM CollectionThings c JOIN c.things i WHERE i.id = :thingId")
     Integer amountCollectionsByThingId(@Param("thingId") Long thingId);
+
+    @Query("FROM Thing t JOIN t.profileTask pt WHERE pt.task.ordinalNumber = :taskOrdinalNumber")
+    List<Thing> findThingByTaskOrdinalNumber(@Param("taskOrdinalNumber") Long taskOrdinalNumber);
 }

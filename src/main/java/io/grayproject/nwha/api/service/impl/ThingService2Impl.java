@@ -33,7 +33,9 @@ public class ThingService2Impl implements ThingService2 {
         Thing thing = thingRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Thing.class, id));
-        return thingMapper2.apply(thing);
+        ThingDTO2 thingDTO2 = thingMapper2.apply(thing);
+        thingDTO2.setAmountCollections(thingRepository.amountCollectionsByThingId(id));
+        return thingDTO2;
     }
 
     @Override
@@ -69,7 +71,7 @@ public class ThingService2Impl implements ThingService2 {
         Thing saved = thingRepository.save(thing);
 
         profileTaskRepository.save(profileTask);
-        return thingMapper2.apply(saved);
+        return getThingById(saved.getId());
     }
 
     @Override
@@ -95,7 +97,7 @@ public class ThingService2Impl implements ThingService2 {
                 .ifPresent(thing::setRemoved);
 
         Thing saved = thingRepository.save(thing);
-        return thingMapper2.apply(saved);
+        return getThingById(saved.getId());
     }
 
     @Override

@@ -16,6 +16,7 @@ public class ThingDTO2 {
     private boolean archived;
     private boolean removed;
     private String addDate;
+    private Integer amountCollections;
 
     @NotNull
     private Long profileTaskId;

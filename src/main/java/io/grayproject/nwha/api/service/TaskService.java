@@ -9,7 +9,9 @@ import java.util.List;
  */
 public interface TaskService {
 
-    List<TaskDTO> getAllTasks();
+    TaskDTO getTaskById(Long id);
 
     TaskDTO getTaskByOrdinalNumber(Integer ordinalNumber);
+
+    List<TaskDTO> getAllTasks();
 }

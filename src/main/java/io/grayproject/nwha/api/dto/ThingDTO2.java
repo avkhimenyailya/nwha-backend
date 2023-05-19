@@ -17,6 +17,7 @@ public class ThingDTO2 {
     private boolean removed;
     private String addDate;
     private Integer amountCollections;
+    private Long taskId;
 
     @NotNull
     private Long profileTaskId;

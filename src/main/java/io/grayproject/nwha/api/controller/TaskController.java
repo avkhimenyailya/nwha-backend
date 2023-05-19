@@ -21,6 +21,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public TaskDTO getTaskById(@PathVariable Long id) {
+        if (id == 0) return taskService.getTaskByOrdinalNumber(0);
         return taskService.getTaskById(id);
     }
 

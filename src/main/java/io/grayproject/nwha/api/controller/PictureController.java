@@ -51,9 +51,14 @@ public class PictureController {
                                              HttpServletRequest request) throws IOException {
         log.info("Pic request {}/{}", username, filename);
         // Load image as Resource
-        Path imagePath
-                = Path.of(String.format("src/main/resources/pics/%s/%s", username, filename)).normalize();
+        Path imagePath = Path.of(String.format("src/main/resources/pics/%s/%s", username, filename)).normalize();
         Resource resource = new UrlResource(imagePath.toUri());
+
+        if (!resource.exists()) {
+            String errMsg = String.format("Pic %s does not exist", username + "/" + filename);
+            log.error(errMsg);
+            throw new RuntimeException(errMsg);
+        }
 
         // Determine image's media type
         String contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());

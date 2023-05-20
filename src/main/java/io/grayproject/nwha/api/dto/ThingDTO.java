@@ -1,15 +1,27 @@
 package io.grayproject.nwha.api.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.NonNull;
+import lombok.Data;
 
+/**
+ * @author Ilya Avkhimenya
+ */
+@Data
 @Builder
-public record ThingDTO(Long id,
-                       Long profileId,
-                       String fileUrl,
-                       String description,
-                       Integer taskOrdinalNumber,
-                       @NonNull Long profileTaskId,
-                       Boolean archived,
-                       String addedDate) {
+public class ThingDTO {
+
+    private Long id;
+    private String description;
+    private boolean archived;
+    private boolean removed;
+    private String addDate;
+    private Integer amountCollections;
+    private Long taskId;
+
+    @NotNull
+    private Long profileTaskId;
+
+    @NotNull
+    private String pictureLink;
 }

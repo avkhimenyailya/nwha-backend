@@ -17,6 +17,9 @@ public interface ThingRepository extends JpaRepository<Thing, Long> {
     @Query("SELECT COUNT(DISTINCT c.id) FROM CollectionThings c JOIN c.things i WHERE i.id = :thingId")
     Integer amountCollectionsByThingId(@Param("thingId") Long thingId);
 
-    @Query("FROM Thing t JOIN t.profileTask pt WHERE pt.task.ordinalNumber = :taskOrdinalNumber")
-    List<Thing> findThingByTaskOrdinalNumber(@Param("taskOrdinalNumber") Long taskOrdinalNumber);
+    @Query("FROM Thing t JOIN t.profileTask pt WHERE pt.task.id = :taskId")
+    List<Thing> findThingByTaskId(@Param("taskId") Long taskId);
+
+    @Query("FROM Thing t JOIN t.profileTask pt WHERE pt.profile.id = :profileId AND (t.archived = true AND t.removed = false)")
+    List<Thing> findArchivedThingsByProfileId(@Param("profileId") Long profileId);
 }

@@ -32,6 +32,7 @@ import java.util.Objects;
 @Service
 public class PictureServiceImpl implements PictureService {
     private static final String REMOTE_URL = "https://api.nwha.grayproject.io";
+//    private static final String REMOTE_URL = "http://localhost:8080";
 
     @SneakyThrows
     public InputStream compressFile(InputStream is, String origName) {

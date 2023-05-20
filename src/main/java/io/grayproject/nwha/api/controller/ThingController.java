@@ -1,9 +1,10 @@
 package io.grayproject.nwha.api.controller;
 
-import io.grayproject.nwha.api.dto.RecentlyAddedThingDTO;
+import io.grayproject.nwha.api.dto.RecentlyThingDTO;
 import io.grayproject.nwha.api.dto.ThingDTO;
 import io.grayproject.nwha.api.service.ThingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,49 +16,41 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/thing")
+@RequiredArgsConstructor
 public class ThingController {
     private final ThingService thingService;
 
-    @Autowired
-    public ThingController(ThingService thingService) {
-        this.thingService = thingService;
+    @GetMapping("/{id}")
+    public ResponseEntity<ThingDTO> getThingById(@PathVariable Long id) {
+        return ResponseEntity.ok(thingService.getThingById(id));
     }
 
-    @GetMapping("/random")
-    public List<ThingDTO> getRandomThings(@RequestParam Integer limit,
-                                          @RequestParam(required = false) Integer taskOrdinalNumber) {
-        return thingService.getRandomThings(limit, taskOrdinalNumber);
+    @GetMapping("/archived")
+    public ResponseEntity<List<ThingDTO>> getArchivedThings(Principal principal) {
+        return ResponseEntity.ok(thingService.getArchivedThings(principal));
     }
 
     @GetMapping("/recently")
-    public List<RecentlyAddedThingDTO> getRecentlyAddedThings() {
-        return thingService.getRecentlyAddedThings();
+    public ResponseEntity<List<RecentlyThingDTO>> getRecentlyThings() {
+        return ResponseEntity.ok(thingService.getRecentlyThings());
     }
 
-    @GetMapping("/{id}")
-    public ThingDTO getThingById(@PathVariable Long id) {
-        return thingService.getThingById(id);
+    @GetMapping("/task/{taskId}")
+    public ResponseEntity<List<ThingDTO>> getThingsByTaskId(@PathVariable Long taskId) {
+        return ResponseEntity.ok(thingService.getThingsByTaskId(taskId));
     }
 
     @PostMapping
-    public ThingDTO createThing(Principal principal,
-                                @Validated @RequestBody ThingDTO thingDTO) {
-        return thingService.createThing(principal, thingDTO);
+    public ResponseEntity<ThingDTO> createThing(Principal principal,
+                                                @RequestBody
+                                                @Validated
+                                                ThingDTO thingDTO) {
+        return ResponseEntity.ok(thingService.createThing(principal, thingDTO));
     }
 
     @PutMapping
-    public ThingDTO updateThing(Principal principal,
-                                @Validated @RequestBody ThingDTO thingDTO) {
-        return thingService.updateThing(principal, thingDTO);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteThing(Principal principal, @PathVariable Long id) {
-        thingService.deleteThing(principal, id);
-    }
-
-    @PutMapping("/{id}")
-    public void archiveThing(Principal principal, @PathVariable Long id) {
-        thingService.archiveThing(principal, id);
+    public ResponseEntity<ThingDTO> updateThing(
+            Principal principal, @RequestBody @Validated ThingDTO thingDTO) {
+        return ResponseEntity.ok(thingService.updateThing(principal, thingDTO));
     }
 }

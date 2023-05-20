@@ -9,6 +9,5 @@ public record ProfileTaskDTO(Long id,
                              TaskDTO task,
                              Long profileId,
                              ThingDTO thing,
-                             ThingDTO2 thing2,
                              List<AnswerDTO> answers) {
 }

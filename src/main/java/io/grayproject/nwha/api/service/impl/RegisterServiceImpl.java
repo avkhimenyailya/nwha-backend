@@ -112,7 +112,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .build();
         userInvitationRepository.save(newUserInvitation);
 
-        telegramNotificationSender.sendMessage("Зарегистирован новый пользователь: " + newUser.getUsername());
+        telegramNotificationSender.sendMessage("+" + newUser.getUsername());
         // передаем результат регистрации в логин-сервис,
         // чтобы сразу получить токены для авторизации
         return LoginRequest

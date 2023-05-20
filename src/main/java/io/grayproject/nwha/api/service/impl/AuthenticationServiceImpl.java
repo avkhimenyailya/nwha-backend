@@ -65,7 +65,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.info("Attempt to authenticate for {}", loginRequest.username());
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password());
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.username().toLowerCase().trim(), loginRequest.password());
 
         Authentication authentication = authenticationManager
                 .authenticate(authenticationToken);

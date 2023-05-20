@@ -19,18 +19,18 @@ public class ThingMapper implements Function<Thing, ThingDTO> {
     public ThingDTO apply(Thing thing) {
         String pattern = "MMMM dd, yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
-        String addedDate = simpleDateFormat.format(Date.from(thing.getCreatedAt()));
+        String addDate = simpleDateFormat.format(Date.from(thing.getCreatedAt()));
 
         return ThingDTO
                 .builder()
                 .id(thing.getId())
-                .profileId(thing.getProfileTask().getProfile().getId())
-                .archived(thing.isArchived())
-                .description(thing.getDescription())
+                .taskId(thing.getProfileTask().getTask().getId())
                 .profileTaskId(thing.getProfileTask().getId())
-                .taskOrdinalNumber(thing.getProfileTask().getTask().getOrdinalNumber())
-                .addedDate(addedDate)
-                .fileUrl(thing.getFileUrl())
+                .pictureLink(thing.getFileUrl())
+                .description(thing.getDescription())
+                .archived(thing.isArchived())
+                .removed(thing.isRemoved())
+                .addDate(addDate)
                 .build();
     }
 }

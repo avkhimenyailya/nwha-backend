@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
@@ -58,7 +59,11 @@ public class RegisterServiceImpl implements RegisterService {
                 .invitationCode(encodeNewInvitingCode)
                 .roles(List.of(roleByName.get()))
                 .build();
-        userRepository.save(newUser);
+        try {
+            userRepository.save(newUser);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("User %s already exists", registerRequest.username().trim().toLowerCase()));
+        }
 
         // Create new profile
         Profile newProfile = Profile.builder()
@@ -112,7 +117,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .build();
         userInvitationRepository.save(newUserInvitation);
 
-        telegramNotificationSender.sendMessage("+" + newUser.getUsername());
+        telegramNotificationSender.sendMessage("+ new user " + newUser.getUsername());
         // передаем результат регистрации в логин-сервис,
         // чтобы сразу получить токены для авторизации
         return LoginRequest

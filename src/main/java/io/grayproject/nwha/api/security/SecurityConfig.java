@@ -69,7 +69,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        final String[] permittedEndpoints = {"/", "/css/**", "/error", "/auth/**", "/picture/**"};
+        final String[] permittedEndpoints = {"/", "/css/**", "/error", "/auth/**", "/picture/**", "/actuator/**"};
 
         return http
                 .cors().and()

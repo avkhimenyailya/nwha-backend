@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.CacheControl;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Principal;
 import java.time.Duration;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Ilya Avkhimenya
@@ -45,35 +48,19 @@ public class PictureController {
         throw new RuntimeException();
     }
 
+    @Cacheable(value = "images", key = "#filename")
     @GetMapping("/{username}/{filename:.+}")
-    public ResponseEntity<Resource> getImage(@PathVariable String username,
-                                             @PathVariable String filename,
-                                             HttpServletRequest request) throws IOException {
+    public ResponseEntity<byte[]> getImage(@PathVariable String username,
+                                             @PathVariable String filename) throws IOException {
         log.info("Pic request {}/{}", username, filename);
         // Load image as Resource
-        Path imagePath = Path.of(String.format("src/main/resources/pics/%s/%s", username, filename)).normalize();
-        Resource resource = new UrlResource(imagePath.toUri());
+        Path imagePath = Path.of(String.format("src/main/resources/pics/%s/%s", username, filename));
+        byte[] imageBytes = Files.readAllBytes(imagePath);
+        CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.DAYS);
 
-        if (!resource.exists()) {
-            String errMsg = String.format("Pic %s does not exist", username + "/" + filename);
-            log.error(errMsg);
-            throw new RuntimeException(errMsg);
-        }
-
-        // Determine image's media type
-        String contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        if (contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        // Set cache control headers to enable browser caching
-        CacheControl cacheControl = CacheControl.maxAge(Duration.ofDays(30)).cachePublic();
-
-        // Prepare response
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+        return ResponseEntity
+                .ok()
                 .cacheControl(cacheControl)
-                .body(resource);
+                .body(imageBytes);
     }
 }

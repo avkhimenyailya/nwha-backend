@@ -18,6 +18,7 @@ public class ThingDTO {
     private String addDate;
     private Integer amountCollections;
     private Long taskId;
+    private Long profileId;
 
     @NotNull
     private Long profileTaskId;

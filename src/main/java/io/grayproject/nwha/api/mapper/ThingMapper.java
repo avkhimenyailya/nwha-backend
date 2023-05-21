@@ -24,6 +24,7 @@ public class ThingMapper implements Function<Thing, ThingDTO> {
         return ThingDTO
                 .builder()
                 .id(thing.getId())
+                .profileId(thing.getProfileTask().getProfile().getId())
                 .taskId(thing.getProfileTask().getTask().getId())
                 .profileTaskId(thing.getProfileTask().getId())
                 .pictureLink(thing.getFileUrl())

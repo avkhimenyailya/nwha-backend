@@ -3,6 +3,7 @@ package io.grayproject.nwha.api;
 import io.grayproject.nwha.api.util.ChatIds;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -10,6 +11,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 /**
  * @author Ilya Avkhimenya
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TelegramNotificationSender {
@@ -18,6 +20,7 @@ public class TelegramNotificationSender {
 
     @SneakyThrows
     public void sendMessage(String message) {
+        log.info("Попытка отпавить сообщения {}", chatIds);
         chatIds.chatIds.forEach(chatId -> {
             SendMessage telegramMessage = new SendMessage();
             telegramMessage.setChatId(chatId);

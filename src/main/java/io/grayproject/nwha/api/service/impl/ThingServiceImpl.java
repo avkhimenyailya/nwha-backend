@@ -13,6 +13,7 @@ import io.grayproject.nwha.api.repository.ProfileTaskRepository;
 import io.grayproject.nwha.api.repository.ThingRepository;
 import io.grayproject.nwha.api.service.ProfileService;
 import io.grayproject.nwha.api.service.ThingService;
+import io.grayproject.nwha.api.util.RandomThingOfDayScheduler;
 import lombok.RequiredArgsConstructor;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class ThingServiceImpl implements ThingService {
     private final ThingRepository thingRepository;
     private final ProfileTaskRepository profileTaskRepository;
     private final TelegramNotificationSender telegramNotificationSender;
+    private final RandomThingOfDayScheduler randomThingOfDayScheduler;
 
     @Override
     public ThingDTO getThingById(Long id) {
@@ -81,6 +83,7 @@ public class ThingServiceImpl implements ThingService {
         String prettyTaskNumber = profileTask.getTask().getOrdinalNumber() > 10
                 ? profileTask.getTask().getOrdinalNumber().toString()
                 : "0" + profileTask.getTask().getOrdinalNumber();
+
         telegramNotificationSender.sendMessage(String.format("+ thing %s – %s by %s\n\n%s", saved.getId(), prettyTaskNumber, profile.getUser().getUsername(),
                 thing.getDescription() != null && !thing.getDescription().isBlank() ? thing.getDescription() : ""));
 
@@ -157,5 +160,11 @@ public class ThingServiceImpl implements ThingService {
                 .filter(t -> !t.isArchived() && !t.isRemoved())
                 .map(thingMapper)
                 .toList();
+    }
+
+    @Override
+    public ThingDTO getRandomThingOfDay() {
+        Thing getRandomThingOfDay = randomThingOfDayScheduler.getGetRandomThingOfDay();
+        return thingMapper.apply(getRandomThingOfDay);
     }
 }

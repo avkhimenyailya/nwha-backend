@@ -35,6 +35,11 @@ public class ThingController {
         return ResponseEntity.ok(thingService.getRecentlyThings());
     }
 
+    @GetMapping("/randomThingOfDay")
+    public ResponseEntity<ThingDTO> getRandomThingOfDay() {
+        return ResponseEntity.ok(thingService.getRandomThingOfDay());
+    }
+
     @GetMapping("/task/{taskId}")
     public ResponseEntity<List<ThingDTO>> getThingsByTaskId(@PathVariable Long taskId) {
         return ResponseEntity.ok(thingService.getThingsByTaskId(taskId));

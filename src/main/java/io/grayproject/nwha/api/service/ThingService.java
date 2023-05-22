@@ -22,4 +22,6 @@ public interface ThingService {
     ThingDTO createThing(Principal principal, ThingDTO thingDTO);
 
     ThingDTO updateThing(Principal principal, ThingDTO thingDTO);
+
+    ThingDTO getRandomThingOfDay();
 }

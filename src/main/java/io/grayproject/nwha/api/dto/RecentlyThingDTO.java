@@ -10,5 +10,6 @@ public record RecentlyThingDTO(Long thingId,
                                Integer taskOrdinalNumber,
                                String pictureLink,
                                String prettyTime,
-                               String username) {
+                               String username,
+                               ThingDTO thing) {
 }

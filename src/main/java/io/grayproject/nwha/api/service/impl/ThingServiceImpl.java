@@ -177,6 +177,7 @@ public class ThingServiceImpl implements ThingService {
                 .pictureLink(t.getFileUrl())
                 .taskOrdinalNumber(t.getProfileTask().getTask().getOrdinalNumber())
                 .username(t.getProfileTask().getProfile().getUser().getUsername())
+                .thing(thingMapper.apply(t))
                 .build();
     }
 }

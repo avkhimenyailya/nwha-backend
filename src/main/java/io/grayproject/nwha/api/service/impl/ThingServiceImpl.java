@@ -163,8 +163,20 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
-    public ThingDTO getRandomThingOfDay() {
-        Thing getRandomThingOfDay = randomThingOfDayScheduler.getGetRandomThingOfDay();
-        return thingMapper.apply(getRandomThingOfDay);
+    public RecentlyThingDTO getRandomThingOfDay() {
+        Thing t = randomThingOfDayScheduler.getGetRandomThingOfDay();
+        String prettyTimeString =
+                new PrettyTime(Locale.ENGLISH).format(t.getCreatedAt());
+        if (prettyTimeString.equals("moments ago")) {
+            prettyTimeString = "now";
+        }
+        return RecentlyThingDTO
+                .builder()
+                .prettyTime(prettyTimeString)
+                .thingId(t.getId())
+                .pictureLink(t.getFileUrl())
+                .taskOrdinalNumber(t.getProfileTask().getTask().getOrdinalNumber())
+                .username(t.getProfileTask().getProfile().getUser().getUsername())
+                .build();
     }
 }

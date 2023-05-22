@@ -36,7 +36,7 @@ public class ThingController {
     }
 
     @GetMapping("/randomThingOfDay")
-    public ResponseEntity<ThingDTO> getRandomThingOfDay() {
+    public ResponseEntity<RecentlyThingDTO> getRandomThingOfDay() {
         return ResponseEntity.ok(thingService.getRandomThingOfDay());
     }
 

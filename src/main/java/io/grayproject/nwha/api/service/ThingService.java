@@ -23,5 +23,5 @@ public interface ThingService {
 
     ThingDTO updateThing(Principal principal, ThingDTO thingDTO);
 
-    ThingDTO getRandomThingOfDay();
+    RecentlyThingDTO getRandomThingOfDay();
 }

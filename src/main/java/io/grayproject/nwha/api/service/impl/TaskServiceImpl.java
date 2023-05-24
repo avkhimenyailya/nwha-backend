@@ -39,6 +39,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository
                 .findAll()
                 .stream()
+                .filter(t -> !t.getHide())
                 .map(taskMapper)
                 .toList();
     }

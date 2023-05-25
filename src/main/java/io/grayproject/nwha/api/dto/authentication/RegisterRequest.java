@@ -19,5 +19,5 @@ public record RegisterRequest(
         @Pattern(regexp = "^(?=.*\\d).{8,}$",
                 message = "Password must be at least 8 characters long and contain at least one letter and one digit")
         String password,
-        @NotBlank String invitationCode) {
+        String invitationCode) {
 }

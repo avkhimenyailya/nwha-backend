@@ -14,11 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -43,22 +41,20 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     @Transactional
     public LoginRequest register(RegisterRequest registerRequest) {
-        // Invitation code check
-        String encodeReceivedInvitingCode = encodeBase64(registerRequest.invitationCode());
-        User inviterUser = userRepository.getUserByInvitationCode(encodeReceivedInvitingCode)
-                .orElseThrow(() -> new BadInvitationCodeException(registerRequest.invitationCode()));
-
         // Create new user with encrypted password
         String strongPassword = passwordEncoder.encode(registerRequest.password());
         String encodeNewInvitingCode = encodeBase64(RandomStringUtils.random(12, true, true));
 
-        Optional<Role> roleByName = roleRepository.findRoleByName(ERole.ROLE_USER);
+        Role userRole = roleRepository
+                .findRoleByName(ERole.ROLE_USER)
+                .orElseThrow(RuntimeException::new);
         User newUser = User.builder()
                 .username(registerRequest.username().trim().toLowerCase(Locale.ROOT))
                 .password(strongPassword)
                 .invitationCode(encodeNewInvitingCode)
-                .roles(List.of(roleByName.get()))
+                .roles(List.of(userRole))
                 .build();
+
         try {
             userRepository.save(newUser);
         } catch (Exception e) {
@@ -110,12 +106,22 @@ public class RegisterServiceImpl implements RegisterService {
                 .toList();
         profileTraitRepository.saveAll(newProfileAttributes);
 
-        // Save invitation
-        UserInvitation newUserInvitation = UserInvitation.builder()
-                .inviterUser(inviterUser)
-                .invitedUser(newUser)
-                .build();
-        userInvitationRepository.save(newUserInvitation);
+        if (registerRequest.invitationCode() != null) {
+            try {
+                // Invitation code check
+                String encodeReceivedInvitingCode = encodeBase64(registerRequest.invitationCode());
+                User inviterUser = userRepository.getUserByInvitationCode(encodeReceivedInvitingCode)
+                        .orElseThrow(() -> new BadInvitationCodeException(registerRequest.invitationCode()));
+                // Save invitation
+                UserInvitation newUserInvitation = UserInvitation.builder()
+                        .inviterUser(inviterUser)
+                        .invitedUser(newUser)
+                        .build();
+                userInvitationRepository.save(newUserInvitation);
+            } catch (BadInvitationCodeException ignored) {
+                log.error("Invitation code does not exist");
+            }
+        }
 
         telegramNotificationSender.sendMessage("+ new user " + newUser.getUsername());
         // передаем результат регистрации в логин-сервис,

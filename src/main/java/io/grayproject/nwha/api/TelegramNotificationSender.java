@@ -20,7 +20,6 @@ public class TelegramNotificationSender {
 
     @SneakyThrows
     public void sendMessage(String message) {
-        log.info("Попытка отпавить сообщения {}", chatIds);
         chatIds.chatIds.forEach(chatId -> {
             SendMessage telegramMessage = new SendMessage();
             telegramMessage.setChatId(chatId);

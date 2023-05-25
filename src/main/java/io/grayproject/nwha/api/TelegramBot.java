@@ -1,9 +1,10 @@
 package io.grayproject.nwha.api;
 
+import io.grayproject.nwha.api.domain.TgBotUser;
 import io.grayproject.nwha.api.domain.User;
+import io.grayproject.nwha.api.repository.TgBotUserRepository;
 import io.grayproject.nwha.api.repository.UserRepository;
 import io.grayproject.nwha.api.util.ChatIds;
-import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,14 @@ import java.util.stream.Collectors;
 public class TelegramBot extends TelegramLongPollingBot {
     private final ChatIds chatIds;
     private final UserRepository userRepository;
+    private final TgBotUserRepository tgBotUserRepository;
 
     @Autowired
-    public TelegramBot(ChatIds chatIds, UserRepository userRepository) {
-        super("6152735742:AAGiC2eZkyrJzF4-vhSMy5Pt3m1pxYm1L6I");
+    public TelegramBot(ChatIds chatIds,
+                       UserRepository userRepository,
+                       TgBotUserRepository tgBotUserRepository) {
+        super(System.getenv("NWHA_TGBOT_TOKEN"));
+        this.tgBotUserRepository = tgBotUserRepository;
         this.userRepository = userRepository;
         this.chatIds = chatIds;
     }
@@ -57,17 +62,19 @@ public class TelegramBot extends TelegramLongPollingBot {
                 if (chatIds.chatIds.contains(chatId)) {
                     response.setText("you are already subscribed to updates, it is impossible to unsubscribe");
                 } else {
+                    TgBotUser newTgUser = TgBotUser
+                            .builder()
+                            .chatId(chatId)
+                            .username(message.getFrom().getUserName())
+                            .build();
+                    tgBotUserRepository.save(newTgUser);
+
                     chatIds.chatIds.add(chatId);
                     response.setText("successful subscription to nwha updates");
                 }
                 execute(response);
             }
         }
-    }
-
-    @PostConstruct
-    public void start() {
-        log.info("username: {}, token: {}", getBotUsername(), getBotToken());
     }
 
     @Override
